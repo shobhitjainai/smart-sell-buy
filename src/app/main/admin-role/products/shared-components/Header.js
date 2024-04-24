@@ -10,11 +10,12 @@ function Header() {
         <Link
             key="2"
             color="#7588A3 !important"
-            href="auth/products/productslist"
-            sx={{textDecoration: 'none !important', '&:hover': {
-                textDecoration: 'underline !important',
-                color: '#111827 !important'
-            },}}
+            sx={{
+                textDecoration: 'none !important', '&:hover': {
+                    textDecoration: 'underline !important',
+                    color: '#111827 !important'
+                },
+            }}
         >
             Products
         </Link>,
@@ -27,9 +28,9 @@ function Header() {
         <>
             <Grid component={'div'} className='fuseHeaderRoot pt-52 px-24' container justifyContent="space-between">
                 <Typography variant='h6' className='font-bold text-3xl'>All Products</Typography>
-                    <Breadcrumbs separator="›" aria-label="breadcrumb">
-                        {breadcrumbs}
-                    </Breadcrumbs>
+                <Breadcrumbs separator="›" aria-label="breadcrumb">
+                    {breadcrumbs}
+                </Breadcrumbs>
             </Grid>
         </>
     );

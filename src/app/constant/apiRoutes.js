@@ -37,7 +37,6 @@ export const initialAPIParams = {
 };
 
 export const getAccessToken = () => {
-  const token =  window.localStorage.getItem("jwt_access_token");
-    console.log(token, "tokeeen")
-    return token
+  const token = window.localStorage.getItem("jwt_access_token");
+  return token
 };
