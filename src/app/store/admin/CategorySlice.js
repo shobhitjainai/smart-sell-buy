@@ -42,8 +42,6 @@ export const createCategory = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
     "category/updateCategory",
     async ({ categoryData, updateCategoryId }) => {
-        // console.log(propertyData)
-
         const formData = new FormData();
 
         // Append form data fields to the FormData object

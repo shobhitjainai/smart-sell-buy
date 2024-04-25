@@ -206,9 +206,9 @@ function EnhancedTableToolbar(props) {
 
             <Link to="/user/sell-product">
                 <Button variant='outlined' color='primary' sx={{
-                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#3180FC", color: '#fff', backgroundColor: '#3180FC', '&:hover': {
+                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                         backgroundColor: '#fff', // Change this to the desired hover background color
-                        color: '#3180FC', borderColor: "#3180FC" // Change this to the desired hover text color
+                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                     },
                 }}>Add New</Button>
             </Link>
@@ -228,8 +228,6 @@ export default function EnhancedTable() {
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [editData, setEditData] = React.useState(null);
-
-
     const { product, loading, editDialog } = useSelector((state) => state.admin.productSlice);
     const dispatch = useDispatch();
 

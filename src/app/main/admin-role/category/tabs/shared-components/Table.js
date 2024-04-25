@@ -101,45 +101,6 @@ const headCells = [
 
 ];
 
-// function EnhancedTableHead(props) {
-//     const { order, orderBy, onRequestSort } =
-//         props;
-//     const createSortHandler = (property) => (event) => {
-//         onRequestSort(event, property);
-//     };
-//     return (
-//         <TableHead className='bg-[#F8F9FC]' >
-//             <TableRow>
-//                 {headCells.map((headCell, index) => (
-//                     <TableCell
-//                         key={headCell.id}
-//                         // align={headCell.numeric ? 'right' : 'left'}
-//                         align='left'
-//                         // padding={headCell.disablePadding ? 'none' : 'normal'}
-//                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
-//                         sortDirection={orderBy === headCell.id ? order : false}
-//                     >
-//                         <TableSortLabel
-//                             active={orderBy === headCell.id}
-//                             direction={orderBy === headCell.id ? order : 'asc'}
-//                             onClick={createSortHandler(headCell.id)}
-//                         >
-//                             {headCell.label}
-//                             {orderBy === headCell.id ? (
-//                                 <Box component="span" sx={visuallyHidden}>
-//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                                 </Box>
-//                             ) : null}
-//                         </TableSortLabel>
-//                     </TableCell>
-//                 ))}
-
-//             </TableRow>
-//         </TableHead>
-
-//     );
-// }
-
 function EnhancedTableHead(props) {
     return (
         <TableHead className='bg-[#F8F9FC]'>
@@ -205,9 +166,9 @@ function EnhancedTableToolbar(props) {
             )}
             <Link to="/admin/category/newCategory">
                 <Button variant='outlined' color='primary' sx={{
-                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#3180FC", color: '#fff', backgroundColor: '#3180FC', '&:hover': {
+                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                         backgroundColor: '#fff', // Change this to the desired hover background color
-                        color: '#3180FC', borderColor: "#3180FC" // Change this to the desired hover text color
+                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                     },
                 }}>Add New</Button>
             </Link>

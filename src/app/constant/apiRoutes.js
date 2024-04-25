@@ -28,7 +28,11 @@ export const API_ROUTES = {
   deleteProject: "app/delete-project",
   fetchProject: "app/fetch-project",
   updateProject: 'app/update-project',
-  getProjectById: 'app/fetch-project-by'
+  getProjectById: 'app/fetch-project-by',
+  fetchSubCategories: 'api/subcategory',
+  deleteSubCategory: 'api/delete-subcategory',
+  addSubCategory: 'api/subcategory',
+  updateSubCategory: 'api/update-subcategory'
 };
 
 export const initialAPIParams = {
