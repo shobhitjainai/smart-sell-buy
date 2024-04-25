@@ -20,7 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { Grid } from '@mui/material';
+import { Avatar, Grid } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,19 +62,6 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-    // if (orderBy === 'date' || orderBy === 'time') {
-    //     return (a, b) => {
-    //         const valueA = orderBy === 'date' ? new Date(a.date) : new Date(a.time);
-    //         const valueB = orderBy === 'date' ? new Date(b.date) : new Date(b.time);
-
-    //         if (valueA < valueB) {
-    //             return order === 'asc' ? -1 : 1;
-    //         }
-    //         if (valueA > valueB) {
-    //             return order === 'asc' ? 1 : -1;
-    //         }
-    //         return 0;
-    //     };
     if (orderBy === 'price') {
         return (a, b) => {
             const valueA = parseFloat(a.price);
@@ -153,54 +140,14 @@ const headCells = [
         disablePadding: false,
         label: 'Time',
     },
-
+    {
+        id: 'Actions',
+        numeric: true,
+        disablePadding: false,
+        label: 'Actions',
+    },
 ];
 
-// function EnhancedTableHead(props) {
-//     const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
-//         props;
-//     const createSortHandler = (property) => (event) => {
-//         onRequestSort(event, property);
-//     };
-
-
-//     return (
-
-//         <TableHead className='bg-[#F8F9FC]' >
-
-//             <TableRow>
-
-
-//                 {headCells.map((headCell, index) => (
-//                     <TableCell
-//                         key={headCell.id}
-//                         // align={headCell.numeric ? 'right' : 'left'}
-//                         align='left'
-//                         // padding={headCell.disablePadding ? 'none' : 'normal'}
-//                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
-//                         sortDirection={orderBy === headCell.id ? order : false}
-//                     >
-//                         <TableSortLabel
-//                             active={orderBy === headCell.id}
-//                             direction={orderBy === headCell.id ? order : 'asc'}
-//                             onClick={createSortHandler(headCell.id)}
-//                         >
-//                             {headCell.label}
-//                             {orderBy === headCell.id ? (
-//                                 <Box component="span" sx={visuallyHidden}>
-//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                                 </Box>
-//                             ) : null}
-//                         </TableSortLabel>
-//                     </TableCell>
-//                 ))}
-
-//             </TableRow>
-
-//         </TableHead>
-
-//     );
-// }
 function EnhancedTableHead(props) {
     return (
         <TableHead className='bg-[#F8F9FC]'>
@@ -210,6 +157,7 @@ function EnhancedTableHead(props) {
                         key={headCell.id}
                         align='left'
                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
+                        sx={{ fontSize: 16 }}
                     >
                         {headCell.label}
                     </TableCell>
@@ -231,9 +179,6 @@ EnhancedTableHead.propTypes = {
 
 function EnhancedTableToolbar(props) {
     const { numSelected } = props;
-
-
-
     return (
         <Toolbar
             sx={{
@@ -247,23 +192,23 @@ function EnhancedTableToolbar(props) {
                 paddingTop: 4
             }}
         >
-            
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Product
-                </Typography>
-            
+
+            <Typography
+                sx={{ flex: '1 1 100%' }}
+                variant="h6"
+                id="tableTitle"
+                component="div"
+            >
+                Product
+            </Typography>
+
 
 
             <Link to="/user/sell-product">
                 <Button variant='outlined' color='primary' sx={{
-                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#3180FC", color: '#3180FC', '&:hover': {
-                        backgroundColor: '#3180FC', // Change this to the desired hover background color
-                        color: '#fff', borderColor: "#3180FC" // Change this to the desired hover text color
+                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                        backgroundColor: '#fff', // Change this to the desired hover background color
+                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                     },
                 }}>Add New</Button>
             </Link>
@@ -283,8 +228,6 @@ export default function EnhancedTable() {
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [editData, setEditData] = React.useState(null);
-
-
     const { product, loading, editDialog } = useSelector((state) => state.admin.productSlice);
     const dispatch = useDispatch();
 
@@ -306,24 +249,6 @@ export default function EnhancedTable() {
         setSelected([]);
     };
 
-    // const handleClick = (event, id) => {
-    //     const selectedIndex = selected.indexOf(id);
-    //     let newSelected = [];
-
-    //     if (selectedIndex === -1) {
-    //         newSelected = newSelected.concat(selected, id);
-    //     } else if (selectedIndex === 0) {
-    //         newSelected = newSelected.concat(selected.slice(1));
-    //     } else if (selectedIndex === selected.length - 1) {
-    //         newSelected = newSelected.concat(selected.slice(0, -1));
-    //     } else if (selectedIndex > 0) {
-    //         newSelected = newSelected.concat(
-    //             selected.slice(0, selectedIndex),
-    //             selected.slice(selectedIndex + 1),
-    //         );
-    //     }
-    //     setSelected(newSelected);
-    // };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -334,11 +259,6 @@ export default function EnhancedTable() {
         setPage(0);
     };
 
-    // const handleChangeDense = (event) => {
-    //     setDense(event.target.checked);
-    // };
-
-    // const isSelected = (id) => selected.indexOf(id) !== -1;
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
@@ -367,7 +287,7 @@ export default function EnhancedTable() {
         return new Date(dateString).toLocaleTimeString('en-US', options);
     }
 
-        // EDIT PRODUCT DIALOG
+    // EDIT PRODUCT DIALOG
 
     // EDIT DAILOG CLOSE
     const handleClose = () => {
@@ -387,9 +307,6 @@ export default function EnhancedTable() {
 
 
     const handleUpdate = (propertyData) => {
-        // dispatch(updateProperty({  propertyData, updatepropertyId })).then((res) => {
-        //   res.payload.success && dispatch(getadminLandlords());
-        // });
         setAddDialog(false);
     };
 
@@ -419,9 +336,8 @@ export default function EnhancedTable() {
 
                         />
 
-                        <TableBody className='p-52'>
+                        <TableBody >
                             {visibleRows.map((row, index) => {
-                                // const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
@@ -429,39 +345,39 @@ export default function EnhancedTable() {
                                     <TableRow
                                         // hover
                                         className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
-                                        // onClick={(event) => handleClick(event, row.id)}
                                         role="checkbox"
-                                        // aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.id}
-                                        // selected={isItemSelected}
-                                        // sx={{ cursor: 'pointer' }}
-                                        // className=''
                                         sx={{ marginInline: 4 }}
                                     >
-
                                         <TableCell
                                             component="th"
                                             id={labelId}
                                             scope="row"
                                             className='pl-52'
                                             align='left'
-                                            sx={{ paddingBlock: 3 }}
+
                                         >
                                             <Grid container alignItems="center">
-                                                <img src={row.images[0].image} width="70px" height="50px" alt={row.name} className='pr-24' />
-                                                <Typography className='text-xl' >{row.name}</Typography>
+                                                <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                                                    <Avatar variant="rounded" alt={row?.name} src={row?.images[0].image} />
+                                                </Avatar>
+                                                <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
                                             </Grid>
 
                                         </TableCell>
-                                        <TableCell align="left">{row.description}</TableCell>
-                                        <TableCell align="left">{row.price}</TableCell>
-                                        <TableCell align="left">{formatDate(row.created_at)}</TableCell>
-                                        <TableCell align="left">{formatTime(row.created_at)}</TableCell>
-                                        {/* <TableCell align="left" >
-                                            <EditIcon fontSize='small' sx={{ color: "green", }}  onClick={() => handleClickOpencreate(row)} />
-                                            <DeleteIcon fontSize='small' sx={{ color: "red" }} />
-                                        </TableCell> */}
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{row.description}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{row.price}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
+                                        <TableCell align="left" >
+                                            <IconButton onClick={() => handleClickOpencreate(row)}>
+                                                <EditIcon fontSize='small' sx={{ color: "gray" }} />
+                                            </IconButton>
+                                            <IconButton>
+                                                <DeleteIcon fontSize='small' sx={{ color: "red" }} />
+                                            </IconButton>
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
@@ -488,11 +404,6 @@ export default function EnhancedTable() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            {/* </Paper> */}
-            {/* <FormControlLabel
-                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                label="Dense padding"
-            /> */}
 
             {/* PRODUCT EDIT DIALOG */}
             <Dialog open={editDialog} onClose={handleClose}>

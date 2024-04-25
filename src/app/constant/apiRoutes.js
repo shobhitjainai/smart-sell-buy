@@ -28,7 +28,11 @@ export const API_ROUTES = {
   deleteProject: "app/delete-project",
   fetchProject: "app/fetch-project",
   updateProject: 'app/update-project',
-  getProjectById: 'app/fetch-project-by'
+  getProjectById: 'app/fetch-project-by',
+  fetchSubCategories: 'api/subcategory',
+  deleteSubCategory: 'api/delete-subcategory',
+  addSubCategory: 'api/subcategory',
+  updateSubCategory: 'api/update-subcategory'
 };
 
 export const initialAPIParams = {
@@ -37,7 +41,6 @@ export const initialAPIParams = {
 };
 
 export const getAccessToken = () => {
-  const token =  window.localStorage.getItem("jwt_access_token");
-    console.log(token, "tokeeen")
-    return token
+  const token = window.localStorage.getItem("jwt_access_token");
+  return token
 };

@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import Card from './Card'
-import { Grid,Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import Table from './Table'
 // const Root = styled(FusePageSimple)(({ theme }) => ({
 //   '& .FusePageSimple-header': {
@@ -22,12 +22,10 @@ function DashboardPage(props) {
 
   return (
     <Grid component={'div'} className='w-full'>
-     <Card/>
-     <Box sx={{margin :4}}>
+      <Card />
+      <Box sx={{ margin: 4 }}>
         <Grid container>
-            <Grid>
-            <Table/>
-            </Grid>
+          <Table />
         </Grid>
       </Box>
     </Grid>

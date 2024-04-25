@@ -6,19 +6,24 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Paper, Grid, Typography, Button, Toolbar } from '@mui/material';
+import { Paper, Grid, Typography, Button, Toolbar, Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'app/store/admin/DashboardSlice';
 import { useEffect } from 'react';
+import { fontSize, fontWeight, padding } from '@mui/system';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
+        backgroundColor: '#F2F7FB',
+        color: theme.palette.common.black,
+        fontSize: 16,
+        fontWeight: 600,
+        padding: '16px 24px'
     },
     [`&.${tableCellClasses.body}`]: {
-        fontSize: 14,
+        fontSize: 16,
+        padding: '16px 24px'
     },
 }));
 
@@ -53,41 +58,51 @@ export default function CustomizedTables() {
         dispatch(getProducts())
     }, [])
     return (
-        <TableContainer component={Paper}>
-            <Toolbar sx={{ justifyContent: "space-between", display: "flex", width: "100% !important" }}>
-                <Typography variant='h6' >Top Products</Typography>
-                <Link to="/admin/products/productslist">
-                    <Button sx={{ color: "blue" }}>See All</Button>
-                </Link>
-            </Toolbar>
-            <Table sx={{ minWidth: 640 }} aria-label="customized table">
-                <TableBody>
-                    {products.map((row,index) => (
-                        <StyledTableRow key={row.name}  className={` hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}>
-                            <TableCell
-                                component="th"
-                                scope="row"
-                                align='left'
-                                sx={{ paddingBlock: 3 }}
-                            >
-                                <Grid container alignItems="center">
-                                    <img src= {row.images[0].image} width="70px" height='50px' alt="" className='pr-24' />
-                                    <Typography className='text-xl' >{row.name}</Typography>
-                                </Grid>
-                            </TableCell>
-                            <StyledTableCell component="th" scope="row" >
-                                {row.condition}
-                            </StyledTableCell>
-                            <StyledTableCell align="left">{row.description}</StyledTableCell>
-                            <StyledTableCell align="left">{row.price}</StyledTableCell>
-                            {/* <StyledTableCell align="left">{row.address}</StyledTableCell>
-                            <StyledTableCell align="left">{`${row?.seller.first_name} ${row?.seller.last_name}`}</StyledTableCell>
-                            <StyledTableCell align="left">{row?.seller.phone_number}</StyledTableCell>
-                            <StyledTableCell align="left">{row?.seller.email}</StyledTableCell> */}
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <Grid container component={Paper}>
+                <Toolbar sx={{ justifyContent: "space-between !important", display: "flex", width: "100% !important", padding: '0 30px 0 20px' }}>
+                    <Typography variant='h6' >Top Products</Typography>
+                    <Link to="/admin/products/productslist">
+                        <Button sx={{ color: "blue" }}>See All</Button>
+                    </Link>
+                </Toolbar>
+                <TableContainer>
+                    <Table sx={{ minWidth: 640 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>Name</StyledTableCell>
+                                <StyledTableCell align="right">Condition</StyledTableCell>
+                                <StyledTableCell align="right">Description</StyledTableCell>
+                                <StyledTableCell align="right">Price</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {products.map((row, index) => (
+                                <StyledTableRow key={row.name} className={` hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}>
+                                    <TableCell
+                                        component="th"
+                                        scope="row"
+                                        align='left'
+                                        sx={{ padding: '5px 10px' }}
+                                    >
+                                        <Grid container alignItems="center">
+                                            <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                                                <Avatar variant="rounded" alt={row?.name} src={row?.images[0].image} />
+                                            </Avatar>
+                                            <Typography sx={{ fontWeight: 600 }} fontSize={18}>{row.name}</Typography>
+                                        </Grid>
+                                    </TableCell>
+                                    <StyledTableCell align='right' component="th" scope="row" >
+                                        {row.condition}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{row.description}</StyledTableCell>
+                                    <StyledTableCell align="right">Rs.{row.price}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Grid>
+        </>
     );
 }

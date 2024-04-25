@@ -8,6 +8,7 @@ import Category from './Category'
 import CategoryList from './tabs/category-list/CategoryList'
 import NewCategory from './tabs/new-category/NewCategory'
 import { Navigate } from 'react-router-dom';
+import { element } from 'prop-types';
 // i18next.addResourceBundle('en', 'examplePage', en);
 // i18next.addResourceBundle('tr', 'examplePage', tr);
 // i18next.addResourceBundle('ar', 'examplePage', ar);
@@ -18,11 +19,11 @@ const CategoryConfig = {
       config: {},
     },
   },
-  auth:authRoles.admin,
+  auth: authRoles.admin,
   routes: [
     {
       path: '/admin/category',
-      children:[
+      children: [
         {
           path: '',
           element: <Navigate to="/admin/category/categorylist" />,

@@ -27,6 +27,7 @@ import Authorization from 'app/shared-components/Authorization';
 import AdminProductConfig from '../main/admin-role/products/AdminProductConfig'
 import UserConfig from '../main/admin-role/user/UserConfig';
 import OrderConfig from '../main/admin-role/order/OrderConfig';
+import AdminSubCategoryConfig from '../main/admin-role/sub-category/AdminSubCategoryConfig';
 
 
 const routeConfigs = [
@@ -50,7 +51,8 @@ const routeConfigs = [
   SettingConfig,
   AdminProductConfig,
   UserConfig,
-  OrderConfig
+  OrderConfig,
+  AdminSubCategoryConfig
 ];
 
 

@@ -1,131 +1,3 @@
-// import i18next from 'i18next';
-// import ar from './navigation-i18n/ar';
-// import en from './navigation-i18n/en';
-// import tr from './navigation-i18n/tr';
-// // import { authRoles } from '../auth';
-
-// i18next.addResourceBundle('en', 'navigation', en);
-// i18next.addResourceBundle('tr', 'navigation', tr);
-// i18next.addResourceBundle('ar', 'navigation', ar);
-
-// // const navigationConfig = [
-// //   {
-// //     id: 'example-component',
-// //     title: 'Home',
-// //     translate: 'HOME',
-// //     type: 'item',
-// //     icon: 'heroicons-outline:home',
-// //     url: 'home',
-// //   },
-// //   {
-// //     id: 'product',
-// //     title: 'Products',
-// //     translate: 'Products',
-// //     type: 'item',
-// //     icon: 'heroicons-outline:star',
-// //     url: 'products',
-// //   },
-// //   {
-// //     id: 'selling',
-// //     title: 'Selling',
-// //     translate: 'Selling',
-// //     type: 'item',
-// //     icon: 'heroicons-outline:star',
-// //     url: 'selling',
-// //   },
-// //   {
-// //     id: 'sellproduct',
-// //     title: 'Sell Product',
-// //     translate: 'Sellproduct',
-// //     type: 'item',
-// //     icon: 'heroicons-outline:star',
-// //     url: 'sell-product',
-// //   },
-// // ];
-// const navigationConfig = [
-//   {
-//     id: 'dashboard',
-//     title: 'Dashboard',
-//     translate: 'Dashboard',
-//     type: 'item',
-//     icon: 'heroicons-outline:home',
-//     url: 'dashboard',
-//     // auth : authRoles.admin,
-//   },
-//   {
-//     id: 'caterory',
-//     title: 'Caterory',
-//     translate: 'Caterory',
-//     type: 'group',
-//     icon: 'heroicons-outline:home',
-//     // url: 'caterory',
-//     children: [
-//       {
-//         id: 'category.categorylist',
-//         title: 'Category List',
-//         type: 'item',
-//         icon: 'heroicons-outline:clipboard-check',
-//         url: '/category/categorylist',
-//       },
-//       {
-//         id: 'category.newcategory',
-//         title: 'New Category',
-//         type: 'item',
-//         icon: 'heroicons-outline:academic-cap',
-//         url: '/category/newcategory',
-//       },
-//     ]
-//   },
-//   {
-//     id: 'products',
-//     title: 'Products',
-//     translate: 'products',
-//     type: 'group',
-//     icon: 'heroicons-outline:home',
-//     // url: 'products',
-//     children: [
-//       {
-//         id: 'products.productslist',
-//         title: 'Product List',
-//         type: 'item',
-//         icon: 'heroicons-outline:clipboard-check',
-//         // url: '/products/productslist',
-//       },
-//       {
-//         id: 'products.newproducts',
-//         title: 'New Product',
-//         type: 'item',
-//         icon: 'heroicons-outline:academic-cap',
-//         // url: '/products/newproduct',
-//       },
-//     ]
-//   },
-//   {
-//     id: 'user',
-//     title: 'User',
-//     translate: 'user',
-//     type: 'group',
-//     icon: 'heroicons-outline:home',
-//     // url: 'user',
-//     children: [
-//       {
-//         id: 'products.alluser',
-//         title: 'All User',
-//         type: 'item',
-//         icon: 'heroicons-outline:academic-cap',
-//         url: '/user/alluser',
-//       },
-    
-//     ]
-//   },
-// ];
-// export default navigationConfig;
-
-
-
-
-
-
 import i18next from 'i18next';
 import ar from './navigation-i18n/ar';
 import en from './navigation-i18n/en';
@@ -141,10 +13,10 @@ const navigationConfig = [
     id: 'home',
     title: 'Home',
     translate: 'HOME',
-    type: 'item', 
+    type: 'item',
     icon: 'heroicons-outline:home',
     url: 'user/home',
-    auth : authRoles.user,
+    auth: authRoles.user,
   },
   {
     id: 'product',
@@ -153,7 +25,7 @@ const navigationConfig = [
     type: 'item',
     icon: 'heroicons-outline:star',
     url: 'user/products',
-    auth : authRoles.user,
+    auth: authRoles.user,
   },
   {
     id: 'selling',
@@ -162,7 +34,7 @@ const navigationConfig = [
     type: 'item',
     icon: 'heroicons-outline:star',
     url: '/user/selling',
-    auth : authRoles.user,
+    auth: authRoles.user,
   },
   {
     id: 'sellproduct',
@@ -171,7 +43,7 @@ const navigationConfig = [
     type: 'item',
     icon: 'heroicons-outline:star',
     url: '/user/sell-product',
-    auth : authRoles.user,
+    auth: authRoles.user,
   },
 
   //admin
@@ -183,15 +55,15 @@ const navigationConfig = [
     type: 'item',
     icon: 'heroicons-outline:view-grid',
     url: '/admin/dashboard',
-    auth : authRoles.admin,
+    auth: authRoles.admin,
   },
   {
-    id: 'caterory',
-    title: 'Caterory',
-    translate: 'Caterory',
+    id: 'category',
+    title: 'Category',
+    translate: 'Category',
     type: 'group',
     icon: 'heroicons-outline:home',
-    auth : authRoles.admin,
+    auth: authRoles.admin,
     // url: 'caterory',
     children: [
       {
@@ -211,12 +83,36 @@ const navigationConfig = [
     ]
   },
   {
+    id: 'subcategory',
+    title: 'Sub-Category',
+    translate: 'Sub-Category',
+    type: 'group',
+    icon: 'heroicons-outline:home',
+    auth: authRoles.admin,
+    children: [
+      {
+        id: 'subcategory.subcategorylist',
+        title: 'Sub-Category List',
+        type: 'item',
+        icon: 'heroicons-outline:clipboard-check',
+        url: '/admin/sub-category/sub-category-list',
+      },
+      {
+        id: 'subcategory.newsubcategory',
+        title: 'New Sub-Category',
+        type: 'item',
+        icon: 'heroicons-outline:clipboard-check',
+        url: '/admin/sub-category/new-sub-category',
+      },
+    ]
+  },
+  {
     id: 'products',
     title: 'Products',
     translate: 'products',
     type: 'group',
     icon: 'heroicons-outline:home',
-    auth : authRoles.admin,
+    auth: authRoles.admin,
     // url: '/auth/products',
     children: [
       {
@@ -225,7 +121,7 @@ const navigationConfig = [
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: 'admin/products/productslist',
-        auth : authRoles.admin,
+        auth: authRoles.admin,
       },
       {
         id: 'products.newproducts',
@@ -242,7 +138,7 @@ const navigationConfig = [
     translate: 'user',
     type: 'group',
     icon: 'heroicons-outline:home',
-    auth : authRoles.admin,
+    auth: authRoles.admin,
     // url: 'user',
     children: [
       {
@@ -252,7 +148,7 @@ const navigationConfig = [
         icon: 'heroicons-outline:academic-cap',
         url: 'admin/user/userlist',
       },
-    
+
     ]
   },
   {
@@ -261,7 +157,7 @@ const navigationConfig = [
     translate: 'order',
     type: 'group',
     icon: 'heroicons-outline:home',
-    auth : authRoles.admin,
+    auth: authRoles.admin,
     children: [
       {
         id: 'order.order',
@@ -270,7 +166,7 @@ const navigationConfig = [
         icon: 'heroicons-outline:academic-cap',
         url: '/order',
       },
-    
+
     ]
   },
 ];

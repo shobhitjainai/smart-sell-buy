@@ -1,14 +1,11 @@
 import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import Table from '../shared-components/Table'
-
+import Header from './shared-components/Header';
+import Content from './shared-components/Content';
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
-    backgroundColor: theme.palette.background.paper,
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-    borderColor: theme.palette.divider,
+
   },
   '& .FusePageSimple-toolbar': {},
   '& .FusePageSimple-content': {},
@@ -16,14 +13,16 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-sidebarContent': {},
 }));
 
-function ProductListPage(props) {
+function SubCategoryPage(props) {
   const { t } = useTranslation('examplePage');
-  return (
-    <div className="p-24">
-      <Table />
-    </div>
 
+  return (
+    <Root
+      header={<Header />}
+      content={<Content {...props} />}
+      scroll="page"
+    />
   );
 }
 
-export default ProductListPage;
+export default SubCategoryPage;

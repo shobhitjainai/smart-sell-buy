@@ -3,17 +3,12 @@ import CategorySlice from './CategorySlice';
 import productSlice from './productSlice'
 import userSlice from './userSlice';
 import DashboardSlice from './DashboardSlice';
-
+import SubCategory from './SubCategorySlice';
 const transformReducers = combineReducers({
-    // applications,
-    // approvalList,
-    // communityList,
-    // rawDataReport,
-    // transform
     CategorySlice,
     productSlice,
     userSlice,
-    DashboardSlice
-   
+    DashboardSlice,
+    SubCategory
 })
 export default transformReducers

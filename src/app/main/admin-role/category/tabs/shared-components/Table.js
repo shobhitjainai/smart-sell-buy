@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
-import { Button, DialogContentText, Grid } from '@mui/material';
+import { Avatar, Button, DialogContentText, Grid, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -101,45 +101,6 @@ const headCells = [
 
 ];
 
-// function EnhancedTableHead(props) {
-//     const { order, orderBy, onRequestSort } =
-//         props;
-//     const createSortHandler = (property) => (event) => {
-//         onRequestSort(event, property);
-//     };
-//     return (
-//         <TableHead className='bg-[#F8F9FC]' >
-//             <TableRow>
-//                 {headCells.map((headCell, index) => (
-//                     <TableCell
-//                         key={headCell.id}
-//                         // align={headCell.numeric ? 'right' : 'left'}
-//                         align='left'
-//                         // padding={headCell.disablePadding ? 'none' : 'normal'}
-//                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
-//                         sortDirection={orderBy === headCell.id ? order : false}
-//                     >
-//                         <TableSortLabel
-//                             active={orderBy === headCell.id}
-//                             direction={orderBy === headCell.id ? order : 'asc'}
-//                             onClick={createSortHandler(headCell.id)}
-//                         >
-//                             {headCell.label}
-//                             {orderBy === headCell.id ? (
-//                                 <Box component="span" sx={visuallyHidden}>
-//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                                 </Box>
-//                             ) : null}
-//                         </TableSortLabel>
-//                     </TableCell>
-//                 ))}
-
-//             </TableRow>
-//         </TableHead>
-
-//     );
-// }
-
 function EnhancedTableHead(props) {
     return (
         <TableHead className='bg-[#F8F9FC]'>
@@ -149,6 +110,7 @@ function EnhancedTableHead(props) {
                         key={headCell.id}
                         align='left'
                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
+                        sx={{ fontSize: 16 }}
                     >
                         {headCell.label}
                     </TableCell>
@@ -204,9 +166,9 @@ function EnhancedTableToolbar(props) {
             )}
             <Link to="/admin/category/newCategory">
                 <Button variant='outlined' color='primary' sx={{
-                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#3180FC", color: '#3180FC', '&:hover': {
-                        backgroundColor: '#3180FC', // Change this to the desired hover background color
-                        color: '#fff', borderColor: "#3180FC" // Change this to the desired hover text color
+                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                        backgroundColor: '#fff', // Change this to the desired hover background color
+                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                     },
                 }}>Add New</Button>
             </Link>
@@ -359,8 +321,7 @@ export default function EnhancedTable() {
                             rowCount={category.length}
 
                         />
-
-                        <TableBody className='p-52'>
+                        <TableBody>
                             {visibleRows.map((row, index) => {
                                 // const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -378,19 +339,24 @@ export default function EnhancedTable() {
                                             scope="row"
                                             className='pl-52'
                                             align='left'
-                                            sx={{ paddingBlock: 3 }}
                                         >
                                             <Grid container alignItems="center">
-                                                <img src={row.image} width="70px" height='50px' alt={row.name} className='pr-24' />
-                                                <Typography className='text-xl' >{row.name}</Typography>
+                                                <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                                                    <Avatar variant="rounded" alt={row?.name} src={row.image} />
+                                                </Avatar>
+                                                <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
                                             </Grid>
                                         </TableCell>
-                                        <TableCell id={labelId} align="left">{row.description}</TableCell>
-                                        <TableCell align="left">{formatDate(row.created_at)}</TableCell>
-                                        <TableCell align="left">{formatTime(row.created_at)}</TableCell>
-                                        <TableCell align="left" >
-                                            <EditIcon fontSize='small' sx={{ color: "green", cursor: 'pointer'}} onClick={() => handleClickOpenEditCategory(row)} />
-                                            <DeleteIcon fontSize='small' sx={{ color: "red", cursor: 'pointer' }} onClick={() => handleDeleteOpen(row.id)} />
+                                        <TableCell sx={{ fontSize: 16 }} id={labelId} align="left">{row.description}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left" >
+                                            <IconButton onClick={() => handleClickOpenEditCategory(row)}>
+                                                <EditIcon fontSize='small' sx={{ color: "gray", cursor: 'pointer' }} />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDeleteOpen(row.id)}>
+                                                <DeleteIcon fontSize='small' sx={{ color: "red", cursor: 'pointer' }} />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 );

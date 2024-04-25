@@ -17,17 +17,17 @@ function Header() {
                 },
             }}
         >
-            Products
+            Sub-Category
         </Link>,
         <Typography key="3" color="text.primary">
-            Product List
+            Sub-Category List
         </Typography>,
     ];
 
     return (
         <>
             <Grid component={'div'} className='fuseHeaderRoot pt-52 px-24' container justifyContent="space-between">
-                <Typography variant='h6' className='font-bold text-3xl'>All Products</Typography>
+                <Typography variant='h6' className='font-bold text-3xl'>Sub-Categories</Typography>
                 <Breadcrumbs separator="›" aria-label="breadcrumb">
                     {breadcrumbs}
                 </Breadcrumbs>
