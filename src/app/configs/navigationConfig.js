@@ -101,7 +101,7 @@ const navigationConfig = [
         id: 'subcategory.newsubcategory',
         title: 'New Sub-Category',
         type: 'item',
-        icon: 'heroicons-outline:clipboard-check',
+        icon: 'heroicons-outline:plus-circle',
         url: '/admin/sub-category/new-sub-category',
       },
     ]
@@ -145,7 +145,7 @@ const navigationConfig = [
         id: 'products.alluser',
         title: 'Customers',
         type: 'item',
-        icon: 'heroicons-outline:academic-cap',
+        icon: 'heroicons-outline:user-group',
         url: 'admin/user/userlist',
       },
 
@@ -163,7 +163,7 @@ const navigationConfig = [
         id: 'order.order',
         title: 'order',
         type: 'item',
-        icon: 'heroicons-outline:academic-cap',
+        icon: 'material-solid:handyman',
         url: '/order',
       },
 

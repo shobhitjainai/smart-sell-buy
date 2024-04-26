@@ -3,7 +3,7 @@ const handleResponse = async (response) => {
     if (!response.ok) {
         const error = await response.json();
         console.log("🚀 ~ file: APIRequest.js:9 ~ handleResponse ~ error:", error)
-        throw error.message || 'Something went wrong';
+        throw error || 'Something went wrong';
     }
     return response.json();
 };

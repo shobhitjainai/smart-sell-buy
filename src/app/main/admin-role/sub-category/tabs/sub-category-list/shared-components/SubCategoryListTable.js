@@ -55,16 +55,27 @@ const SubCategoryListTable = () => {
 
   const handleDeleteSubCategory = () => {
     dispatch(deleteSubCategory(deleteSubCategoryDialog?.data)).then((res) => {
-      console.log("🚀 ~ dispatch ~ res:", res)
-      handleDeleteSubCategoryDialogClose()
-      dispatch(getSubCategories())
-      dispatch(showMessage({ message: "Sub-Category Deleted Successfully", variant: 'success' }));
+      if (res?.payload?.error) {
+        handleDeleteSubCategoryDialogClose()
+        dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+      }
+      else {
+        handleDeleteSubCategoryDialogClose()
+        dispatch(showMessage({ message: "Sub-Category Deleted Successfully", variant: 'success' }));
+        dispatch(getSubCategories())
+      }
     })
   }
 
   const handleUpdateSubCategory = ({ data, id }) => {
     dispatch(updateSubCategory({ data, id })).then((res) => {
-
+      if (res?.payload?.error) {
+        handleUpdateSubCategoryDialogClose()
+        dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+      } else {
+        handleUpdateSubCategoryDialogClose()
+        dispatch(showMessage({ message: "Sub-Category Updated Successfully", variant: 'success' }));
+      }
     })
   }
 
@@ -74,105 +85,105 @@ const SubCategoryListTable = () => {
     })
   }, [])
   return (
-    <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
-      <Grid className='px-24 pt-32' container xs={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-        <Grid item>
-          <Typography
-            variant="h6"
-            id="tableTitle"
-          >
-            Sub-Category
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Link to="/admin/sub-category/new-sub-category">
-            <Button variant='outlined' color='primary' sx={{
-              width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
-                backgroundColor: '#fff', // Change this to the desired hover background color
-                color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
-              },
-            }}>Add New</Button>
-          </Link>
-        </Grid>
+    <>
+      <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
+        <Grid className='px-24 pt-32' container xs={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+          <Grid item>
+            <Typography
+              variant="h6"
+              id="tableTitle"
+            >
+              Sub-Category
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Link to="/admin/sub-category/new-sub-category">
+              <Button variant='outlined' color='primary' sx={{
+                width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                  backgroundColor: '#fff', // Change this to the desired hover background color
+                  color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
+                },
+              }}>Add New</Button>
+            </Link>
+          </Grid>
 
 
-      </Grid>
-      <Grid container className='p-24'>
-        <TableContainer className='justify-between'>
-          <Table
-            sx={{ width: "100%" }}
-            aria-labelledby="tableTitle"
-          >
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align="left">Category</StyledTableCell>
-                <StyledTableCell align="left">Description</StyledTableCell>
-                <StyledTableCell align="center">Actions</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {subCategories?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                return (
-                  <TableRow
-                    className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.id}
-                    sx={{ marginInline: 4 }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align='left'
-                      sx={{ padding: '16px 24px' }}
+        </Grid>
+        <Grid container className='p-24'>
+          <TableContainer className='justify-between'>
+            <Table
+              sx={{ width: "100%" }}
+              aria-labelledby="tableTitle"
+            >
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell align="left">Category</StyledTableCell>
+                  <StyledTableCell align="left">Description</StyledTableCell>
+                  <StyledTableCell align="center">Actions</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              {(subCategories.length > 0 && !loading.subCategoriesLoading) && <TableBody>
+                {subCategories?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                  return (
+                    <TableRow
+                      className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.id}
+                      sx={{ marginInline: 4 }}
                     >
-                      <Grid container alignItems="center">
-                        <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
-                          <Avatar variant="rounded" alt={row?.name} src={row.image} />
-                        </Avatar>
-                        <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
-                      </Grid>
-                    </TableCell>
-                    <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="left">{category?.find(({ id }) => id == row?.category)?.name}</TableCell>
-                    <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="left">{row?.description}</TableCell>
-                    <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="center" >
-                      <IconButton onClick={() => handleUpdateSubCategoryDialogOpen(row)}>
-                        <EditIcon fontSize='small' sx={{ color: "gray", cursor: 'pointer' }} />
-                      </IconButton>
-                      <IconButton onClick={() => handleDeleteSubCategoryDialogOpen(row?.id)}>
-                        <DeleteIcon fontSize='small' sx={{ color: "red", cursor: 'pointer' }} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-          {loading.subCategoriesLoading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
-            <Grid item><FuseLoading /></Grid>
-          </Grid>}
-          {(subCategories.length <= 0 && !loading.subCategoriesLoading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
-            <Grid item>
-              <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
-            </Grid>
-            <Grid item>
-              <Typography fontSize={18} fontWeight={600}>No Sub-categories are there!!</Typography>
-            </Grid>
-          </Grid>}
-        </TableContainer>
-      </Grid>
-      {subCategories.length > 0 && <TablePagination
-        rowsPerPageOptions={[5]}
-        component="div"
-        count={subCategories.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />}
-
-
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        align='left'
+                        sx={{ padding: '16px 24px' }}
+                      >
+                        <Grid container alignItems="center">
+                          <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                            <Avatar variant="rounded" alt={row?.name} src={row.image} />
+                          </Avatar>
+                          <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
+                        </Grid>
+                      </TableCell>
+                      <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="left">{category?.find(({ id }) => id == row?.category)?.name}</TableCell>
+                      <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="left">{row?.description}</TableCell>
+                      <TableCell sx={{ fontSize: 16, padding: '16px 24px' }} align="center" >
+                        <IconButton onClick={() => handleUpdateSubCategoryDialogOpen(row)}>
+                          <EditIcon fontSize='small' sx={{ color: "gray", cursor: 'pointer' }} />
+                        </IconButton>
+                        <IconButton onClick={() => handleDeleteSubCategoryDialogOpen(row?.id)}>
+                          <DeleteIcon fontSize='small' sx={{ color: "red", cursor: 'pointer' }} />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>}
+            </Table>
+            {loading.subCategoriesLoading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+              <Grid item><FuseLoading /></Grid>
+            </Grid>}
+            {(subCategories.length <= 0 && !loading.subCategoriesLoading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+              <Grid item>
+                <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
+              </Grid>
+              <Grid item>
+                <Typography fontSize={18} fontWeight={600}>No Sub-categories are there!!</Typography>
+              </Grid>
+            </Grid>}
+          </TableContainer>
+        </Grid>
+        {subCategories.length > 0 && <TablePagination
+          rowsPerPageOptions={[5]}
+          component="div"
+          count={subCategories.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />}
+      </Box >
       {/* CATEGORY EDIT DIALOG */}
       <Dialog open={updateSubCategoryDialog.isOpen} onClose={handleUpdateSubCategoryDialogClose} >
         <Formik
@@ -227,14 +238,14 @@ const SubCategoryListTable = () => {
               </DialogContent>
               <DialogActions className='pr-24 pb-12'>
                 <Button onClick={handleUpdateSubCategoryDialogClose} variant="contained" sx={{
-                  backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-                    backgroundColor: "#1953d6" // Change to your desired hover background color
+                  backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                    backgroundColor: "gray", color: '#fff'
                   }
                 }} >Cancel</Button>
                 <Button type="submit" variant="contained" sx={{
-                  backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-                    backgroundColor: "#1953d6" // Change to your desired hover background color
-                  }
+                  border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                    backgroundColor: '#fff', color: '#818CF8'
+                  },
                 }} disabled={formik.isSubmitting}>Edit</Button>
               </DialogActions>
             </Form>
@@ -245,23 +256,24 @@ const SubCategoryListTable = () => {
       {/* CATEGORY DELETE DIALOG */}
       <Dialog open={deleteSubCategoryDialog.isOpen} onClose={handleDeleteSubCategoryDialogClose}>
         <DialogTitle>Delete Sub-category</DialogTitle>
+        <Divider variant="middle" />
         <DialogContent>
-          <DialogContentText>Do you really want to delete this Sub-category?</DialogContentText>
+          <Typography fontSize={16} fontWeight={500} className='pb-5'>Do you really want to delete this Sub-category?</Typography>
         </DialogContent>
-        <DialogActions>
+        <DialogActions className='p-10'>
           <Button onClick={handleDeleteSubCategoryDialogClose} variant="contained" sx={{
-            backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-              backgroundColor: "#1953d6" // Change to your desired hover background color
+            backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+              backgroundColor: "gray", color: '#fff'
             }
           }} >Cancel</Button>
           <Button type="submit" variant="contained" sx={{
-            backgroundColor: "#2275fc", borderRadius: 2, marginRight: 2, color: "#fff", "&:hover": {
-              backgroundColor: "#1953d6" // Change to your desired hover background color
-            }
+            border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+              backgroundColor: '#fff', color: '#818CF8'
+            },
           }} onClick={() => handleDeleteSubCategory()}>Delete</Button>
         </DialogActions>
       </Dialog>
-    </Box >
+    </>
   )
 }
 

@@ -23,7 +23,7 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Divider from "@mui/material/Divider";
-
+import InfoIcon from '@mui/icons-material/Info';
 
 import { Link } from 'react-router-dom';
 import {
@@ -108,8 +108,8 @@ function EnhancedTableHead(props) {
                 {headCells.map((headCell, index) => (
                     <TableCell
                         key={headCell.id}
-                        align='left'
-                        className={`${index === 0 ? 'pl-52' : ''} font-bold`}
+                        align={index == headCells.length - 1 ? 'center' : 'left'}
+                        className={'font-bold'}
                         sx={{ fontSize: 16 }}
                     >
                         {headCell.label}
@@ -290,7 +290,6 @@ export default function EnhancedTable() {
     const onDelete = () => {
         handleDelete();
         dispatch(handleDeleteDialog(false))
-
     };
 
 
@@ -306,11 +305,9 @@ export default function EnhancedTable() {
             <EnhancedTableToolbar numSelected={selected.length} />
             <Grid container className='p-24'>
                 <TableContainer className='justify-between'>
-                    {loading ? <FuseLoading /> : <Table
-                        sx={{ width: "100%" }}
+                    <Table
+                        sx={{ width: "100%", padding: '10px' }}
                         aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-
                     >
                         <EnhancedTableHead
                             numSelected={selected.length}
@@ -321,7 +318,7 @@ export default function EnhancedTable() {
                             rowCount={category.length}
 
                         />
-                        <TableBody>
+                        {(visibleRows.length > 0 && !loading) && <TableBody>
                             {visibleRows.map((row, index) => {
                                 // const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
@@ -337,7 +334,7 @@ export default function EnhancedTable() {
                                             component="th"
                                             id={labelId}
                                             scope="row"
-                                            className='pl-52'
+                                            sx={{ padding: '16px 24px' }}
                                             align='left'
                                         >
                                             <Grid container alignItems="center">
@@ -350,7 +347,7 @@ export default function EnhancedTable() {
                                         <TableCell sx={{ fontSize: 16 }} id={labelId} align="left">{row.description}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
-                                        <TableCell sx={{ fontSize: 16 }} align="left" >
+                                        <TableCell sx={{ fontSize: 16 }} align="center" >
                                             <IconButton onClick={() => handleClickOpenEditCategory(row)}>
                                                 <EditIcon fontSize='small' sx={{ color: "gray", cursor: 'pointer' }} />
                                             </IconButton>
@@ -370,12 +367,22 @@ export default function EnhancedTable() {
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
-                        </TableBody>
-                    </Table>}
-
+                        </TableBody>}
+                    </Table>
+                    {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                        <Grid item><FuseLoading /></Grid>
+                    </Grid>}
+                    {(visibleRows.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                        <Grid item>
+                            <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
+                        </Grid>
+                        <Grid item>
+                            <Typography fontSize={18} fontWeight={600}>No Categories are there!!</Typography>
+                        </Grid>
+                    </Grid>}
                 </TableContainer>
             </Grid>
-            <TablePagination
+            {visibleRows.length > 0 && <TablePagination
                 rowsPerPageOptions={[5]}
                 component="div"
                 count={category.length}
@@ -383,7 +390,7 @@ export default function EnhancedTable() {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            />}
 
 
             {/* CATEGORY EDIT DIALOG */}
@@ -393,62 +400,63 @@ export default function EnhancedTable() {
                         name: editData ? editData.name : "",
                         description: editData ? editData.description : "",
                     }}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={async (values, { setSubmitting }) => {
                         const categoryData = {
                             name: values.name,
                             description: values.description,
                             categoryId: editData.id
-                            // phoneNumber: values.phoneNumber,
-                            // gender: values.gender,
-                            // email: values.email,
                         };
-
-                        console.log(editData)
-
-
                         handleUpdate(categoryData);
-
                     }}
                 >
-                    {({ isSubmitting }) => (
+                    {(formik) => (
                         <Form >
                             <DialogTitle>Edit Category</DialogTitle>
                             <Divider variant="middle" />
                             <DialogContent>
-                                <Field
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="NAME"
-                                    type="text"
+                                <TextField
+                                    name='name'
+                                    varient='contained'
+                                    label='Name'
+                                    type='text'
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    placeholder='name'
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
+                                    sx={{ marginBottom: '20px' }}
                                     fullWidth
-                                    as={TextField}
+                                    required
                                 />
-                                <ErrorMessage name="name" />
-                                <Field
-                                    margin="dense"
-                                    id="description"
-                                    name="description"
-                                    label="Description"
-                                    type="text"
+                                <TextField
+                                    name='description'
+                                    varient='contained'
+                                    label='Description'
+                                    type='text'
+                                    placeholder='description'
+                                    value={formik.values.description}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.description && Boolean(formik.errors.description)}
+                                    helperText={formik.touched.description && formik.errors.description}
                                     fullWidth
-                                    as={TextField}
+                                    required
                                 />
-                                <ErrorMessage name="description" />
 
                             </DialogContent>
                             <DialogActions className='pr-24 pb-12'>
                                 <Button onClick={handleClose} variant="contained" sx={{
-                                    backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-                                        backgroundColor: "#1953d6" // Change to your desired hover background color
+                                    backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                                        backgroundColor: "gray", color: '#fff'
                                     }
                                 }} >Cancel</Button>
                                 <Button type="submit" variant="contained" sx={{
-                                    backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-                                        backgroundColor: "#1953d6" // Change to your desired hover background color
-                                    }
-                                }} disabled={isSubmitting}>Edit</Button>
+                                    border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                                        backgroundColor: '#fff', color: '#818CF8'
+                                    },
+                                }} disabled={formik.isSubmitting}>Edit</Button>
                             </DialogActions>
                         </Form>
                     )}
@@ -459,18 +467,18 @@ export default function EnhancedTable() {
             <Dialog open={deleteCategotyDialog} onClose={handleClose}>
                 <DialogTitle>Delete Category</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Do you really want to delete this Category?</DialogContentText>
+                    <Typography fontSize={16} fontWeight={500} className='pb-5'>Do you really want to delete this Category?</Typography>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions className='p-10'>
                     <Button onClick={handleClose} variant="contained" sx={{
-                        backgroundColor: "#2275fc", borderRadius: 2, color: "#fff", "&:hover": {
-                            backgroundColor: "#1953d6" // Change to your desired hover background color
+                        backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                            backgroundColor: "gray", color: '#fff'
                         }
                     }} >Cancel</Button>
                     <Button type="submit" variant="contained" sx={{
-                        backgroundColor: "#2275fc", borderRadius: 2, marginRight: 2, color: "#fff", "&:hover": {
-                            backgroundColor: "#1953d6" // Change to your desired hover background color
-                        }
+                        border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                            backgroundColor: '#fff', color: '#818CF8'
+                        },
                     }} onClick={() => onDelete()}>Delete</Button>
                 </DialogActions>
             </Dialog>

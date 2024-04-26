@@ -135,7 +135,7 @@ function NewSubCategoryPage(props) {
                                         </Grid>
                                     </Grid>
                                     <Grid item container alignItems={'center'} className='mt-20' justifyContent={'center'}>
-                                        <Button type='submit' variant='outlined' color='primary' sx={{
+                                        <Button type='submit' disabled={formik?.isSubmitting} variant='outlined' color='primary' sx={{
                                             width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                                                 backgroundColor: '#fff', // Change this to the desired hover background color
                                                 color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color

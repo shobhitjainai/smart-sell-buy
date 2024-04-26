@@ -10,6 +10,7 @@ export const deleteSubCategory = createAsyncThunk('SubCategory/deleteSubCategory
         const response = await APIRequest.remove(`${API_ROUTES.deleteSubCategory}/${id}`)
     } catch (error) {
         console.log("🚀 ~ deleteSubCategory ~ error:", error)
+        return { error: true }
     }
 })
 export const addSubCategory = createAsyncThunk('SubCategory/deleteSubCategory', async (data, { dispatch }) => {
@@ -26,6 +27,7 @@ export const addSubCategory = createAsyncThunk('SubCategory/deleteSubCategory', 
         return response
     } catch (error) {
         console.log("🚀 ~ addSubCategory ~ error:", error)
+        return { error: true }
     }
 })
 export const updateSubCategory = createAsyncThunk('SubCategory/deleteSubCategory', async ({ id, data }, { dispatch }) => {
@@ -34,12 +36,13 @@ export const updateSubCategory = createAsyncThunk('SubCategory/deleteSubCategory
         Object.keys(data).forEach(key => {
             formData.append(key, data[key]);
         });
-        const response = await APIRequest.post(`${API_ROUTES.updateSubCategory}/${id}`, formData)
+        const response = await APIRequest.put(`${API_ROUTES.updateSubCategory}/${id}`, formData)
         console.log("🚀 ~ updateSubCategory ~ response:", response)
         dispatch(getSubCategories())
         return response
     } catch (error) {
         console.log("🚀 ~ updateSubCategory ~ error:", error)
+        return { error: true }
     }
 })
 

@@ -103,6 +103,7 @@ const PostProduct = () => {
                                 latitude: latlong.lng,
                                 photos: values.photos,
                             };
+                            console.log("🚀 ~ onSubmit={ ~ productData:", productData)
 
                             handleCreateProduct(productData);
                             setSubmitting(false);
