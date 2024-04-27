@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'app/store/admin/DashboardSlice';
 import { useEffect } from 'react';
-import { fontSize, fontWeight, padding } from '@mui/system';
+import { useTranslation } from 'react-i18next';
 import FuseLoading from '@fuse/core/FuseLoading';
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -52,6 +52,7 @@ const rows = [
 ];
 
 export default function CustomizedTables() {
+    const { t } = useTranslation('dashboardPage');
     const { products, loading } = useSelector((state) => state.admin.DashboardSlice)
 
     const dispatch = useDispatch();
@@ -72,10 +73,10 @@ export default function CustomizedTables() {
                     <Table sx={{ minWidth: 640 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right">Condition</StyledTableCell>
-                                <StyledTableCell align="right">Description</StyledTableCell>
-                                <StyledTableCell align="right">Price</StyledTableCell>
+                                <StyledTableCell>{t('Name')}</StyledTableCell>
+                                <StyledTableCell align="right">{t('Condition')}</StyledTableCell>
+                                <StyledTableCell align="right">{t('Description')}</StyledTableCell>
+                                <StyledTableCell align="right">{t("Price")}</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         {(products.length > 0 && !loading) && <TableBody>
@@ -111,7 +112,7 @@ export default function CustomizedTables() {
                             <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
                         </Grid>
                         <Grid item>
-                            <Typography fontSize={18} fontWeight={600}>No Products are there!!</Typography>
+                            <Typography fontSize={18} fontWeight={600}>{('No_Products_are_there')}</Typography>
                         </Grid>
                     </Grid>}
                 </TableContainer>

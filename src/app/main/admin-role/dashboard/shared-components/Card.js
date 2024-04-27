@@ -130,9 +130,9 @@ export default function ResponsiveGrid() {
     }, [])
     const headingData = [
         { heading: t('TOTAL_PRODUCT'), numbers: product.length, lineColor: '#22C55E', icon: 'heroicons-outline:shopping-cart' },
-        { heading: 'Total Category', numbers: category.length, lineColor: '#FF5200', icon: 'material-solid:category' },
-        { heading: 'Total User', numbers: customers.length, lineColor: '#CBD5E1', icon: 'heroicons-outline:user' },
-        { heading: 'Total SubCategory', numbers: subCategoryCount.length, lineColor: '#2377FC', icon: 'material-solid:dynamic_feed' }
+        { heading: t('Total_Category'), numbers: category.length, lineColor: '#FF5200', icon: 'material-solid:category' },
+        { heading: t('Total_User'), numbers: customers.length, lineColor: '#CBD5E1', icon: 'heroicons-outline:user' },
+        { heading: t('Total_SubCategory'), numbers: subCategoryCount.length, lineColor: '#2377FC', icon: 'material-solid:dynamic_feed' }
     ];
     return (
         <>
