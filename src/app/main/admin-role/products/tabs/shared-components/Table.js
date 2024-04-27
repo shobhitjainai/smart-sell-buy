@@ -20,7 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import { Avatar, Grid } from '@mui/material';
+import { Avatar, Grid, InputAdornment } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,6 +41,7 @@ import { Link } from 'react-router-dom';
 import FuseLoading from '@fuse/core/FuseLoading';
 import useDialogState from 'src/app/utils/hooks/useDialogState';
 import { showMessage } from 'app/store/fuse/messageSlice';
+import { updateProduct } from 'app/store/admin/productSlice';
 
 
 function createData(id, name, calories, fat, carbs, protein) {
@@ -96,11 +97,6 @@ function getComparator(order, orderBy) {
 
 
 
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(product, comparator) {
     const stabilizedThis = product.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
@@ -237,6 +233,12 @@ export default function EnhancedTable() {
 
     const dispatch = useDispatch();
 
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Required'),
+        description: Yup.string().required('Required'),
+        price: Yup.number().required('Required'),
+    });
+
     useEffect(() => {
         dispatch(getProduct());
     }, []);
@@ -325,8 +327,12 @@ export default function EnhancedTable() {
     };
 
 
-    const handleUpdate = (propertyData) => {
-        setAddDialog(false);
+    const handleUpdate = (data) => {
+        dispatch(updateProduct({ productData: data, id: editData?.id })).then((res) => {
+            handleClose()
+            dispatch(getProduct())
+            dispatch(showMessage({ message: "Product Update Successfully", variant: 'success' }));
+        })
     };
 
     return (
@@ -374,7 +380,7 @@ export default function EnhancedTable() {
                                             </Grid>
                                         </TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{row.description}</TableCell>
-                                        <TableCell sx={{ fontSize: 16 }} align="left">{row.price}</TableCell>
+                                        <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
                                         <TableCell align="left" >
@@ -429,79 +435,71 @@ export default function EnhancedTable() {
                     initialValues={{
                         name: editData ? editData.name : "",
                         description: editData ? editData.description : "",
-                        phoneNumber: editData ? editData.phoneNumber : "",
-                        gender: editData ? editData.gender : "",
-                        email: editData ? editData.email : "",
+                        price: editData ? editData.price : ""
                     }}
-                    // validationSchema={validationSchema}
+                    validationSchema={validationSchema}
                     onSubmit={async (values, { setSubmitting }) => {
-                        const propertyData = {
+                        const product = {
                             name: values.name,
                             description: values.description,
-                            phoneNumber: values.phoneNumber,
-                            gender: values.gender,
-                            email: values.email,
+                            price: values.price
                         };
-
-                        handleUpdate(propertyData);
-
+                        handleUpdate(product);
                     }}
                 >
-                    {({ isSubmitting }) => (
+                    {(formik) => (
                         <Form>
                             <DialogTitle>Edit Product</DialogTitle>
                             <Divider variant="middle" />
                             <DialogContent>
-                                <Field
-                                    margin="dense"
-                                    id="name"
-                                    name="name"
-                                    label="NAME"
-                                    type="text"
+                                <TextField
+                                    name='name'
+                                    varient='contained'
+                                    type='text'
+                                    label='Name'
+                                    value={formik.values.name}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    placeholder='Product Name'
+                                    error={formik.touched.name && Boolean(formik.errors.name)}
+                                    helperText={formik.touched.name && formik.errors.name}
                                     fullWidth
-                                    as={TextField}
+                                    required
+                                    sx={{ marginBottom: '20px' }}
                                 />
-                                <ErrorMessage name="name" />
-                                <Field
-                                    margin="dense"
-                                    id="description"
-                                    name="description"
-                                    label="Description"
-                                    type="text"
+                                <TextField
+                                    name='description'
+                                    varient='contained'
+                                    type='text'
+                                    label='Description'
+                                    placeholder='Product Description'
+                                    value={formik.values.description}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.description && Boolean(formik.errors.description)}
+                                    helperText={formik.touched.description && formik.errors.description}
                                     fullWidth
-                                    as={TextField}
+                                    required
+                                    sx={{ marginBottom: '20px' }}
                                 />
-                                <ErrorMessage name="description" />
-                                {/* <Field
-                                    margin="dense"
-                                    id="email"
-                                    name="email"
-                                    label="EMAIL"
-                                    type="text"
+                                <TextField
+                                    name='price'
+                                    varient='contained'
+                                    type='number'
+                                    label='Price'
+                                    value={formik.values.price}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    placeholder='Product Price'
+                                    error={formik.touched.price && Boolean(formik.errors.price)}
+                                    helperText={formik.touched.price && formik.errors.price}
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                                    }}
                                     fullWidth
-                                    as={TextField}
+                                    sx={{ marginBottom: '20px' }}
+                                    required
                                 />
-                                <ErrorMessage name="email" />
-                                <Field
-                                    margin="dense"
-                                    id="phoneNumber"
-                                    name="phoneNumber"
-                                    label="phoneNumber"
-                                    type="text"
-                                    fullWidth
-                                    as={TextField}
-                                />
-                                <ErrorMessage name="phoneNumber" />
-                                <Field
-                                    margin="dense"
-                                    id="gender"
-                                    name="gender"
-                                    label="gender"
-                                    type="text"
-                                    fullWidth
-                                    as={TextField}
-                                /> */}
-                                <ErrorMessage name="gender" />
                             </DialogContent>
                             <DialogActions className='pr-24 pb-12'>
                                 <Button onClick={handleClose} variant="contained" sx={{
@@ -513,7 +511,7 @@ export default function EnhancedTable() {
                                     border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                                         backgroundColor: '#fff', color: '#818CF8'
                                     },
-                                }} disabled={isSubmitting}>Edit</Button>
+                                }} disabled={formik.isSubmitting}>Edit</Button>
                             </DialogActions>
                         </Form>
                     )}

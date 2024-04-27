@@ -41,6 +41,26 @@ export const createProduct = createAsyncThunk(
     }
 );
 
+export const updateProduct = createAsyncThunk(
+    "product/updateProduct",
+    async ({ productData, id }) => {
+        const formData = new FormData();
+        // Append form data fields to the FormData object
+        Object.keys(productData).forEach((key) => {
+            formData.append(key, productData[key]);
+        });
+        const response = await fetch(`https://reileadsapi.exerboost.in/api/update-product/${id}`, {
+            method: 'PUT',
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            },
+            body: formData
+        });
+        const data = await response.json();
+        return data.data;
+    }
+);
+
 export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id) => {
     try {
         const response = await APIRequest.remove(`${API_ROUTES.deleteProduct}/${id}`)
