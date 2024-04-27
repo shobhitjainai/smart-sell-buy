@@ -15,12 +15,16 @@ function NewCategoryPage(props) {
 
     const handleCreateCategory = (data) => {
         dispatch(createCategory(data)).then((res) => {
-            console.log("🚀 ~ dispatch ~ res:", res)
             if (res?.payload?.success) {
                 dispatch(showMessage({ message: "Category Created Successfully", variant: 'success' }));
                 navigate('/admin/category/categorylist');
             } else {
-                dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                if (res.payload.error) {
+                    const msg = Object.values(res.payload.error)
+                    dispatch(showMessage({ message: msg[0], variant: 'error' }));
+                } else {
+                    dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                }
             }
         })
     };

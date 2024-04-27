@@ -6,7 +6,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Paper, Grid, Typography, Button, Toolbar, Avatar } from '@mui/material';
+import { Paper, Grid, Typography, Button, Toolbar, Avatar, TablePagination } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'app/store/admin/DashboardSlice';
@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { fontSize, fontWeight, padding } from '@mui/system';
 import FuseLoading from '@fuse/core/FuseLoading';
 import InfoIcon from '@mui/icons-material/Info';
+import { useState } from 'react';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -55,7 +56,16 @@ export default function CustomizedTables() {
     const { products, loading } = useSelector((state) => state.admin.DashboardSlice)
 
     const dispatch = useDispatch();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
 
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
     useEffect(() => {
         dispatch(getProducts())
     }, [])
@@ -114,6 +124,15 @@ export default function CustomizedTables() {
                             <Typography fontSize={18} fontWeight={600}>No Products are there!!</Typography>
                         </Grid>
                     </Grid>}
+                    {products.length > 0 && <TablePagination
+                        rowsPerPageOptions={[5]}
+                        component="div"
+                        count={products.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />}
                 </TableContainer>
             </Grid>
         </>
