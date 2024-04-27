@@ -32,7 +32,8 @@ export const API_ROUTES = {
   fetchSubCategories: 'api/subcategory',
   deleteSubCategory: 'api/delete-subcategory',
   addSubCategory: 'api/subcategory',
-  updateSubCategory: 'api/update-subcategory'
+  updateSubCategory: 'api/update-subcategory',
+  deleteProduct: 'api/delete-product'
 };
 
 export const initialAPIParams = {

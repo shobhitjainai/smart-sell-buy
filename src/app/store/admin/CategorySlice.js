@@ -35,7 +35,7 @@ export const createCategory = createAsyncThunk(
             body: formData
         });
         const data = await response.json();
-        return data.data;
+        return data
     }
 );
 

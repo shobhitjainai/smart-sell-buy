@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'app/store/admin/DashboardSlice';
 import { useEffect } from 'react';
 import { fontSize, fontWeight, padding } from '@mui/system';
+import FuseLoading from '@fuse/core/FuseLoading';
+import InfoIcon from '@mui/icons-material/Info';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -50,7 +52,7 @@ const rows = [
 ];
 
 export default function CustomizedTables() {
-    const { products } = useSelector((state) => state.admin.DashboardSlice)
+    const { products, loading } = useSelector((state) => state.admin.DashboardSlice)
 
     const dispatch = useDispatch();
 
@@ -76,7 +78,7 @@ export default function CustomizedTables() {
                                 <StyledTableCell align="right">Price</StyledTableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        {(products.length > 0 && !loading) && <TableBody>
                             {products.map((row, index) => (
                                 <StyledTableRow key={row.name} className={` hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}>
                                     <TableCell
@@ -99,8 +101,19 @@ export default function CustomizedTables() {
                                     <StyledTableCell align="right">Rs.{row.price}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
-                        </TableBody>
+                        </TableBody>}
                     </Table>
+                    {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                        <Grid item><FuseLoading /></Grid>
+                    </Grid>}
+                    {(products.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+                        <Grid item>
+                            <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
+                        </Grid>
+                        <Grid item>
+                            <Typography fontSize={18} fontWeight={600}>No Products are there!!</Typography>
+                        </Grid>
+                    </Grid>}
                 </TableContainer>
             </Grid>
         </>
