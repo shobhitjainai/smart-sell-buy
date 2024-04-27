@@ -1,16 +1,12 @@
-// import i18next from 'i18next';
-
-// import en from './i18n/en';
-// import tr from './i18n/tr';
-// import ar from './i18n/ar';
+import i18next from 'i18next';
+import en from '../i18n/en';
+import hin from '../i18n/hin';
 import { authRoles } from 'src/app/auth';
 import Product from './AdminProduct'
 import ProductList from './tabs/product-list/ProductList'
-// import NewProduct from './tabs/new-Product/NewProduct'
 import { Navigate } from 'react-router-dom';
-// i18next.addResourceBundle('en', 'examplePage', en);
-// i18next.addResourceBundle('tr', 'examplePage', tr);
-// i18next.addResourceBundle('ar', 'examplePage', ar);
+i18next.addResourceBundle('en', 'adminProductPage', en);
+i18next.addResourceBundle('hin', 'adminProductPage', hin);
 
 const ProductConfig = {
   settings: {
@@ -18,11 +14,11 @@ const ProductConfig = {
       config: {},
     },
   },
-  auth:authRoles.admin,
+  auth: authRoles.admin,
   routes: [
     {
       path: '/admin/products',
-      children:[
+      children: [
         {
           path: '',
           element: <Navigate to="/admin/products/productslist" />,
@@ -31,10 +27,6 @@ const ProductConfig = {
           path: 'productslist',
           element: <Product><ProductList /></Product>
         },
-        // {
-        //   path: 'newProduct',
-        //   element: <Product><NewProduct /></Product>
-        // },
       ]
     },
   ],

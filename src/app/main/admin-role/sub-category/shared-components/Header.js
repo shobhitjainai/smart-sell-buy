@@ -2,9 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { Grid, Typography, Breadcrumbs } from '@mui/material';
 import Link from '@mui/material/Link';
 
-
 function Header() {
-    const { t } = useTranslation('examplePage');
+    const { t } = useTranslation('adminSubCategoryPage');
 
     const breadcrumbs = [
         <Link
@@ -17,17 +16,17 @@ function Header() {
                 },
             }}
         >
-            Sub-Category
+            {t("SUB_CATEGORIES")}
         </Link>,
         <Typography key="3" color="text.primary">
-            Sub-Category List
+            {t("SUB_CATEGORY_LIST")}
         </Typography>,
     ];
 
     return (
         <>
             <Grid component={'div'} className='fuseHeaderRoot pt-52 px-24' container justifyContent="space-between">
-                <Typography variant='h6' className='font-bold text-3xl'>Sub-Categories</Typography>
+                <Typography variant='h6' className='font-bold text-3xl'>{t("SUB_CATEGORIES")}</Typography>
                 <Breadcrumbs separator="›" aria-label="breadcrumb">
                     {breadcrumbs}
                 </Breadcrumbs>
