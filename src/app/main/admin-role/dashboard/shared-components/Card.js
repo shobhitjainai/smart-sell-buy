@@ -7,10 +7,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Chart from 'react-apexcharts'; // Changed import statement
-import { useState } from 'react';
-import { ChartContainer } from '@mui/x-charts';
-import { LinePlot, MarkPlot } from '@mui/x-charts/LineChart';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSubCategoryCount } from 'app/store/admin/DashboardSlice';
 import { useEffect } from 'react';
@@ -29,6 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ResponsiveGrid() {
+    const { t } = useTranslation('dashboardPage');
     const state = {
         series: [
             {
@@ -131,7 +129,7 @@ export default function ResponsiveGrid() {
         dispatch(getSubCategoryCount())
     }, [])
     const headingData = [
-        { heading: 'Total Product', numbers: product.length, lineColor: '#22C55E', icon: 'heroicons-outline:shopping-cart' },
+        { heading: t('TOTAL_PRODUCT'), numbers: product.length, lineColor: '#22C55E', icon: 'heroicons-outline:shopping-cart' },
         { heading: 'Total Category', numbers: category.length, lineColor: '#FF5200', icon: 'material-solid:category' },
         { heading: 'Total User', numbers: customers.length, lineColor: '#CBD5E1', icon: 'heroicons-outline:user' },
         { heading: 'Total SubCategory', numbers: subCategoryCount.length, lineColor: '#2377FC', icon: 'material-solid:dynamic_feed' }
