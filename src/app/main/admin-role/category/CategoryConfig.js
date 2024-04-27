@@ -1,17 +1,17 @@
-// import i18next from 'i18next';
+import i18next from 'i18next';
 
-// import en from './i18n/en';
-// import tr from './i18n/tr';
-// import ar from './i18n/ar';
+import en from '../i18n/en';
+import hin from '../i18n/hin';
+
 import { authRoles } from 'src/app/auth';
 import Category from './Category'
 import CategoryList from './tabs/category-list/CategoryList'
 import NewCategory from './tabs/new-category/NewCategory'
 import { Navigate } from 'react-router-dom';
 import { element } from 'prop-types';
-// i18next.addResourceBundle('en', 'examplePage', en);
-// i18next.addResourceBundle('tr', 'examplePage', tr);
-// i18next.addResourceBundle('ar', 'examplePage', ar);
+i18next.addResourceBundle('en', 'categoryPage', en);
+i18next.addResourceBundle('hin', 'categoryPage', hin);
+
 
 const CategoryConfig = {
   settings: {

@@ -64,9 +64,9 @@ export default function CustomizedTables() {
         <>
             <Grid container component={Paper}>
                 <Toolbar sx={{ justifyContent: "space-between !important", display: "flex", width: "100% !important", padding: '0 30px 0 20px' }}>
-                    <Typography variant='h6' >Top Products</Typography>
+                    <Typography variant='h6' >{t('Top_Products')}</Typography>
                     <Link to="/admin/products/productslist">
-                        <Button sx={{ color: "blue" }}>See All</Button>
+                        <Button sx={{ color: "blue" }}>{t('See_All')}</Button>
                     </Link>
                 </Toolbar>
                 <TableContainer>
