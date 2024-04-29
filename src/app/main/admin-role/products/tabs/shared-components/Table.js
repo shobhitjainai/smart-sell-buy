@@ -383,7 +383,7 @@ export default function EnhancedTable() {
                                         <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
-                                        <TableCell align="left" >
+                                        <TableCell align="center" >
                                             <IconButton onClick={() => handleClickOpencreate(row)}>
                                                 <EditIcon fontSize='small' sx={{ color: "gray" }} />
                                             </IconButton>

@@ -10,7 +10,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import EditIcon from '@mui/icons-material/Edit';
 import Container from "@mui/material/Container";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import {
   CardActions,
   Card,
@@ -57,7 +59,6 @@ function ExamplePage(props) {
   const [editProfile, setEditProfile] = useState(true);
   const [showOldPassword, setOldShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-
   const { profile } = useSelector((state) => state.userSlices.profileSlice);
 
   // Sample user profile data
@@ -95,7 +96,6 @@ function ExamplePage(props) {
   // Calling the update profile API
   const handleUpdateProfile = (editData) => {
     dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
-      console.log(res);
       res.payload.success && dispatch(getprofile());
     });
     // After successful creation, refresh the property list
@@ -117,11 +117,12 @@ function ExamplePage(props) {
     setShowNewPassword(!showNewPassword);
   };
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape(editProfile ? {
+
+  } : {
     // name: Yup.string().min(3, t("Minimum")).required(t("Required")),
     phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
     email: Yup.string().required(t("Required")),
-    // typeOfRepairers: Yup.string().required(t("Required")),
   });
 
   return (
@@ -144,7 +145,7 @@ function ExamplePage(props) {
             <CardContent sx={{ paddingBottom: "10px" }}>
               <Avatar
                 style={{ width: "150px", height: "150px", margin: "auto" }}
-                // src={profile.profilePicture}
+              // src={profile.profilePicture}
               />
 
               <Typography
@@ -168,7 +169,7 @@ function ExamplePage(props) {
                   >
                     {t("Email")}
                   </Typography>
-                  
+
                   <Typography
                     variant="body1"
                     align="center"
@@ -232,21 +233,28 @@ function ExamplePage(props) {
                 // color="success"
                 variant="contained"
                 size="small"
-                sx={{ borderRadius: "2px",background:"#061c34",color:"#fff" }}
+                sx={{
+                  border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
+                    backgroundColor: '#818CF8', color: '#fff'
+                  },
+                }}
                 onClick={() => handleClickOpenUpdate(profile)}
               >
-                {t("Edit profile")}
+                <EditIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Edit profile")}
               </Button>
 
               <Button
                 // color="success"
-
                 variant="contained"
                 size="small"
-                sx={{ borderRadius: "2px",background:"#061c34",color:"#fff" }}
+                sx={{
+                  border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                    backgroundColor: '#fff', color: '#818CF8'
+                  },
+                }}
                 onClick={() => handleUpdatePassword(profile)}
               >
-                {t("Change Password")}
+                <ChangeCircleIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Change Password")}
               </Button>
             </CardActions>
           </Card>
@@ -255,101 +263,96 @@ function ExamplePage(props) {
           <Dialog
             open={addDialog}
             onClose={handleClose}
-            sx={{ height: "70%", top: "15%" , borderRadius: 0}}
+            sx={{ height: "70%", top: "15%", borderRadius: 0 }}
           >
             <Formik
               initialValues={{
                 first_name: editData ? editData.first_name : "",
                 email: editData ? editData.email : "",
                 phone_number: editData ? editData.phone_number : "",
-                // gender: editData ? editData.gender : "",
-                // oldPassword: editData ? editData.oldPassword : "",
-                // newPassword: editData ? editData.newPassword : "",
+                gender: editData ? editData.gender : "",
+                oldPassword: editData ? editData.oldPassword : "",
+                newPassword: editData ? editData.newPassword : "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 // You can modify the structure of values if needed before sending
 
                 const propertyData = {
-                  //   username: values.username,
                   first_name: values.first_name,
                   phone_number: values.phone_number,
-                  
                 };
 
                 const editPassword = {
                   oldPassword: values.oldPassword,
                   newPassword: values.newPassword,
-
-                  // oldPassword: values.oldPassword,
-                  // newPassword: values.newPassword,
                 };
-
-                console.log(propertyData);
                 if (editProfile) {
                   handleUpdateProfile(propertyData);
-                } else if(editPassword) {
+                } else if (editPassword) {
                   handleUpdateProfile(editPassword);
                 }
                 setSubmitting(false);
               }}
             >
-              {({ isSubmitting }) => (
+              {(formik) => (
                 <Form>
                   <DialogTitle>
-                    {editProfile ? t("Edit_profile") :  t("Change_Password")}
+                    {editProfile ? t("Edit_profile") : t("Change_Password")}
                   </DialogTitle>
                   <Divider variant="middle" />
-                  <DialogContent sx={{paddingBottom: '0px'}}>
+                  <DialogContent sx={{ paddingBottom: '0px' }}>
                     {editProfile ? (
                       <>
-                        
-
-                        <Field
-                          
-                          variant="filled"
-                          margin="dense"
-                          id="first_name"
-                          name="first_name"
-                          label="First Name"
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <ErrorMessage name="first_name" />
-                       
-
-                        <Field
+                        <TextField
+                          required
                           disabled
+                          id="filled-disabled"
+                          label={t("USER_NAME")}
+                          defaultValue={editData ? editData.username : ""}
                           variant="filled"
-                          margin="dense"
-                          id="email"
-                          name="email"
+                          sx={{ paddingBottom: "15px" }}
+                          fullWidth
+                        />
+                        <TextField
+                          required
+                          disabled
+                          id="filled-disabled"
+                          label={t("Role")}
+                          defaultValue={editData ? editData.role : ""}
+                          variant="filled"
+                          sx={{ paddingBottom: "15px" }}
+                          fullWidth
+                        />
+                        <TextField
+                          name='email'
+                          varient='contained'
+                          type='email'
                           label={t("Email")}
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          error={formik.touched.email && Boolean(formik.errors.email)}
+                          helperText={formik.touched.email && formik.errors.email}
+                          sx={{ paddingBottom: "15px" }}
                           fullWidth
-                          as={TextField}
+                          required
                         />
-                        <ErrorMessage name="email" />
-
-                        <Field
-                          // autoFocus
-                          disabled
-                          margin="dense"
-                          variant="filled"
-                          id="phone_number"
-                          name="phone_number"
+                        <TextField
+                          name='phoneNumber'
+                          varient='contained'
+                          type='number'
                           label={t("CONTACT")}
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
+                          value={formik.values.phoneNumber}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                          sx={{ paddingBottom: "15px" }}
                           fullWidth
-                          as={TextField}
+                          required
                         />
-                        <ErrorMessage name="phone_number" />
 
-                       
                       </>
                     ) : (
                       <>
@@ -361,7 +364,7 @@ function ExamplePage(props) {
                           label={t("OLD_PASSWORD")}
                           type={showOldPassword ? "text" : "password"}
                           sx={{ position: "relative", paddingBottom: "10px" }}
-                          
+
                           fullWidth
                           as={TextField}
                         />
@@ -386,7 +389,7 @@ function ExamplePage(props) {
                           label={t("NEW_PASSWORD")}
                           type={showNewPassword ? "text" : "password"}
                           fullWidth
-                          
+
                           as={TextField}
                         />
                         <IconButton
@@ -404,21 +407,27 @@ function ExamplePage(props) {
                       </>
                     )}
                   </DialogContent>
-                  <DialogActions sx={{paddingBottom: '10px'}}>
+                  <DialogActions sx={{ paddingBottom: '10px' }}>
                     <Button
                       onClick={handleClose}
                       variant="contained"
-                    
-                      sx={{borderRadius: '2px',background:"#061c34",color:"#fff"}}
+                      sx={{
+                        backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                          backgroundColor: "gray", color: '#fff'
+                        }
+                      }}
                     >
                       {t("CANCEL")}
                     </Button>
                     <Button
                       type="submit"
                       variant="contained"
-               
-                      sx={{borderRadius: '2px',background:"#061c34",color:"#fff"}}
-                      disabled={isSubmitting}
+                      sx={{
+                        border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                          backgroundColor: '#fff', color: '#818CF8'
+                        },
+                      }}
+                      disabled={formik.isSubmitting}
                     >
                       {t("Edit")}
                     </Button>
@@ -427,7 +436,7 @@ function ExamplePage(props) {
               )}
             </Formik>
           </Dialog>
-          
+
         </Container>
       }
     />

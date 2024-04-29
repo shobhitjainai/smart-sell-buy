@@ -132,8 +132,6 @@ const userSellingSlice = createSlice({
         [deleteItem.rejected]: (state) => {
             state.loading = false;
         },
-
-
     },
 });
 
