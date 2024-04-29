@@ -2,6 +2,23 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_ROUTES, getAccessToken } from "src/app/constant/apiRoutes";
 import { APIRequest } from "src/app/utils/APIRequest";
 
+export const filterProducts = createAsyncThunk('product/filterProducts', async (productData) => {
+    const formData = new FormData();
+    // Append form data fields to the FormData object
+    Object.keys(productData).forEach((key) => {
+        formData.append(key, productData[key]);
+    });
+    const response = await fetch(`https://reileadsapi.exerboost.in/api/filter-product`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${getAccessToken()}`
+        },
+        body: formData
+    });
+    const data = await response.json();
+    return data.data;
+})
+
 export const getProduct = createAsyncThunk(
     "product/getProduct",
     async () => {
@@ -73,6 +90,13 @@ export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id
 const categorySlice = createSlice({
     name: "product",
     initialState: {
+        filterState: {
+            sort: 'newest-on-top',
+            category_id: '',
+            subcategory_id: '',
+            price_max: '',
+            price_min: ''
+        },
         product: [],
         loading: false,
         newProduct: [],
@@ -82,6 +106,10 @@ const categorySlice = createSlice({
     reducers: {
         handleEditProductDialog: (state, action) => {
             state.editDialog = action.payload;
+        },
+        handleFilterChange: (state, action) => {
+            const { name, value } = action.payload
+            state.filterState[name] = value
         }
     },
 

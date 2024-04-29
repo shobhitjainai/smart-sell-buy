@@ -18,7 +18,7 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { visuallyHidden } from '@mui/utils';
 import { Avatar, Grid, InputAdornment } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -207,12 +207,15 @@ function EnhancedTableToolbar(props) {
       </Typography>
       <Link to="/user/sell-product">
         <Button variant='outlined' color='primary' sx={{
-          width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
-            backgroundColor: '#fff', // Change this to the desired hover background color
-            color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
+          width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#818CF8', backgroundColor: '#fff', '&:hover': {
+            backgroundColor: '#818CF8', // Change this to the desired hover background color
+            color: '#fff', borderColor: "#818CF8" // Change this to the desired hover text color
           },
         }}>{t('ADD_NEW')}</Button>
       </Link>
+      <IconButton className='ml-5 ' sx={{ borderRadius: '14px', color: '#818CF8' }} onClick={props.filterDialogOpen}>
+        <FilterAltIcon sx={{ width: '1.3em', height: '1.3em' }} />
+      </IconButton>
     </Toolbar>
   );
 }
@@ -230,10 +233,14 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [editData, setEditData] = React.useState(null);
-  const { product, loading, editDialog } = useSelector((state) => state.admin.productSlice);
+  const { product, loading, editDialog, filterState } = useSelector((state) => state.admin.productSlice);
   const { dialogState: deleteProductDialog, handleOpen: handleDeleteProductDialogOpen, handleClose: handleDeleteProductDialogClose } = useDialogState()
-
+  const { dialogState: filterProductsDialog, handleOpen: handleFilterProductsDialogOpen, handleClose: handleFilterProductsDialogClose } = useDialogState()
   const dispatch = useDispatch();
+
+  const handleFilterProduct = () => {
+    handleFilterProductsDialogClose()
+  }
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(t('REQUIRED')),
@@ -340,7 +347,7 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
 
-      <EnhancedTableToolbar numSelected={selected.length} />
+      <EnhancedTableToolbar numSelected={selected.length} filterDialogOpen={handleFilterProductsDialogOpen} />
       <Grid container className='p-24'>
         <TableContainer className='justify-between'>
           <Table
@@ -536,6 +543,40 @@ export default function EnhancedTable() {
               backgroundColor: '#fff', color: '#818CF8'
             },
           }} onClick={() => onDelete()}>{t('DELETE')}</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/*PRODUCT Filter Dialog*/}
+      <Dialog open={filterProductsDialog?.isOpen} onClose={handleFilterProductsDialogClose}>
+        <DialogTitle>{t('PRODUCTS_FILTER')}</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={2}>
+            <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+              <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('SORT_BY')}</Typography></Grid>
+              <Grid item xs={6}>
+                <TextField
+                  name='sort'
+                  varient='contained'
+                  type='text'
+                  value={filterState?.sort}
+                  fullWidth
+                  required
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions className='p-10'>
+          <Button onClick={handleFilterProductsDialogClose} variant="contained" sx={{
+            backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+              backgroundColor: "gray", color: '#fff'
+            }
+          }} >{t('CANCEL')}</Button>
+          <Button type="submit" variant="contained" sx={{
+            border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+              backgroundColor: '#fff', color: '#818CF8'
+            },
+          }} onClick={() => onDelete()}>{t('APPLY')}</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -1,15 +1,15 @@
 const locale = {
-  TOTAL_PRODUCT:"Total Product",
-  Total_Category:"Total Category",
-  Total_User:"Total User",
-  Total_SubCategory:"Total SubCategory",
-  Name:"Name",
-  Condition:"Condition",
-  Description:"Description",
-  Price:"Price",
-  No_Products_are_there:"No products are there!!",
+  TOTAL_PRODUCT: "Total Product",
+  Total_Category: "Total Category",
+  Total_User: "Total User",
+  Total_SubCategory: "Total SubCategory",
+  Name: "Name",
+  Condition: "Condition",
+  Description: "Description",
+  Price: "Price",
+  No_Products_are_there: "No products are there!!",
   See_All: "Sell All",
-  Top_Products:"Top Products",
+  Top_Products: "Top Products",
 
   //category
   EDIT_CATEGORY: 'Edit Category',
@@ -22,26 +22,26 @@ const locale = {
   UPLOAD_IMAGE: 'Upload image',
   CATEGORY_NAME: 'Category name',
   CREATE: 'Create',
-  Category:"Category",
-  Description:"Description",
-  Date:"Date",
-  Time:"Time",
-  Actions:"Actions",
-  Add_New:"Add New",
-  Category_List:"Category List",
-  All_category:"All Category",
-  Add_Description:"Add_Description",
-  Name_of_Category:"Name of Category",
-  Create_Category:"Create Category",
-  
+  Category: "Category",
+  Description: "Description",
+  Date: "Date",
+  Time: "Time",
+  Actions: "Actions",
+  Add_New: "Add New",
+  Category_List: "Category List",
+  All_category: "All Category",
+  Add_Description: "Add_Description",
+  Name_of_Category: "Name of Category",
+  Create_Category: "Create Category",
+
   //customer/user
-  User:"User",
-  Phone_Number:"Phone Number",
-  Email:"Email",
-  Gender:"Gender",
-  Customers:"Customers",
-  Customer_List:"Customer List",
-  All_Customer:"All Customer",
+  User: "User",
+  Phone_Number: "Phone Number",
+  Email: "Email",
+  Gender: "Gender",
+  Customers: "Customers",
+  Customer_List: "Customer List",
+  All_Customer: "All Customer",
 
 
   TOTAL_PRODUCT: "Total Product",
@@ -90,6 +90,11 @@ const locale = {
   ADD_DESCRIPTION: 'Add Description',
   UPLOAD_IMAGE: 'Upload Image',
   CREATE_SUB_CATEGORY: 'Create Sub-Category',
+
+  //filter
+  PRODUCTS_FILTER: 'Product Filters',
+  APPLY: 'Apply',
+  SORT_BY: 'SORT BY'
 };
 
 export default locale;

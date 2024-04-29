@@ -26,7 +26,7 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
-import { getprofile, updateProfile } from "../../../store/userSlices/profileSlice";
+import { changePassword, getprofile, updateProfile } from "../../../store/userSlices/profileSlice";
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -95,9 +95,13 @@ function ExamplePage(props) {
 
   // Calling the update profile API
   const handleUpdateProfile = (editData) => {
-    dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
-      res.payload.success && dispatch(getprofile());
-    });
+    if (editProfile) {
+      dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
+        res.payload.success && dispatch(getprofile());
+      });
+    } else {
+      dispatch(changePassword(editData)).then((res) => console.log(res, 'res is'))
+    }
     // After successful creation, refresh the property list
 
     setAddDialog(false);
@@ -118,11 +122,15 @@ function ExamplePage(props) {
   };
 
   const validationSchema = Yup.object().shape(editProfile ? {
-
+    phone_number: Yup.number().positive(t("Positive")).required(t("Required")),
+    first_name: Yup.string().required(t("Required")),
   } : {
     // name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
-    email: Yup.string().required(t("Required")),
+    oldPassword: Yup.string().required(t("Required")),
+    newPassword: Yup
+      .string()
+      .required('Please enter your password.')
+      .min(8, 'Password is too short - should be 8 chars minimum.'),
   });
 
   return (
@@ -278,162 +286,144 @@ function ExamplePage(props) {
               onSubmit={async (values, { setSubmitting }) => {
                 // You can modify the structure of values if needed before sending
 
-                const propertyData = {
+                const profileData = {
                   first_name: values.first_name,
                   phone_number: values.phone_number,
                 };
-
                 const editPassword = {
                   oldPassword: values.oldPassword,
-                  newPassword: values.newPassword,
+                  new_password: values.newPassword,
                 };
                 if (editProfile) {
-                  handleUpdateProfile(propertyData);
-                } else if (editPassword) {
+                  handleUpdateProfile(profileData);
+                } else {
                   handleUpdateProfile(editPassword);
                 }
                 setSubmitting(false);
               }}
             >
-              {(formik) => (
-                <Form>
-                  <DialogTitle>
-                    {editProfile ? t("Edit_profile") : t("Change_Password")}
-                  </DialogTitle>
-                  <Divider variant="middle" />
-                  <DialogContent sx={{ paddingBottom: '0px' }}>
-                    {editProfile ? (
-                      <>
-                        <TextField
-                          required
-                          disabled
-                          id="filled-disabled"
-                          label={t("USER_NAME")}
-                          defaultValue={editData ? editData.username : ""}
-                          variant="filled"
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                        />
-                        <TextField
-                          required
-                          disabled
-                          id="filled-disabled"
-                          label={t("Role")}
-                          defaultValue={editData ? editData.role : ""}
-                          variant="filled"
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                        />
-                        <TextField
-                          name='email'
-                          varient='contained'
-                          type='email'
-                          label={t("Email")}
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.email && Boolean(formik.errors.email)}
-                          helperText={formik.touched.email && formik.errors.email}
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                          required
-                        />
-                        <TextField
-                          name='phoneNumber'
-                          varient='contained'
-                          type='number'
-                          label={t("CONTACT")}
-                          value={formik.values.phoneNumber}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                          helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                          sx={{ paddingBottom: "15px" }}
-                          fullWidth
-                          required
-                        />
-
-                      </>
-                    ) : (
-                      <>
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="oldPassword"
-                          name="oldPassword"
-                          label={t("OLD_PASSWORD")}
-                          type={showOldPassword ? "text" : "password"}
-                          sx={{ position: "relative", paddingBottom: "10px" }}
-
-                          fullWidth
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowOldPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="newPassword"
-                          name="newPassword"
-                          label={t("NEW_PASSWORD")}
-                          type={showNewPassword ? "text" : "password"}
-                          fullWidth
-
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowNewPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </>
-                    )}
-                  </DialogContent>
-                  <DialogActions sx={{ paddingBottom: '10px' }}>
-                    <Button
-                      onClick={handleClose}
-                      variant="contained"
-                      sx={{
-                        backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
-                          backgroundColor: "gray", color: '#fff'
-                        }
-                      }}
-                    >
-                      {t("CANCEL")}
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{
-                        border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
-                          backgroundColor: '#fff', color: '#818CF8'
-                        },
-                      }}
-                      disabled={formik.isSubmitting}
-                    >
-                      {t("Edit")}
-                    </Button>
-                  </DialogActions>
-                </Form>
-              )}
+              {(formik) => {
+                console.log(formik, 'formik')
+                return (
+                  <Form>
+                    <DialogTitle>
+                      {editProfile ? t("Edit_profile") : t("Change_Password")}
+                    </DialogTitle>
+                    <Divider variant="middle" />
+                    <DialogContent sx={{ paddingBottom: '0px' }}>
+                      {editProfile ? (
+                        <>
+                          <TextField
+                            disabled
+                            name='email'
+                            variant="filled"
+                            type='email'
+                            label={t("Email")}
+                            defaultValue={editData ? editData.email : ""}
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                            required
+                          />
+                          <TextField
+                            required
+                            disabled
+                            id="filled-disabled"
+                            label={t("Role")}
+                            defaultValue={editData ? editData.role : ""}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            required
+                            value={formik.values.first_name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+                            helperText={formik.touched.first_name && formik.errors.first_name}
+                            id="filled-disabled"
+                            name='first_name'
+                            label={t("First name")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            name='phone_number'
+                            variant="filled"
+                            type='number'
+                            label={t("CONTACT")}
+                            value={formik.values.phone_number}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.phone_number && Boolean(formik.errors.phone_number)}
+                            helperText={formik.touched.phone_number && formik.errors.phone_number}
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                            required
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TextField
+                            required
+                            name='oldPassword'
+                            value={formik.values.oldPassword}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
+                            helperText={formik.touched.oldPassword && formik.errors.oldPassword}
+                            id="filled-disabled"
+                            label={t("Old password")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            required
+                            name='newPassword'
+                            value={formik.values.newPassword}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                            helperText={formik.touched.newPassword && formik.errors.newPassword}
+                            id="filled-disabled"
+                            label={t("New Password")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                        </>
+                      )}
+                    </DialogContent>
+                    <DialogActions sx={{ paddingBottom: '10px' }}>
+                      <Button
+                        onClick={handleClose}
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                            backgroundColor: "gray", color: '#fff'
+                          }
+                        }}
+                      >
+                        {t("CANCEL")}
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{
+                          border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                            backgroundColor: '#fff', color: '#818CF8'
+                          },
+                        }}
+                        disabled={formik.isSubmitting}
+                      >
+                        {t("Edit")}
+                      </Button>
+                    </DialogActions>
+                  </Form>
+                )
+              }}
             </Formik>
           </Dialog>
 
