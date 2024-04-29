@@ -1,12 +1,10 @@
 import i18next from 'i18next';
-import ar from './navigation-i18n/ar';
+import hin from './navigation-i18n/hin';
 import en from './navigation-i18n/en';
-import tr from './navigation-i18n/tr';
 import { authRoles } from '../auth';
 
 i18next.addResourceBundle('en', 'navigation', en);
-i18next.addResourceBundle('tr', 'navigation', tr);
-i18next.addResourceBundle('ar', 'navigation', ar);
+i18next.addResourceBundle('hin', 'navigation', hin);
 
 const navigationConfig = [
   {
@@ -68,14 +66,16 @@ const navigationConfig = [
     children: [
       {
         id: 'category.categorylist',
-        title: 'Category List',
+        title: 'CategoryList',
+        translate:'CategoryList',
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: '/admin/category/categorylist',
       },
       {
         id: 'category.newcategory',
-        title: 'New Category',
+        title: 'NewCategory',
+        translate:"NewCategory",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: '/admin/category/newcategory',
@@ -84,22 +84,24 @@ const navigationConfig = [
   },
   {
     id: 'subcategory',
-    title: 'Sub-Category',
-    translate: 'Sub-Category',
+    title: 'SubCategory',
+    translate: 'SubCategory',
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
     children: [
       {
         id: 'subcategory.subcategorylist',
-        title: 'Sub-Category List',
+        title: 'SubCategoryList',
+        translate:"SubCategoryList",
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: '/admin/sub-category/sub-category-list',
       },
       {
         id: 'subcategory.newsubcategory',
-        title: 'New Sub-Category',
+        title: 'NewSubCategory',
+        translate:"NewSubCategory",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: '/admin/sub-category/new-sub-category',
@@ -109,7 +111,7 @@ const navigationConfig = [
   {
     id: 'products',
     title: 'Products',
-    translate: 'products',
+    translate: 'Products',
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
@@ -117,7 +119,8 @@ const navigationConfig = [
     children: [
       {
         id: 'products.productslist',
-        title: 'Product List',
+        title: 'ProductList',
+        translate:"ProductList",
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: 'admin/products/productslist',
@@ -125,7 +128,8 @@ const navigationConfig = [
       },
       {
         id: 'products.newproducts',
-        title: 'New Product',
+        title: 'NewProduct',
+        translate:"NewProduct",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: 'user/sell-product',
@@ -135,7 +139,7 @@ const navigationConfig = [
   {
     id: 'user',
     title: 'Customer',
-    translate: 'user',
+    translate: 'Customer',
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
@@ -144,6 +148,7 @@ const navigationConfig = [
       {
         id: 'products.alluser',
         title: 'Customers',
+        translate:"Customers",
         type: 'item',
         icon: 'heroicons-outline:user-group',
         url: 'admin/user/userlist',
@@ -154,7 +159,7 @@ const navigationConfig = [
   {
     id: 'order',
     title: 'Order',
-    translate: 'order',
+    translate: 'Order',
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
@@ -162,6 +167,7 @@ const navigationConfig = [
       {
         id: 'order.order',
         title: 'order',
+        translate: 'Order',
         type: 'item',
         icon: 'material-solid:handyman',
         url: '/order',
