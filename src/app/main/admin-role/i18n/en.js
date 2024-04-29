@@ -64,7 +64,8 @@ const locale = {
   ADD_NEW: 'Add New',
   PRODUCT_LIST: 'Product List',
   PRODUCTS: 'Products',
-  ACTIONS: 'कार्रवाईयाँ',
+  ACTIONS: 'Actions',
+  NO_PRODUCT_ARE_THERE: " कोई उत्पाद नहीं हैं!!",
 
   // EDIT AND DELETE PRODUCT
   EDIT_PRODUCT: 'Edit Product',
