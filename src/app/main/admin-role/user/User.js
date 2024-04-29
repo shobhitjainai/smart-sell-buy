@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import Header from './shared-components/Header';
 import Content from './shared-components/Content'
@@ -15,7 +14,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function UserPage(props) {
-  const { t } = useTranslation('examplePage');
+
 
   return (
     <Root

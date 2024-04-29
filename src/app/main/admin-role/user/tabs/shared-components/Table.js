@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
-
+import { useTranslation } from 'react-i18next';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -69,34 +69,7 @@ function stableSort(customers, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: 'user',
-        numeric: false,
-        disablePadding: true,
-        label: 'User',
-    },
-    {
-        id: 'Phone_number',
-        numeric: true,
-        disablePadding: false,
-        label: 'Phone Number',
-    },
-    {
-        id: 'email',
-        numeric: true,
-        disablePadding: false,
-        label: 'Email',
-    },
 
-    {
-        id: 'gender',
-        numeric: true,
-        disablePadding: false,
-        label: 'Gender',
-    },
-
-];
 
 // function EnhancedTableHead(props) {
 //     const { order, orderBy, onRequestSort } =
@@ -137,6 +110,35 @@ const headCells = [
 // }
 
 function EnhancedTableHead(props) {
+    const { t } = useTranslation('customerPage');
+    const headCells = [
+        {
+            id: 'user',
+            numeric: false,
+            disablePadding: true,
+            label: t('User'),
+        },
+        {
+            id: 'Phone_number',
+            numeric: true,
+            disablePadding: false,
+            label: t('Phone_Number'),
+        },
+        {
+            id: 'email',
+            numeric: true,
+            disablePadding: false,
+            label: t('Email'),
+        },
+    
+        {
+            id: 'gender',
+            numeric: true,
+            disablePadding: false,
+            label: t('Gender'),
+        },
+    
+    ];
     return (
         <TableHead className='bg-[#F8F9FC]'>
             <TableRow>
@@ -165,6 +167,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
+    const { t } = useTranslation('customerPage');
     const { numSelected } = props;
     return (
         <Toolbar
@@ -195,7 +198,7 @@ function EnhancedTableToolbar(props) {
                     id="tableTitle"
                     component="div"
                 >
-                    Customers
+                    {t('Customers')}
                 </Typography>
 
             )}

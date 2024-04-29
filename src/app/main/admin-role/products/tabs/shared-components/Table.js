@@ -337,7 +337,7 @@ export default function EnhancedTable() {
 
     return (
         <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
-            {/* <Paper sx={{ width: '100%', mb: 2 }}> */}
+           
             <EnhancedTableToolbar numSelected={selected.length} />
             <Grid container className='p-24'>
                 <TableContainer className='justify-between'>
@@ -383,7 +383,7 @@ export default function EnhancedTable() {
                                         <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                                         <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
-                                        <TableCell align="left" >
+                                        <TableCell align="center" >
                                             <IconButton onClick={() => handleClickOpencreate(row)}>
                                                 <EditIcon fontSize='small' sx={{ color: "gray" }} />
                                             </IconButton>
@@ -429,7 +429,7 @@ export default function EnhancedTable() {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />}
 
-            {/* PRODUCT EDIT DIALOG */}
+             
             <Dialog open={editDialog} onClose={handleClose}>
                 <Formik
                     initialValues={{

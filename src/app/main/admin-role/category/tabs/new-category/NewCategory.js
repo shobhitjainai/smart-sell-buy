@@ -9,7 +9,7 @@ import { createCategory } from 'app/store/admin/CategorySlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 
 function NewCategoryPage(props) {
-    const { t } = useTranslation('examplePage');
+    const { t } = useTranslation('categoryPage');
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ function NewCategoryPage(props) {
                             <Form>
                                 <Grid className='p-36' spacing={3} rowSpacing={4} container item>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>Name of Category</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Name_of_Category')}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <TextField
                                                 name='name'
@@ -66,7 +66,7 @@ function NewCategoryPage(props) {
                                                 value={formik.values.name}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                placeholder='name'
+                                                placeholder={t('NAME')}
                                                 error={formik.touched.name && Boolean(formik.errors.name)}
                                                 helperText={formik.touched.name && formik.errors.name}
                                                 fullWidth
@@ -75,12 +75,12 @@ function NewCategoryPage(props) {
                                         </Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>Add Description</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Add_Description')}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='description'
                                             varient='contained'
                                             type='text'
-                                            placeholder='description'
+                                            placeholder={t('Description')}
                                             value={formik.values.description}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
@@ -91,7 +91,7 @@ function NewCategoryPage(props) {
                                         /></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>Upload Image</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('UPLOAD_IMAGE')}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <Field
                                                 name="image"
@@ -116,7 +116,7 @@ function NewCategoryPage(props) {
                                                 backgroundColor: '#fff', // Change this to the desired hover background color
                                                 color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                                             },
-                                        }}>Create Category</Button>
+                                        }}>{t('Create_Category')}</Button>
                                     </Grid>
                                 </Grid>
                             </Form>

@@ -15,7 +15,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function CategoryPage(props) {
-  const { t } = useTranslation('examplePage');
+
 
   return (
     <Root

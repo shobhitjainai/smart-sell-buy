@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from 'app/store/admin/DashboardSlice';
 import { useEffect } from 'react';
-import { fontSize, fontWeight, padding } from '@mui/system';
+import { useTranslation } from 'react-i18next';
 import FuseLoading from '@fuse/core/FuseLoading';
 import InfoIcon from '@mui/icons-material/Info';
 import { useState } from 'react';
@@ -53,6 +53,7 @@ const rows = [
 ];
 
 export default function CustomizedTables() {
+    const { t } = useTranslation('dashboardPage');
     const { products, loading } = useSelector((state) => state.admin.DashboardSlice)
 
     const dispatch = useDispatch();
@@ -73,19 +74,19 @@ export default function CustomizedTables() {
         <>
             <Grid container component={Paper}>
                 <Toolbar sx={{ justifyContent: "space-between !important", display: "flex", width: "100% !important", padding: '0 30px 0 20px' }}>
-                    <Typography variant='h6' >Top Products</Typography>
+                    <Typography variant='h6' >{t('Top_Products')}</Typography>
                     <Link to="/admin/products/productslist">
-                        <Button sx={{ color: "blue" }}>See All</Button>
+                        <Button sx={{ color: "blue" }}>{t('See_All')}</Button>
                     </Link>
                 </Toolbar>
                 <TableContainer>
                     <Table sx={{ minWidth: 640 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right">Condition</StyledTableCell>
-                                <StyledTableCell align="right">Description</StyledTableCell>
-                                <StyledTableCell align="right">Price</StyledTableCell>
+                                <StyledTableCell>{t('Name')}</StyledTableCell>
+                                <StyledTableCell align="right">{t('Condition')}</StyledTableCell>
+                                <StyledTableCell align="right">{t('Description')}</StyledTableCell>
+                                <StyledTableCell align="right">{t("Price")}</StyledTableCell>
                             </TableRow>
                         </TableHead>
                         {(products.length > 0 && !loading) && <TableBody>
@@ -121,7 +122,7 @@ export default function CustomizedTables() {
                             <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
                         </Grid>
                         <Grid item>
-                            <Typography fontSize={18} fontWeight={600}>No Products are there!!</Typography>
+                            <Typography fontSize={18} fontWeight={600}>{('No_Products_are_there')}</Typography>
                         </Grid>
                     </Grid>}
                     {products.length > 0 && <TablePagination

@@ -19,7 +19,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function DashboardPage(props) {
-  const { t } = useTranslation('examplePage');
+  const { t } = useTranslation('dashboardPage');
 
   return (
     <Root
