@@ -13,30 +13,6 @@ export const getProductSelling = createAsyncThunk(
         return data.data;
     }
 );
-// export const createProduct = createAsyncThunk(
-//   "newProduct/createProduct",
-
-//   async ({productData}) => {
-//     const formData = new FormData();
-
-//     console.log("api called")
-
-//   // Append form data fields to the FormData object
-//   Object.keys(productData).forEach(key => {
-//     formData.append(key, productData[key]);
-//   });
-
-//   const response = await fetch("https://reileadsapi.exerboost.in/api/product", {
-//     method: 'POST',
-//     headers: {
-//       Authorization: `Bearer ${getAccessToken()}`
-//     },
-//     body: formData
-//   });
-//     const data = await response.json();
-//     return data.data;
-//   }
-// );
 
 export const createProduct = createAsyncThunk(
     "newProduct/createProduct",
@@ -110,6 +86,7 @@ const userSellingSlice = createSlice({
         latlong: "",
         newProduct: [],
         subcategory: '',
+        category: ''
     },
     reducers: {
         handlelatlong: (state, action) => {
@@ -117,6 +94,9 @@ const userSellingSlice = createSlice({
         },
         handleSubcategory: (state, action) => {
             state.subcategory = action.payload;
+        },
+        handleCategory: (state, action) => {
+            state.category = action.payload
         }
     },
     extraReducers: {
@@ -158,5 +138,5 @@ const userSellingSlice = createSlice({
 });
 
 
-export const { handlelatlong, handleSubcategory } = userSellingSlice.actions
+export const { handlelatlong, handleSubcategory, handleCategory } = userSellingSlice.actions
 export default userSellingSlice.reducer;

@@ -15,6 +15,7 @@ import useDialogState from 'src/app/utils/hooks/useDialogState';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import InfoIcon from '@mui/icons-material/Info';
 import * as Yup from "yup";
+import { useTranslation } from 'react-i18next';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,12 +31,8 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Required'),
-  description: Yup.string().required('Required'),
-});
-
 const SubCategoryListTable = () => {
+  const {t} = useTranslation('adminSubCategoryPage');
   const dispatch = useDispatch()
   const { loading, subCategories } = useSelector(state => state.admin.SubCategory)
   const { category } = useSelector((state) => state.admin.CategorySlice)
@@ -43,6 +40,11 @@ const SubCategoryListTable = () => {
   const { dialogState: updateSubCategoryDialog, handleOpen: handleUpdateSubCategoryDialogOpen, handleClose: handleUpdateSubCategoryDialogClose } = useDialogState()
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required(t("REQUIRED")),
+    description: Yup.string().required(t("REQUIRED")),
+  });
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -93,7 +95,7 @@ const SubCategoryListTable = () => {
               variant="h6"
               id="tableTitle"
             >
-              Sub-Category
+              {t("SUB_CATEGORIES")}
             </Typography>
           </Grid>
           <Grid item>
@@ -103,7 +105,7 @@ const SubCategoryListTable = () => {
                   backgroundColor: '#fff', // Change this to the desired hover background color
                   color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                 },
-              }}>Add New</Button>
+              }}>{t("ADD_NEW")}</Button>
             </Link>
           </Grid>
 
@@ -117,10 +119,10 @@ const SubCategoryListTable = () => {
             >
               <TableHead>
                 <TableRow>
-                  <StyledTableCell>Name</StyledTableCell>
-                  <StyledTableCell align="left">Category</StyledTableCell>
-                  <StyledTableCell align="left">Description</StyledTableCell>
-                  <StyledTableCell align="center">Actions</StyledTableCell>
+                  <StyledTableCell>{t("NAME")}</StyledTableCell>
+                  <StyledTableCell align="left">{t("Category")}</StyledTableCell>
+                  <StyledTableCell align="left">{t("DESCRIPTION")}</StyledTableCell>
+                  <StyledTableCell align="center">{t("ACTIONS")}</StyledTableCell>
                 </TableRow>
               </TableHead>
               {(subCategories.length > 0 && !loading.subCategoriesLoading) && <TableBody>
@@ -202,13 +204,13 @@ const SubCategoryListTable = () => {
         >
           {(formik) => (
             <Form >
-              <DialogTitle>Edit Sub-Category</DialogTitle>
+              <DialogTitle>{`${t('EDIT')} ${t('SUB_CATEGORY')}`}</DialogTitle>
               <Divider variant="middle" />
               <DialogContent>
                 <TextField
                   name='name'
                   varient='contained'
-                  label='Name'
+                  label={t("NAME")}
                   type='text'
                   value={formik.values.name}
                   onChange={formik.handleChange}
@@ -223,7 +225,7 @@ const SubCategoryListTable = () => {
                 <TextField
                   name='description'
                   varient='contained'
-                  label='Description'
+                  label={t("DESCRIPTION")}
                   type='text'
                   placeholder='description'
                   value={formik.values.description}
@@ -241,12 +243,12 @@ const SubCategoryListTable = () => {
                   backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
                     backgroundColor: "gray", color: '#fff'
                   }
-                }} >Cancel</Button>
+                }} >{t("CANCEL")}</Button>
                 <Button type="submit" variant="contained" sx={{
                   border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                     backgroundColor: '#fff', color: '#818CF8'
                   },
-                }} disabled={formik.isSubmitting}>Edit</Button>
+                }} disabled={formik.isSubmitting}>{t("EDIT")}</Button>
               </DialogActions>
             </Form>
           )}
@@ -255,22 +257,22 @@ const SubCategoryListTable = () => {
 
       {/* CATEGORY DELETE DIALOG */}
       <Dialog open={deleteSubCategoryDialog.isOpen} onClose={handleDeleteSubCategoryDialogClose}>
-        <DialogTitle>Delete Sub-category</DialogTitle>
+        <DialogTitle>{`${t("DELETE")} ${t("SUB_CATEGORY")}`}</DialogTitle>
         <Divider variant="middle" />
         <DialogContent>
-          <Typography fontSize={16} fontWeight={500} className='pb-5'>Do you really want to delete this Sub-category?</Typography>
+          <Typography fontSize={16} fontWeight={500} className='pb-5'>{t("DO_YOU_REALLY_WANT_TO_DELETE_THIS_SUB_CATEGORY")}</Typography>
         </DialogContent>
         <DialogActions className='p-10'>
           <Button onClick={handleDeleteSubCategoryDialogClose} variant="contained" sx={{
             backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
               backgroundColor: "gray", color: '#fff'
             }
-          }} >Cancel</Button>
+          }} >{t("CANCEL")}</Button>
           <Button type="submit" variant="contained" sx={{
             border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
               backgroundColor: '#fff', color: '#818CF8'
             },
-          }} onClick={() => handleDeleteSubCategory()}>Delete</Button>
+          }} onClick={() => handleDeleteSubCategory()}>{t("DELETE")}</Button>
         </DialogActions>
       </Dialog>
     </>

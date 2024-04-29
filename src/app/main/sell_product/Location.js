@@ -26,7 +26,7 @@ const loadScript = (url, callback) => {
   document.getElementsByTagName("head")[0].appendChild(script);
 };
 
-const SearchLocationInput = () => {
+const SearchLocationInput = ({ formik }) => {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
@@ -60,37 +60,25 @@ const SearchLocationInput = () => {
     const addressObject = await autoComplete.getPlace();
     const query = addressObject.formatted_address;
     updateQuery(query);
-    // setQuery(query);
-    console.log({ query });
-
     const latLng = {
       lat: addressObject?.geometry?.location?.lat(),
       lng: addressObject?.geometry?.location?.lng(),
       address: query,
     };
-    dispatch(handlelatlong(latLng));
-    console.log({ latLng });
+    formik.setFieldValue('address', latLng)
+    // dispatch(handlelatlong(latLng));
     setSelectedLocation(latLng);
-  };
 
+  };
   return (
-    <div className="search-location-input-container">
-      <div className="search-location-input">
-        <label>Location</label>
-        <input
-          ref={autoCompleteRef}
-          className="form-control"
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search Places ..."
-          value={query}
-        />
-      </div>
-      <Link
-              to="/post-product"
-              style={{ textDecoration: "none" }}
-            >
-      <button className="next-button">Next</button>
-      </Link>
+    <div className="search-location-input">
+      <input
+        ref={autoCompleteRef}
+        className="form-control"
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Search Places ..."
+        value={query}
+      />
     </div>
   );
 };

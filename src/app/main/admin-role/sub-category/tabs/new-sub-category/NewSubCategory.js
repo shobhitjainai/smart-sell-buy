@@ -8,10 +8,9 @@ import { createCategory, getCategory } from 'app/store/admin/CategorySlice';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { useEffect } from 'react';
 import { addSubCategory } from 'app/store/admin/SubCategorySlice';
-import useDialogState from 'src/app/utils/hooks/useDialogState';
 
 function NewSubCategoryPage(props) {
-    const { t } = useTranslation('examplePage');
+    const { t } = useTranslation('adminSubCategoryPage');
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { category } = useSelector((state) => state.admin.CategorySlice)
@@ -22,15 +21,20 @@ function NewSubCategoryPage(props) {
                 dispatch(showMessage({ message: "Sub-Category Created Successfully", variant: 'success' }));
                 navigate('/admin/sub-category/sub-category-list');
             } else {
-                dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                if (res.payload.message) {
+                    const msg = Object.values(res.payload.message)
+                    dispatch(showMessage({ message: msg[0], variant: 'error' }));
+                } else {
+                    dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                }
             }
         })
     };
 
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
-        category: Yup.string().nullable().required('Required'),
-        description: Yup.string().required('Required'),
+        name: Yup.string().required(t('REQUIRED')),
+        category: Yup.string().nullable().required(t('REQUIRED')),
+        description: Yup.string().required(t('REQUIRED')),
         image: Yup.mixed().nullable(),
     });
     useEffect(() => {
@@ -62,7 +66,7 @@ function NewSubCategoryPage(props) {
                             <Form>
                                 <Grid className='p-36' spacing={3} rowSpacing={4} container item>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>Name of Sub-Category</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("NAME_OF_SUB_CATEGORY")}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <TextField
                                                 name='name'
@@ -71,7 +75,7 @@ function NewSubCategoryPage(props) {
                                                 value={formik.values.name}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                placeholder='name'
+                                                placeholder={t("NAME")}
                                                 error={formik.touched.name && Boolean(formik.errors.name)}
                                                 helperText={formik.touched.name && formik.errors.name}
                                                 fullWidth
@@ -80,7 +84,7 @@ function NewSubCategoryPage(props) {
                                         </Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>Select Category</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("SELECT_CATEGORY")}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='category'
                                             varient='contained'
@@ -94,17 +98,17 @@ function NewSubCategoryPage(props) {
                                             fullWidth
                                             required
                                         >
-                                            <MenuItem value={1} disabled>Select Category</MenuItem>
+                                            <MenuItem value={1} disabled>{t("SELECT_CATEGORY")}</MenuItem>
                                             {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
                                         </TextField></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>Add Description</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("ADD_DESCRIPTION")}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='description'
                                             varient='contained'
                                             type='text'
-                                            placeholder='description'
+                                            placeholder={t("DESCRIPTION")}
                                             value={formik.values.description}
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
@@ -115,7 +119,7 @@ function NewSubCategoryPage(props) {
                                         /></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>Upload Image</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("UPLOAD_IMAGE")}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <Field
                                                 name="image"
@@ -140,7 +144,7 @@ function NewSubCategoryPage(props) {
                                                 backgroundColor: '#fff', // Change this to the desired hover background color
                                                 color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                                             },
-                                        }}>Create Sub-Category</Button>
+                                        }}>{t("CREATE_SUB_CATEGORY")}</Button>
                                     </Grid>
                                 </Grid>
                             </Form>

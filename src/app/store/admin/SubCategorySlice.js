@@ -27,7 +27,7 @@ export const addSubCategory = createAsyncThunk('SubCategory/deleteSubCategory', 
         return response
     } catch (error) {
         console.log("🚀 ~ addSubCategory ~ error:", error)
-        return { error: true }
+        return { error: true, message: error?.error }
     }
 })
 export const updateSubCategory = createAsyncThunk('SubCategory/deleteSubCategory', async ({ id, data }, { dispatch }) => {
