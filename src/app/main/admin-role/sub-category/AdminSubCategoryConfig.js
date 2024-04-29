@@ -3,6 +3,11 @@ import { Navigate } from 'react-router-dom';
 import SubCategoryPage from './SubCategory';
 import SubCategoryList from './tabs/sub-category-list/SubCategoryList';
 import NewSubCategoryPage from './tabs/new-sub-category/NewSubCategory';
+import i18next from 'i18next';
+import en from '../i18n/en';
+import hin from '../i18n/hin';
+i18next.addResourceBundle('en', 'adminSubCategoryPage', en);
+i18next.addResourceBundle('hin', 'adminSubCategoryPage', hin);
 
 const AdminSubCategoryConfig = {
     settings: {

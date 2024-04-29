@@ -24,7 +24,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Divider from "@mui/material/Divider";
 import InfoIcon from '@mui/icons-material/Info';
-
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {
     Dialog,
@@ -67,41 +67,43 @@ function stableSort(category, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        label: 'Category',
-    },
-    {
-        id: 'description',
-        numeric: false,
-        disablePadding: false,
-        label: 'Description',
-    },
-    {
-        id: 'date',
-        numeric: true,
-        disablePadding: false,
-        label: 'Date',
-    },
-    {
-        id: 'time',
-        numeric: true,
-        disablePadding: false,
-        label: 'Time',
-    },
-    {
-        id: 'Actions',
-        numeric: true,
-        disablePadding: false,
-        label: 'Actions',
-    },
 
-];
 
 function EnhancedTableHead(props) {
+    const { t } = useTranslation('categoryPage');
+    const headCells = [
+        {
+            id: 'name',
+            numeric: false,
+            disablePadding: true,
+            label: t('Category'),
+        },
+        {
+            id: 'description',
+            numeric: false,
+            disablePadding: false,
+            label: t('Description'),
+        },
+        {
+            id: 'date',
+            numeric: true,
+            disablePadding: false,
+            label: t('Date'),
+        },
+        {
+            id: 'time',
+            numeric: true,
+            disablePadding: false,
+            label: t('Time'),
+        },
+        {
+            id: 'Actions',
+            numeric: true,
+            disablePadding: false,
+            label: t('Actions'),
+        },
+    
+    ];
     return (
         <TableHead className='bg-[#F8F9FC]'>
             <TableRow>
@@ -122,6 +124,7 @@ function EnhancedTableHead(props) {
 
 
 EnhancedTableHead.propTypes = {
+
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     onSelectAllClick: PropTypes.func.isRequired,
@@ -131,6 +134,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
+    const { t } = useTranslation('categoryPage');
     const { numSelected } = props;
     return (
         <Toolbar
@@ -161,7 +165,7 @@ function EnhancedTableToolbar(props) {
                     id="tableTitle"
                     component="div"
                 >
-                    Category
+                    {t('Category')}
                 </Typography>
             )}
             <Link to="/admin/category/newCategory">
@@ -170,7 +174,7 @@ function EnhancedTableToolbar(props) {
                         backgroundColor: '#fff', // Change this to the desired hover background color
                         color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
                     },
-                }}>Add New</Button>
+                }}>{t('Add_New')}</Button>
             </Link>
         </Toolbar>
     );
@@ -181,6 +185,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
+    const { t } = useTranslation('categoryPage');
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -412,18 +417,18 @@ export default function EnhancedTable() {
                 >
                     {(formik) => (
                         <Form >
-                            <DialogTitle>Edit Category</DialogTitle>
+                            <DialogTitle>{t('EDIT_CATEGORY')}</DialogTitle>
                             <Divider variant="middle" />
                             <DialogContent>
                                 <TextField
                                     name='name'
                                     varient='contained'
-                                    label='Name'
+                                    label= {t('NAME')}
                                     type='text'
                                     value={formik.values.name}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    placeholder='name'
+                                    placeholder={t('NAME')}
                                     error={formik.touched.name && Boolean(formik.errors.name)}
                                     helperText={formik.touched.name && formik.errors.name}
                                     sx={{ marginBottom: '20px' }}
@@ -433,9 +438,9 @@ export default function EnhancedTable() {
                                 <TextField
                                     name='description'
                                     varient='contained'
-                                    label='Description'
+                                    label={t('Description')}
                                     type='text'
-                                    placeholder='description'
+                                    placeholder={t('Description')}
                                     value={formik.values.description}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
@@ -451,12 +456,12 @@ export default function EnhancedTable() {
                                     backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
                                         backgroundColor: "gray", color: '#fff'
                                     }
-                                }} >Cancel</Button>
+                                }} >{t('CANCEL')}</Button>
                                 <Button type="submit" variant="contained" sx={{
                                     border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                                         backgroundColor: '#fff', color: '#818CF8'
                                     },
-                                }} disabled={formik.isSubmitting}>Edit</Button>
+                                }} disabled={formik.isSubmitting}>{t('EDIT')}</Button>
                             </DialogActions>
                         </Form>
                     )}
@@ -465,21 +470,21 @@ export default function EnhancedTable() {
 
             {/* CATEGORY DELETE DIALOG */}
             <Dialog open={deleteCategotyDialog} onClose={handleClose}>
-                <DialogTitle>Delete Category</DialogTitle>
+                <DialogTitle>{t('DELETE_CATEGORY')}</DialogTitle>
                 <DialogContent>
-                    <Typography fontSize={16} fontWeight={500} className='pb-5'>Do you really want to delete this Category?</Typography>
+                    <Typography fontSize={16} fontWeight={500} className='pb-5'>{t('DO_YOU_REALLY_WANT_TO_DELETE_THIS_CATEGORY')}</Typography>
                 </DialogContent>
                 <DialogActions className='p-10'>
                     <Button onClick={handleClose} variant="contained" sx={{
                         backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
                             backgroundColor: "gray", color: '#fff'
                         }
-                    }} >Cancel</Button>
+                    }} >{t('CANCEL')}</Button>
                     <Button type="submit" variant="contained" sx={{
                         border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                             backgroundColor: '#fff', color: '#818CF8'
                         },
-                    }} onClick={() => onDelete()}>Delete</Button>
+                    }} onClick={() => onDelete()}>{t('DELETE')}</Button>
                 </DialogActions>
             </Dialog>
         </Box>
