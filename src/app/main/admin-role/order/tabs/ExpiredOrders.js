@@ -14,7 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { visuallyHidden } from '@mui/utils';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,95 +91,55 @@ const headCells = [
 
 const dummyData = [
     {
-      "email": "user1@gmail.com",
-      "first_name": "Nauman",
-      "last_name": "Doe",
-      "gender": "male",
-      "phone_number": "1234567890"
+        "email": "user1@gmail.com",
+        "first_name": "Nauman",
+        "last_name": "Doe",
+        "gender": "male",
+        "phone_number": "1234567890"
     },
     {
-      "email": "user2@gmail.com",
-      "first_name": "Ishu",
-      "last_name": "Smith",
-      "gender": "female",
-      "phone_number": "2345678901"
+        "email": "user2@gmail.com",
+        "first_name": "Ishu",
+        "last_name": "Smith",
+        "gender": "female",
+        "phone_number": "2345678901"
     },
     {
-      "email": "user3@gmail.com",
-      "first_name": "Michael",
-      "last_name": "Johnson",
-      "gender": "male",
-      "phone_number": "3456789012"
+        "email": "user3@gmail.com",
+        "first_name": "Michael",
+        "last_name": "Johnson",
+        "gender": "male",
+        "phone_number": "3456789012"
     },
     {
-      "email": "user4@gmail.com",
-      "first_name": "Emily",
-      "last_name": "Brown",
-      "gender": "female",
-      "phone_number": "4567890123"
+        "email": "user4@gmail.com",
+        "first_name": "Emily",
+        "last_name": "Brown",
+        "gender": "female",
+        "phone_number": "4567890123"
     },
     {
-      "email": "user5@gmail.com",
-      "first_name": "David",
-      "last_name": "Martinez",
-      "gender": "male",
-      "phone_number": "5678901234"
+        "email": "user5@gmail.com",
+        "first_name": "David",
+        "last_name": "Martinez",
+        "gender": "male",
+        "phone_number": "5678901234"
     },
     {
-      "email": "user6@gmail.com",
-      "first_name": "Sarah",
-      "last_name": "Garcia",
-      "gender": "female",
-      "phone_number": "6789012345"
+        "email": "user6@gmail.com",
+        "first_name": "Sarah",
+        "last_name": "Garcia",
+        "gender": "female",
+        "phone_number": "6789012345"
     },
     {
-      "email": "user7@gmail.com",
-      "first_name": "Christopher",
-      "last_name": "Lopez",
-      "gender": "male",
-      "phone_number": "7890123456"
+        "email": "user7@gmail.com",
+        "first_name": "Christopher",
+        "last_name": "Lopez",
+        "gender": "male",
+        "phone_number": "7890123456"
     }
-  ]
-  
-
-// function EnhancedTableHead(props) {
-//     const { order, orderBy, onRequestSort } =
-//         props;
-//     const createSortHandler = (property) => (event) => {
-//         onRequestSort(event, property);
-//     };
-//     return (
-//         <TableHead className='bg-[#F8F9FC]' >
-//             <TableRow>
-//                 {headCells.map((headCell, index) => (
-//                     <TableCell
-//                         key={headCell.id}
-//                         // align={headCell.numeric ? 'right' : 'left'}
-//                         align='left'
-//                         // padding={headCell.disablePadding ? 'none' : 'normal'}
-//                         className={`${index === 0 ? 'pl-52' : ''} font-bold`}
-//                         sortDirection={orderBy === headCell.id ? order : false}
-//                     >
-//                         <TableSortLabel
-//                             active={orderBy === headCell.id}
-//                             direction={orderBy === headCell.id ? order : 'asc'}
-//                             onClick={createSortHandler(headCell.id)}
-//                         >
-//                             {headCell.label}
-//                             {orderBy === headCell.id ? (
-//                                 <Box component="span" sx={visuallyHidden}>
-//                                     {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                                 </Box>
-//                             ) : null}
-//                         </TableSortLabel>
-//                     </TableCell>
-//                 ))}
-
-//             </TableRow>
-//         </TableHead>
-
-//     );
-// }
+]
 
 function EnhancedTableHead(props) {
     return (
@@ -245,12 +205,12 @@ function EnhancedTableToolbar(props) {
 
             )}
             <Link to="/admin/category/newCategory">
-            <Button variant='outlined' color='primary' sx={{
-                width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#3180FC", color: '#3180FC', '&:hover': {
-                    backgroundColor: '#3180FC', // Change this to the desired hover background color
-                    color: '#fff', borderColor: "#3180FC" // Change this to the desired hover text color
-                },
-            }}>Add New</Button>
+                <Button variant='outlined' color='primary' sx={{
+                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                        backgroundColor: '#fff', // Change this to the desired hover background color
+                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
+                    },
+                }}>Add New</Button>
             </Link>
         </Toolbar>
     );
@@ -373,8 +333,12 @@ export default function EnhancedTable() {
                                         <TableCell align="left">{row.phone_number}</TableCell>
                                         <TableCell align="left">{row.email}</TableCell>
                                         <TableCell align="left" >
-                                            <EditIcon fontSize='small' sx={{ color: "green", }} />
-                                            <DeleteIcon fontSize='small' sx={{ color: "red" }} />
+                                            <IconButton onClick={() => console.log(row)}>
+                                                <EditIcon fontSize='small' sx={{ color: "gray" }} />
+                                            </IconButton>
+                                            <IconButton onClick={() => console.log(row?.id)}>
+                                                <DeleteIcon fontSize='small' sx={{ color: "red" }} />
+                                            </IconButton>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -393,15 +357,6 @@ export default function EnhancedTable() {
 
                 </TableContainer>
             </Grid>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={category.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
         </Box>
     );
 }

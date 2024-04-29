@@ -21,7 +21,12 @@ function NewSubCategoryPage(props) {
                 dispatch(showMessage({ message: "Sub-Category Created Successfully", variant: 'success' }));
                 navigate('/admin/sub-category/sub-category-list');
             } else {
-                dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                if (res.payload.message) {
+                    const msg = Object.values(res.payload.message)
+                    dispatch(showMessage({ message: msg[0], variant: 'error' }));
+                } else {
+                    dispatch(showMessage({ message: "Something went wrong", variant: 'error' }));
+                }
             }
         })
     };
