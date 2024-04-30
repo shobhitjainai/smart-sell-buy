@@ -29,8 +29,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { changePassword, getprofile, updateProfile } from "../../../store/userSlices/profileSlice";
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
 
 import {
   Dialog,
@@ -40,6 +38,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { showMessage } from "app/store/fuse/messageSlice";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   "& .FusePageSimple-header": {
@@ -97,7 +96,9 @@ function ExamplePage(props) {
   const handleUpdateProfile = (editData) => {
     if (editProfile) {
       dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
-        res.payload.success && dispatch(getprofile());
+        res.payload.success && dispatch(getprofile()).then(()=>{
+          dispatch(showMessage({ message: res.payload.message, variant: 'success' }))
+        });
       });
     } else {
       dispatch(changePassword(editData)).then((res) => console.log(res, 'res is'))
@@ -122,22 +123,21 @@ function ExamplePage(props) {
   };
 
   const validationSchema = Yup.object().shape(editProfile ? {
-    phone_number: Yup.number().positive(t("Positive")).required(t("Required")),
-    first_name: Yup.string().required(t("Required")),
+    phone_number: Yup.number().positive(t("PHONE_NUMBER_MUST_BE_POSITIVE")).required(t("REQUIRED")),
+    first_name: Yup.string().required(t("REQUIRED")),
   } : {
-    // name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    oldPassword: Yup.string().required(t("Required")),
+    oldPassword: Yup.string().required(t("REQUIRED")),
     newPassword: Yup
       .string()
-      .required('Please enter your password.')
-      .min(8, 'Password is too short - should be 8 chars minimum.'),
+      .required(t("PLEASE_ENTER_YOUR_PASSWORD"))
+      .min(8, t("PASSWORD_IS_TOO_SHORT")),
   });
 
   return (
     <Root
       header={
         <div className="p-24" style={{ paddingBottom: "10px" }}>
-          <h1 style={{ fontWeight: "900" }}>{t("Profile")}</h1>
+          <h1 style={{ fontWeight: "900" }}>{t("ACCOUNT_SETTINGS")}</h1>
         </div>
       }
       content={
@@ -153,20 +153,15 @@ function ExamplePage(props) {
             <CardContent sx={{ paddingBottom: "10px" }}>
               <Avatar
                 style={{ width: "150px", height: "150px", margin: "auto" }}
-              // src={profile.profilePicture}
               />
-
               <Typography
                 variant="h4"
                 component="h2"
                 align="center"
                 gutterBottom
               >
-                {/* {profile.username} */}
               </Typography>
-
               <Divider variant="middle" className="mx-5" />
-
               <Grid className="flex w-full justify-center items-center mx-5 mt-10 gap-20">
                 <Grid className="flex flex-col  items-start pb-5">
                   <Typography
@@ -175,7 +170,7 @@ function ExamplePage(props) {
                     gutterBottom
                     sx={{ paddingBottom: "10px" }}
                   >
-                    {t("Email")}
+                    {t("EMAIL")}
                   </Typography>
 
                   <Typography
@@ -184,7 +179,7 @@ function ExamplePage(props) {
                     gutterBottom
                     sx={{ paddingBottom: "10px" }}
                   >
-                    {t("Phone")}
+                    {t("PHONE")}
                   </Typography>
 
                   <Typography
@@ -193,7 +188,7 @@ function ExamplePage(props) {
                     gutterBottom
                     sx={{ paddingBottom: "10px" }}
                   >
-                    {t("Gender")}
+                    {t("GENDER")}
                   </Typography>
                 </Grid>
                 <Grid className="flex  flex-col items-start pb-5">
@@ -205,16 +200,6 @@ function ExamplePage(props) {
                   >
                     {profile.email}
                   </Typography>
-
-                  {/* <Typography
-                    variant="body1"
-                    align="center"
-                    gutterBottom
-                    sx={{ paddingBottom: "10px" }}
-                  >
-                    {profile.role}
-                  </Typography> */}
-
                   <Typography
                     variant="body1"
                     align="center"
@@ -238,7 +223,6 @@ function ExamplePage(props) {
               style={{ justifyContent: "center", paddingBottom: "20px" }}
             >
               <Button
-                // color="success"
                 variant="contained"
                 size="small"
                 sx={{
@@ -248,11 +232,10 @@ function ExamplePage(props) {
                 }}
                 onClick={() => handleClickOpenUpdate(profile)}
               >
-                <EditIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Edit profile")}
+                <EditIcon sx={{ width: '0.8em' }} /> &nbsp;{t("EDIT_PROFILE")}
               </Button>
 
               <Button
-                // color="success"
                 variant="contained"
                 size="small"
                 sx={{
@@ -262,7 +245,7 @@ function ExamplePage(props) {
                 }}
                 onClick={() => handleUpdatePassword(profile)}
               >
-                <ChangeCircleIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Change Password")}
+                <ChangeCircleIcon sx={{ width: '0.8em' }} /> &nbsp;{t("CHANGE_PASSWORD")}
               </Button>
             </CardActions>
           </Card>
@@ -284,8 +267,6 @@ function ExamplePage(props) {
               }}
               validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
-                // You can modify the structure of values if needed before sending
-
                 const profileData = {
                   first_name: values.first_name,
                   phone_number: values.phone_number,
@@ -303,11 +284,10 @@ function ExamplePage(props) {
               }}
             >
               {(formik) => {
-                console.log(formik, 'formik')
                 return (
                   <Form>
                     <DialogTitle>
-                      {editProfile ? t("Edit_profile") : t("Change_Password")}
+                      {editProfile ? t("EDIT_PROFILE") : t("CHANGE_PASSWORD")}
                     </DialogTitle>
                     <Divider variant="middle" />
                     <DialogContent sx={{ paddingBottom: '0px' }}>
@@ -318,7 +298,7 @@ function ExamplePage(props) {
                             name='email'
                             variant="filled"
                             type='email'
-                            label={t("Email")}
+                            label={t("EMAIL")}
                             defaultValue={editData ? editData.email : ""}
                             sx={{ paddingBottom: "15px" }}
                             fullWidth
@@ -328,7 +308,7 @@ function ExamplePage(props) {
                             required
                             disabled
                             id="filled-disabled"
-                            label={t("Role")}
+                            label={t("ROLE")}
                             defaultValue={editData ? editData.role : ""}
                             variant="filled"
                             sx={{ paddingBottom: "15px" }}
@@ -343,7 +323,7 @@ function ExamplePage(props) {
                             helperText={formik.touched.first_name && formik.errors.first_name}
                             id="filled-disabled"
                             name='first_name'
-                            label={t("First name")}
+                            label={t("FIRSTNAME")}
                             variant="filled"
                             sx={{ paddingBottom: "15px" }}
                             fullWidth
@@ -352,7 +332,7 @@ function ExamplePage(props) {
                             name='phone_number'
                             variant="filled"
                             type='number'
-                            label={t("CONTACT")}
+                            label={t("PHONE")}
                             value={formik.values.phone_number}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -374,7 +354,7 @@ function ExamplePage(props) {
                             error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
                             helperText={formik.touched.oldPassword && formik.errors.oldPassword}
                             id="filled-disabled"
-                            label={t("Old password")}
+                            label={t("OLD_PASSWORD")}
                             variant="filled"
                             sx={{ paddingBottom: "15px" }}
                             fullWidth
@@ -388,7 +368,7 @@ function ExamplePage(props) {
                             error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
                             helperText={formik.touched.newPassword && formik.errors.newPassword}
                             id="filled-disabled"
-                            label={t("New Password")}
+                            label={t("NEW_PASSWORD")}
                             variant="filled"
                             sx={{ paddingBottom: "15px" }}
                             fullWidth
@@ -418,7 +398,7 @@ function ExamplePage(props) {
                         }}
                         disabled={formik.isSubmitting}
                       >
-                        {t("Edit")}
+                        {t("EDIT")}
                       </Button>
                     </DialogActions>
                   </Form>

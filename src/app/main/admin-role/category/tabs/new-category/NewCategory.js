@@ -29,8 +29,8 @@ function NewCategoryPage(props) {
         })
     };
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
-        description: Yup.string().required('Required'),
+        name: Yup.string().required(t('REQUIRED')),
+        description: Yup.string().required(t('REQUIRED')),
         image: Yup.mixed().nullable(),
     });
     return (

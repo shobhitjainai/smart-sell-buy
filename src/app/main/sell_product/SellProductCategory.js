@@ -17,15 +17,13 @@ const Categories = () => {
     return (
         <>
             <Grid container spacing={2} >
-                <Grid item xs={8}>
-                    <Typography variant="h6" className="text-2xl font-bold">Categories</Typography>
+                <Grid item xs={8} marginTop={1}>
+                    <Typography variant="h6" className="text-2xl font-bold">Select Category</Typography>
                 </Grid>
-                <Grid item xs={4} sx={{ display: "flex", justifyContent: "flex-end" }} marginTop={1}>
-                    <Button sx={{ color: "blue" }}>See All</Button>
-                </Grid>
+              
             </Grid>
 
-            <Grid container flexWrap="wrap" sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }}>
+            <Grid container flexWrap="wrap" sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={1}>
                 {(loading.categoriesLoading ? Array.from(new Array(7)) : Categories)?.map((item, index) => (
                     <Grid sx={{ width: "15%" }} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 '>
                         {!loading.categoriesLoading ? (<Link

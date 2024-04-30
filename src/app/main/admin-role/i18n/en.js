@@ -1,8 +1,8 @@
 const locale = {
   TOTAL_PRODUCT: "Total Product",
-  Total_Category: "Total Category",
-  Total_User: "Total User",
-  Total_SubCategory: "Total SubCategory",
+  TOTAL_CATEGORY: "Total Category",
+  TOTAL_USER: "Total User",
+  TOTAL_SUBCATEGORY: "Total SubCategory",
   Name: "Name",
   Condition: "Condition",
   Description: "Description",
@@ -30,9 +30,10 @@ const locale = {
   Add_New: "Add New",
   Category_List: "Category List",
   All_category: "All Category",
-  Add_Description: "Add_Description",
+  Add_Description: "Add Description",
   Name_of_Category: "Name of Category",
   Create_Category: "Create Category",
+  NO_CATEGORIES_AVAILABLE: 'No Categories are there!!',
 
   //customer/user
   User: "User",
@@ -94,7 +95,34 @@ const locale = {
   //filter
   PRODUCTS_FILTER: 'Product Filters',
   APPLY: 'Apply',
-  SORT_BY: 'SORT BY'
+  SORT_BY: 'SORT BY',
+
+  // PROFILE
+  BOUGHT_25_SOLD: '354 Bought 25 Sold',
+  TRANSACTIONS: 'Transactions',
+  PURCHASES_AND_SALES: 'Purchases & Sales',
+  PAYMENT_AND_DEPOSIT: 'Payment & Deposit',
+  SAVES: 'Saves',
+  SAVE_ITEMS: 'Save Items',
+  SEARCH_ALERTS: 'Search Alerts',
+  ACCOUNT: 'Account',
+  ACCOUNT_SETTINGS: 'Account Settings',
+  BOOST_PLUS: 'Boost Plus',
+  MY_PROFILE: 'My Profile',
+  EMAIL: 'Email',
+  PHONE: 'Phone',
+  GENDER: 'Gender',
+  EDIT_PROFILE: 'Edit Profile',
+  CHANGE_PASSWORD: 'Change Password',
+  ROLE: 'Role',
+  FIRSTNAME: 'First Name',
+  CONTACT: 'Contact',
+  OLD_PASSWORD: 'Old Password',
+  NEW_PASSWORD: 'New Password',
+  PHONE_NUMBER_MUST_BE_POSITIVE: 'Phone number must be positive.',
+  PLEASE_ENTER_YOUR_PASSWORD: 'Please enter your password.',
+  PASSWORD_IS_TOO_SHORT: 'Password is too short - should be 8 chars minimum.',
+  SIGN_OUT: 'Sign out',
 };
 
 export default locale;
