@@ -3,6 +3,7 @@ import "./SearchLocationInput.css"; // Import your CSS file
 import { Link } from "react-router-dom";
 import { handlelatlong } from "app/store/userSlices/userSellingSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 let autoComplete;
 
 const REACT_APP_GOOGLE_MAPS_KEY = "AIzaSyCTBhLqcfyXie0ySVllnA7j54RloOBS5mk"; // Replace with your API key
@@ -27,6 +28,7 @@ const loadScript = (url, callback) => {
 };
 
 const SearchLocationInput = ({ formik }) => {
+  const {t} = useTranslation('addProduct')
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const autoCompleteRef = useRef(null);
@@ -76,7 +78,7 @@ const SearchLocationInput = ({ formik }) => {
         ref={autoCompleteRef}
         className="form-control"
         onChange={(event) => setQuery(event.target.value)}
-        placeholder="Search Places ..."
+        placeholder={t('SEARCH_PLACES')}
         value={query}
       />
     </div>

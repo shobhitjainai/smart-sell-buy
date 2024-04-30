@@ -107,6 +107,31 @@ const locale = {
   PLEASE_ENTER_YOUR_PASSWORD: 'कृपया अपना पासवर्ड दर्ज करें।',
   PASSWORD_IS_TOO_SHORT: 'पासवर्ड बहुत छोटा है - कम से कम 8 अक्षरों का होना चाहिए।',
   SIGN_OUT: 'साइन आउट',
+
+  // ADD PRODUCT
+  SELECT_CATEGORY: 'श्रेणी चुनें',
+  SUB_CATEGORY: 'उप-श्रेणी',
+  SELECTED_CATEGORY: 'चयनित श्रेणी',
+  UPLOAD_UPTO_6_IMAGES: '6 तक छवियाँ अपलोड करें',
+  SELECT_AT_LEAST_1_IMAGE: 'कम से कम 1 छवि का चयन करें',
+  INCLUDE_SOME_DETAILS: 'कुछ विवरण शामिल करें',
+  ADD_PHOTO: 'फोटो जोड़ें',
+  INCLUDE_SOME_DETAILS: 'कुछ विवरण शामिल करें',
+  PRODUCT_NAME: 'उत्पाद का नाम',
+  PRODUCT_DESCRIPTION: 'उत्पाद विवरण',
+  SET_A_PRICE: 'मूल्य निर्धारित करें',
+  PRODUCT_PRICE: 'उत्पाद की कीमत',
+  CONDITION_OF_THE_PRODUCT: 'उत्पाद की स्थिति',
+  NEW: 'नया',
+  USED: 'प्रयुक्त',
+  USED_LIKE_NEW: 'नई जैसा प्रयुक्त',
+  SELECT_YOUR_LOCATION: 'अपना स्थान चुनें',
+  SEARCH_PLACES: 'स्थान खोजें',
+  CREATE_PRODUCT: 'उत्पाद बनाएं',
+  PLEASE_SELECT_CATEGORY: 'कृपया श्रेणी चुनें',
+  PLEASE_SELECT_SUBCATEGORY: 'कृपया उप-श्रेणी चुनें',
+  DETAILS: 'विवरण',
+  PHOTOS_ARE_REQUIRED: 'फोटोज़ आवश्यक हैं',
 };
 
 export default locale;

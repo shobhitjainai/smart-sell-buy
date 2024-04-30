@@ -1,14 +1,11 @@
-// import i18next from 'i18next';
-
-// import en from './i18n/en';
-// import tr from './i18n/tr';
-// import ar from './i18n/ar';
+import i18next from 'i18next';
+import en from '../admin-role/i18n/en';
+import hin from '../admin-role/i18n/hin';
 import { authRoles } from 'src/app/auth';
 import SellProduct from './SellProduct'
 
-// i18next.addResourceBundle('en', 'HomePage', en);
-// i18next.addResourceBundle('tr', 'HomePage', tr);
-// i18next.addResourceBundle('ar', 'HomePage', ar);
+i18next.addResourceBundle('en', 'addProduct', en);
+i18next.addResourceBundle('hin', 'addProduct', hin);
 
 const SellProductConfig = {
   settings: {

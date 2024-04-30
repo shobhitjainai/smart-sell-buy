@@ -6,8 +6,10 @@ import { getCategories } from "app/store/userSlices/userHomeSlice";
 // import SubCategory from "./SubCategory";
 import { Link } from "react-router-dom";
 import { handleCategory } from "app/store/userSlices/userSellingSlice";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
+    const {t} = useTranslation('addProduct')
     const { Categories, loading } = useSelector((state) => state.userSlices.userHomeSlice);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -18,7 +20,7 @@ const Categories = () => {
         <>
             <Grid container spacing={2} >
                 <Grid item xs={8} marginTop={1}>
-                    <Typography variant="h6" className="text-2xl font-bold">Select Category</Typography>
+                    <Typography variant="h6" className="text-2xl font-bold">{t('SELECT_CATEGORY')}</Typography>
                 </Grid>
               
             </Grid>

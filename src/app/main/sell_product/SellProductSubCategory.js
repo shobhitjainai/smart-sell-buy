@@ -8,6 +8,7 @@ import { Link, useParams } from 'react-router-dom';
 import { handleSubcategory } from 'app/store/userSlices/userSellingSlice';
 import Skeleton from '@mui/material/Skeleton';
 import Cards from '../home/components/categories/Cards';
+import { useTranslation } from 'react-i18next';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
     '& .FusePageSimple-header': {
@@ -23,6 +24,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function HomePage(props) {
+    const {t} = useTranslation('addProduct')
     const { currentSubCategories, loading } = useSelector((state) => state.userSlices.userHomeSlice);
     const { id } = useParams()
     const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function HomePage(props) {
     return (
         <>
             <Grid margin={3}>
-                <Typography variant="h6" className="text-2xl font-bold">Sub Category</Typography>
+                <Typography variant="h6" className="text-2xl font-bold">{t('SUB_CATEGORY')}</Typography>
 
                 <Grid sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={3}>
                     {(loading.currentSubCategoriesLoading ? Array.from(new Array(3)) : currentSubCategories)?.map((item, index) => (

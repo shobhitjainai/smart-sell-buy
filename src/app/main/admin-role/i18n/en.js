@@ -123,6 +123,32 @@ const locale = {
   PLEASE_ENTER_YOUR_PASSWORD: 'Please enter your password.',
   PASSWORD_IS_TOO_SHORT: 'Password is too short - should be 8 chars minimum.',
   SIGN_OUT: 'Sign out',
+
+  // ADD PRODUCT
+  SELECT_CATEGORY: 'Select Category',
+  SUB_CATEGORY: 'Sub Category',
+  SELECTED_CATEGORY: 'Selected Category',
+  UPLOAD_UPTO_6_IMAGES: 'Upload Up to 6 images',
+  SELECT_AT_LEAST_1_IMAGE: 'Select at least 1 image',
+  INCLUDE_SOME_DETAILS: 'Include some details',
+  ADD_PHOTO: 'Add Photo',
+  INCLUDE_SOME_DETAILS: 'Include some details',
+  PRODUCT_NAME: 'Product Name',
+  PRODUCT_DESCRIPTION: 'Product Description',
+  SET_A_PRICE: 'Set a Price',
+  PRODUCT_PRICE: 'Product Price',
+  CONDITION_OF_THE_PRODUCT: 'Condition of the Product',
+  NEW: 'New',
+  USED: 'Used',
+  USED_LIKE_NEW: 'Used-Like New',
+  SELECT_YOUR_LOCATION: 'Select Your Location',
+  SEARCH_PLACES: 'Search Places',
+  CREATE_PRODUCT: 'Create Product',
+  PLEASE_SELECT_CATEGORY: 'Please Select Category',
+  PLEASE_SELECT_SUBCATEGORY: 'Please Select Subcategory',
+  DETAILS: 'Details',
+  PHOTOS_ARE_REQUIRED: 'Photos are required',
+
 };
 
 export default locale;
