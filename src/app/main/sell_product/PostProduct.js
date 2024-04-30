@@ -27,15 +27,15 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 const PostProduct = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation('addProduct');
     const imageRef = useRef()
     const { subcategory, category } = useSelector((state) => state.userSlices.userSellingSlice)
     const breadcrumbs = [
         <Link style={{ color: 'gray' }} to='/user/sell-product'>
-            {category?.name ?? 'please select category'}
+            {category?.name ?? t('PLEASE_SELECT_CATEGORY')}
         </Link>,
         <Link style={{ color: 'gray' }} to={`/sellproductsubcategory/${category?.id}`}>
-            {subcategory?.name ?? 'please select sub-category'}
+            {subcategory?.name ?? t('PLEASE_SELECT_SUBCATEGORY')}
         </Link>,
         <Typography
             key="3"
@@ -47,7 +47,7 @@ const PostProduct = () => {
                 },
             }}
         >
-            details
+            {t('DETAILS')}
         </Typography>,
     ];
     const [photos, setPhotos] = useState([]); // State for uploaded photos
@@ -66,10 +66,10 @@ const PostProduct = () => {
         })
     };
     const validationSchema = Yup.object().shape({
-        name: Yup.string().required('Required'),
-        description: Yup.string().required('Required'),
-        price: Yup.number().required('Required'),
-        condition: Yup.string().required('Required'),
+        name: Yup.string().required(t('REQUIRED')),
+        description: Yup.string().required(t('REQUIRED')),
+        price: Yup.number().required(t('REQUIRED')),
+        condition: Yup.string().required(t('REQUIRED')),
         photos: Yup.array()
             .of(
                 Yup.mixed().test(
@@ -77,15 +77,15 @@ const PostProduct = () => {
                     'Invalid file type',
                     (value) => value && value instanceof File
                 )
-            ).nullable().required('Photos are required'),
-        address: Yup.mixed().required('Required')
+            ).nullable().required(t('PHOTOS_ARE_REQUIRED')),
+        address: Yup.mixed().required(t('REQUIRED'))
     });
     return (
         <div className="p-24">
             <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
                 <Grid container display={'flex'} justifyContent={'space-between'}>
                     <Grid item xs={12} sx={{ padding: '28px 28px 0px 28px' }}>
-                        <Typography fontSize={24} fontWeight={500} className='pb-5'>Selected Category</Typography>
+                        <Typography fontSize={24} fontWeight={500} className='pb-5'>{t('SELECTED_CATEGORY')}</Typography>
                         <Breadcrumbs separator="›" aria-label="breadcrumb">
                             {breadcrumbs}
                         </Breadcrumbs>
@@ -134,7 +134,7 @@ const PostProduct = () => {
                                 <Grid container>
                                     <Grid container item xs={12} spacing={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12} sx={{ paddingBottom: '15px !important' }}>
-                                            <Typography fontSize={24} fontWeight={500}>Upload Upto 6 images</Typography>
+                                            <Typography fontSize={24} fontWeight={500}>{t('UPLOAD_UPTO_6_IMAGES')}</Typography>
                                         </Grid>
                                         <Grid item sx={{ border: '1px solid', width: '100px', height: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', padding: '0 !important' }} onClick={() => imageRef.current.click()} className='mr-8'>
                                             {formik.values.photos?.length > 6 ?
@@ -142,7 +142,7 @@ const PostProduct = () => {
                                                 :
                                                 <>
                                                     <AddAPhotoIcon />
-                                                    <Typography>Add Photo</Typography>
+                                                    <Typography>{t('ADD_PHOTO')}</Typography>
                                                 </>}
                                         </Grid>
                                         <Grid display={'flex'} spacing={2} item sx={{ padding: '0 !important', gap: '8px' }}>
@@ -156,7 +156,7 @@ const PostProduct = () => {
                                                 </div>
                                             ))}
                                         </Grid>
-                                        <Grid item xs={12} sx={{ paddingLeft: '0px !important' }}><Typography color='lightslategray'>Select atleast 1 image</Typography></Grid>
+                                        <Grid item xs={12} sx={{ paddingLeft: '0px !important' }}><Typography color='lightslategray'>{t('SELECT_AT_LEAST_1_IMAGE')}</Typography></Grid>
                                     </Grid>
                                     <Grid xs={12} item sx={{ margin: '15px 0' }}>
                                         <Divider />
@@ -171,7 +171,7 @@ const PostProduct = () => {
                                     />
                                     <Grid container item xs={12} spacing={2} gap={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12}>
-                                            <Typography fontSize={24} fontWeight={500}>Include some details</Typography>
+                                            <Typography fontSize={24} fontWeight={500}>{t('INCLUDE_SOME_DETAILS')}</Typography>
                                         </Grid>
                                         <Grid item xs={12} sx={{ padding: '0 !important' }}>
                                             <TextField
@@ -181,7 +181,7 @@ const PostProduct = () => {
                                                 value={formik.values.name}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                placeholder='Product Name'
+                                                placeholder={t('PRODUCT_NAME')}
                                                 error={formik.touched.name && Boolean(formik.errors.name)}
                                                 helperText={formik.touched.name && formik.errors.name}
                                                 fullWidth
@@ -193,7 +193,7 @@ const PostProduct = () => {
                                                 name='description'
                                                 varient='contained'
                                                 type='text'
-                                                placeholder='Product Description'
+                                                placeholder={t('PRODUCT_DESCRIPTION')}
                                                 value={formik.values.description}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
@@ -209,7 +209,7 @@ const PostProduct = () => {
                                     </Grid>
                                     <Grid container item xs={12} spacing={2} gap={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12}>
-                                            <Typography fontSize={24} fontWeight={500}>Set a price</Typography>
+                                            <Typography fontSize={24} fontWeight={500}>{t('SET_A_PRICE')}</Typography>
                                         </Grid>
                                         <Grid item xs={12} sx={{ padding: '0 !important' }}>
                                             <TextField
@@ -219,7 +219,7 @@ const PostProduct = () => {
                                                 value={formik.values.price}
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
-                                                placeholder='Product Price'
+                                                placeholder={t('PRODUCT_PRICE')}
                                                 error={formik.touched.price && Boolean(formik.errors.price)}
                                                 helperText={formik.touched.price && formik.errors.price}
                                                 InputProps={{
@@ -235,7 +235,7 @@ const PostProduct = () => {
                                     </Grid>
                                     <Grid container item xs={12} spacing={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12}>
-                                            <Typography fontSize={24} fontWeight={500}>Condition of the product</Typography>
+                                            <Typography fontSize={24} fontWeight={500}>{t('CONDITION_OF_THE_PRODUCT')}</Typography>
                                         </Grid>
                                         <Grid item xs={12} sx={{ padding: '0 !important' }}>
                                             <Field
@@ -247,9 +247,9 @@ const PostProduct = () => {
                                                         aria-label="condition"
                                                         {...field}
                                                     >
-                                                        <FormControlLabel value="new" control={<Radio />} label={t('New')} />
-                                                        <FormControlLabel value="used" control={<Radio />} label={t('Used')} />
-                                                        <FormControlLabel value="used-like-new" control={<Radio />} label={t('Used-Like New')} />
+                                                        <FormControlLabel value="new" control={<Radio />} label={t('NEW')} />
+                                                        <FormControlLabel value="used" control={<Radio />} label={t('USED')} />
+                                                        <FormControlLabel value="used-like-new" control={<Radio />} label={t('USED_LIKE_NEW')} />
                                                     </RadioGroup>
                                                 )}
                                             />
@@ -260,7 +260,7 @@ const PostProduct = () => {
                                     </Grid>
                                     <Grid container item xs={12} spacing={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12}>
-                                            <Typography fontSize={24} fontWeight={500}>Select your location</Typography>
+                                            <Typography fontSize={24} fontWeight={500}>{t('SELECT_YOUR_LOCATION')}</Typography>
                                         </Grid>
                                         <Grid item xs={12} sx={{ padding: '15px 0 15px 0 !important' }}>
                                             <SearchLocationInput formik={formik} />
@@ -269,12 +269,12 @@ const PostProduct = () => {
                                     <Grid container item xs={12} spacing={2} sx={{ margin: "15px 28px 15px 28px" }}>
                                         <Grid xs={12}>
                                             <Button type="submit" variant="contained" color="primary" sx={{
-                                                width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                                                width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', border: 1, '&:hover': {
                                                     backgroundColor: '#fff', // Change this to the desired hover background color
-                                                    color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
+                                                    color: '#818CF8', borderColor: "#818CF8"// Change this to the desired hover text color
                                                 },
                                             }} disabled={Object.keys(formik.errors).length > 0 || formik.isSubmitting}>
-                                                Create Product
+                                                {t('CREATE_PRODUCT')}
                                             </Button>
                                         </Grid>
                                     </Grid>

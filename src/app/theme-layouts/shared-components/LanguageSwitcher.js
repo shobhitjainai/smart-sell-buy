@@ -72,14 +72,14 @@ function LanguageSwitcher(props) {
           </MenuItem>
         ))}
 
-        <MenuItem
+        {/* <MenuItem
           component={Link}
           to="/documentation/configuration/multi-language"
           onClick={langMenuClose}
           role="button"
         >
           <ListItemText primary="Learn More" />
-        </MenuItem>
+        </MenuItem> */}
       </Popover>
     </>
   );
