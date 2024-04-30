@@ -10,7 +10,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import EditIcon from '@mui/icons-material/Edit';
 import Container from "@mui/material/Container";
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import {
   CardActions,
   Card,
@@ -24,7 +26,7 @@ import {
 } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
-import { getprofile, updateProfile } from "../../../store/userSlices/profileSlice";
+import { changePassword, getprofile, updateProfile } from "../../../store/userSlices/profileSlice";
 import * as Yup from "yup";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -57,7 +59,6 @@ function ExamplePage(props) {
   const [editProfile, setEditProfile] = useState(true);
   const [showOldPassword, setOldShowPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
-
   const { profile } = useSelector((state) => state.userSlices.profileSlice);
 
   // Sample user profile data
@@ -94,10 +95,13 @@ function ExamplePage(props) {
 
   // Calling the update profile API
   const handleUpdateProfile = (editData) => {
-    dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
-      console.log(res);
-      res.payload.success && dispatch(getprofile());
-    });
+    if (editProfile) {
+      dispatch(updateProfile({ editData, updaterepairerId })).then((res) => {
+        res.payload.success && dispatch(getprofile());
+      });
+    } else {
+      dispatch(changePassword(editData)).then((res) => console.log(res, 'res is'))
+    }
     // After successful creation, refresh the property list
 
     setAddDialog(false);
@@ -117,11 +121,16 @@ function ExamplePage(props) {
     setShowNewPassword(!showNewPassword);
   };
 
-  const validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape(editProfile ? {
+    phone_number: Yup.number().positive(t("Positive")).required(t("Required")),
+    first_name: Yup.string().required(t("Required")),
+  } : {
     // name: Yup.string().min(3, t("Minimum")).required(t("Required")),
-    phoneNumber: Yup.number().positive(t("Positive")).required(t("Required")),
-    email: Yup.string().required(t("Required")),
-    // typeOfRepairers: Yup.string().required(t("Required")),
+    oldPassword: Yup.string().required(t("Required")),
+    newPassword: Yup
+      .string()
+      .required('Please enter your password.')
+      .min(8, 'Password is too short - should be 8 chars minimum.'),
   });
 
   return (
@@ -144,7 +153,7 @@ function ExamplePage(props) {
             <CardContent sx={{ paddingBottom: "10px" }}>
               <Avatar
                 style={{ width: "150px", height: "150px", margin: "auto" }}
-                // src={profile.profilePicture}
+              // src={profile.profilePicture}
               />
 
               <Typography
@@ -168,7 +177,7 @@ function ExamplePage(props) {
                   >
                     {t("Email")}
                   </Typography>
-                  
+
                   <Typography
                     variant="body1"
                     align="center"
@@ -232,21 +241,28 @@ function ExamplePage(props) {
                 // color="success"
                 variant="contained"
                 size="small"
-                sx={{ borderRadius: "2px",background:"#061c34",color:"#fff" }}
+                sx={{
+                  border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
+                    backgroundColor: '#818CF8', color: '#fff'
+                  },
+                }}
                 onClick={() => handleClickOpenUpdate(profile)}
               >
-                {t("Edit profile")}
+                <EditIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Edit profile")}
               </Button>
 
               <Button
                 // color="success"
-
                 variant="contained"
                 size="small"
-                sx={{ borderRadius: "2px",background:"#061c34",color:"#fff" }}
+                sx={{
+                  border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                    backgroundColor: '#fff', color: '#818CF8'
+                  },
+                }}
                 onClick={() => handleUpdatePassword(profile)}
               >
-                {t("Change Password")}
+                <ChangeCircleIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Change Password")}
               </Button>
             </CardActions>
           </Card>
@@ -255,179 +271,162 @@ function ExamplePage(props) {
           <Dialog
             open={addDialog}
             onClose={handleClose}
-            sx={{ height: "70%", top: "15%" , borderRadius: 0}}
+            sx={{ height: "70%", top: "15%", borderRadius: 0 }}
           >
             <Formik
               initialValues={{
                 first_name: editData ? editData.first_name : "",
                 email: editData ? editData.email : "",
                 phone_number: editData ? editData.phone_number : "",
-                // gender: editData ? editData.gender : "",
-                // oldPassword: editData ? editData.oldPassword : "",
-                // newPassword: editData ? editData.newPassword : "",
+                gender: editData ? editData.gender : "",
+                oldPassword: editData ? editData.oldPassword : "",
+                newPassword: editData ? editData.newPassword : "",
               }}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
               onSubmit={async (values, { setSubmitting }) => {
                 // You can modify the structure of values if needed before sending
 
-                const propertyData = {
-                  //   username: values.username,
+                const profileData = {
                   first_name: values.first_name,
                   phone_number: values.phone_number,
-                  
                 };
-
                 const editPassword = {
                   oldPassword: values.oldPassword,
-                  newPassword: values.newPassword,
-
-                  // oldPassword: values.oldPassword,
-                  // newPassword: values.newPassword,
+                  new_password: values.newPassword,
                 };
-
-                console.log(propertyData);
                 if (editProfile) {
-                  handleUpdateProfile(propertyData);
-                } else if(editPassword) {
+                  handleUpdateProfile(profileData);
+                } else {
                   handleUpdateProfile(editPassword);
                 }
                 setSubmitting(false);
               }}
             >
-              {({ isSubmitting }) => (
-                <Form>
-                  <DialogTitle>
-                    {editProfile ? t("Edit_profile") :  t("Change_Password")}
-                  </DialogTitle>
-                  <Divider variant="middle" />
-                  <DialogContent sx={{paddingBottom: '0px'}}>
-                    {editProfile ? (
-                      <>
-                        
-
-                        <Field
-                          
-                          variant="filled"
-                          margin="dense"
-                          id="first_name"
-                          name="first_name"
-                          label="First Name"
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <ErrorMessage name="first_name" />
-                       
-
-                        <Field
-                          disabled
-                          variant="filled"
-                          margin="dense"
-                          id="email"
-                          name="email"
-                          label={t("Email")}
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <ErrorMessage name="email" />
-
-                        <Field
-                          // autoFocus
-                          disabled
-                          margin="dense"
-                          variant="filled"
-                          id="phone_number"
-                          name="phone_number"
-                          label={t("CONTACT")}
-                          type="text"
-                          sx={{paddingBottom: "10px"}}
-                          fullWidth
-                          as={TextField}
-                        />
-                        <ErrorMessage name="phone_number" />
-
-                       
-                      </>
-                    ) : (
-                      <>
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="oldPassword"
-                          name="oldPassword"
-                          label={t("OLD_PASSWORD")}
-                          type={showOldPassword ? "text" : "password"}
-                          sx={{ position: "relative", paddingBottom: "10px" }}
-                          
-                          fullWidth
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowOldPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showOldPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-
-                        <Field
-                          // autoFocus
-                          margin="dense"
-                          id="newPassword"
-                          name="newPassword"
-                          label={t("NEW_PASSWORD")}
-                          type={showNewPassword ? "text" : "password"}
-                          fullWidth
-                          
-                          as={TextField}
-                        />
-                        <IconButton
-                          aria-label="toggle password visibility"
-                          onClick={handleClickShowNewPassword}
-                          sx={{
-                            position: "absolute",
-                            right: "45px",
-                            paddingTop: "22px",
-                          }}
-                          edge="end"
-                        >
-                          {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </>
-                    )}
-                  </DialogContent>
-                  <DialogActions sx={{paddingBottom: '10px'}}>
-                    <Button
-                      onClick={handleClose}
-                      variant="contained"
-                    
-                      sx={{borderRadius: '2px',background:"#061c34",color:"#fff"}}
-                    >
-                      {t("CANCEL")}
-                    </Button>
-                    <Button
-                      type="submit"
-                      variant="contained"
-               
-                      sx={{borderRadius: '2px',background:"#061c34",color:"#fff"}}
-                      disabled={isSubmitting}
-                    >
-                      {t("Edit")}
-                    </Button>
-                  </DialogActions>
-                </Form>
-              )}
+              {(formik) => {
+                console.log(formik, 'formik')
+                return (
+                  <Form>
+                    <DialogTitle>
+                      {editProfile ? t("Edit_profile") : t("Change_Password")}
+                    </DialogTitle>
+                    <Divider variant="middle" />
+                    <DialogContent sx={{ paddingBottom: '0px' }}>
+                      {editProfile ? (
+                        <>
+                          <TextField
+                            disabled
+                            name='email'
+                            variant="filled"
+                            type='email'
+                            label={t("Email")}
+                            defaultValue={editData ? editData.email : ""}
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                            required
+                          />
+                          <TextField
+                            required
+                            disabled
+                            id="filled-disabled"
+                            label={t("Role")}
+                            defaultValue={editData ? editData.role : ""}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            required
+                            value={formik.values.first_name}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+                            helperText={formik.touched.first_name && formik.errors.first_name}
+                            id="filled-disabled"
+                            name='first_name'
+                            label={t("First name")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            name='phone_number'
+                            variant="filled"
+                            type='number'
+                            label={t("CONTACT")}
+                            value={formik.values.phone_number}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.phone_number && Boolean(formik.errors.phone_number)}
+                            helperText={formik.touched.phone_number && formik.errors.phone_number}
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                            required
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TextField
+                            required
+                            name='oldPassword'
+                            value={formik.values.oldPassword}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.oldPassword && Boolean(formik.errors.oldPassword)}
+                            helperText={formik.touched.oldPassword && formik.errors.oldPassword}
+                            id="filled-disabled"
+                            label={t("Old password")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                          <TextField
+                            required
+                            name='newPassword'
+                            value={formik.values.newPassword}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
+                            helperText={formik.touched.newPassword && formik.errors.newPassword}
+                            id="filled-disabled"
+                            label={t("New Password")}
+                            variant="filled"
+                            sx={{ paddingBottom: "15px" }}
+                            fullWidth
+                          />
+                        </>
+                      )}
+                    </DialogContent>
+                    <DialogActions sx={{ paddingBottom: '10px' }}>
+                      <Button
+                        onClick={handleClose}
+                        variant="contained"
+                        sx={{
+                          backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                            backgroundColor: "gray", color: '#fff'
+                          }
+                        }}
+                      >
+                        {t("CANCEL")}
+                      </Button>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{
+                          border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                            backgroundColor: '#fff', color: '#818CF8'
+                          },
+                        }}
+                        disabled={formik.isSubmitting}
+                      >
+                        {t("Edit")}
+                      </Button>
+                    </DialogActions>
+                  </Form>
+                )
+              }}
             </Formik>
           </Dialog>
-          
+
         </Container>
       }
     />

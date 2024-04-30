@@ -5,7 +5,7 @@ export const getprofile = createAsyncThunk(
   "profile/getprofile",
   async () => {
     const response = await fetch("https://reileadsapi.exerboost.in/api/me", {
-        method: 'POST',
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${getAccessToken()}` // Include the token in the Authorization header
       }
@@ -18,7 +18,7 @@ export const getprofile = createAsyncThunk(
 
 export const deleteProperty = createAsyncThunk(
   "profile/deleteProperty",
-  async ( propertyId ) => {
+  async (propertyId) => {
     const response = await fetch(`https://reileadsapi.exerboost.in/upkeep/app/admin/delete/landlord/${propertyId}`, {
       method: 'DELETE',
       headers: {
@@ -30,34 +30,9 @@ export const deleteProperty = createAsyncThunk(
   }
 );
 
-
-// export const createProperty = createAsyncThunk(
-//   "profile/createProperty",
-//   async ({ token, propertyData }) => {
-//     // console.log(propertyData)
-
-//     const formData = new FormData();
-
-//     // Append form data fields to the FormData object
-//     Object.keys(propertyData).forEach(key => {
-//       formData.append(key, propertyData[key]);
-//     });
-
-//     const response = await fetch("https://reileadsapi.exerboost.in/upkeep/app/landlord/create/property", {
-//       method: 'POST',
-//       headers: {
-//         Authorization: getAccessToken()
-//       },
-//       body: formData
-//     });
-//     const data = await response.json();
-//     return data; // You can handle the response as needed
-//   }
-// );
-//update
 export const updateProfile = createAsyncThunk(
   "profile/updateProfile",
-  async ({ editData, updateProfileId}) => {
+  async ({ editData, updateProfileId }) => {
     // console.log(propertyData)
 
     const formData = new FormData();
@@ -80,11 +55,29 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const changePassword = createAsyncThunk('profile/changePassword', async (passwordData) => {
+  const formData = new FormData();
+
+  // Append form data fields to the FormData object
+  Object.keys(passwordData).forEach(key => {
+    formData.append(key, passwordData[key]);
+  });
+  const response = await fetch(`https://reileadsapi.exerboost.in/api/change-password`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`
+    },
+    body: formData
+  });
+  const data = await response.json();
+  return data; // You can handle the response as needed
+})
+
 const profileSlice = createSlice({
   name: "profile",
   initialState: {
     profile: [],
-    loading: false, 
+    loading: false,
   },
   extraReducers: {
     [getprofile.pending]: (state) => {
