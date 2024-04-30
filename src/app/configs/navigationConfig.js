@@ -43,9 +43,6 @@ const navigationConfig = [
     url: '/user/sell-product',
     auth: authRoles.user,
   },
-
-  //admin
-
   {
     id: 'dashboard',
     title: 'Dashboard',
@@ -62,7 +59,6 @@ const navigationConfig = [
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
-    // url: 'caterory',
     children: [
       {
         id: 'category.categorylist',
@@ -143,7 +139,6 @@ const navigationConfig = [
     type: 'group',
     icon: 'heroicons-outline:home',
     auth: authRoles.admin,
-    // url: 'user',
     children: [
       {
         id: 'products.alluser',
@@ -169,7 +164,7 @@ const navigationConfig = [
         title: 'order',
         translate: 'Order',
         type: 'item',
-        icon: 'material-solid:handyman',
+        icon: 'material-solid:list_alt',
         url: '/order',
       },
 

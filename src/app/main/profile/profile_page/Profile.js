@@ -2,7 +2,6 @@ import { styled } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 import { Button, Grid, Typography } from '@mui/material';
-// import { Link } from 'react-router-dom';
 import { Container } from '@mui/system';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -30,7 +29,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function Profile(props) {
-  const { t } = useTranslation('Profile');
+  const { t } = useTranslation('profilePage');
 const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
 
   const dispatch = useDispatch();
@@ -43,7 +42,7 @@ const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
     <Root
       header={
         <div className="p-24">
-          <h4 className='text-lg font-bold'>My Profile</h4>
+          <h4 className='text-lg font-bold'>{t('MY_PROFILE')}</h4>
         </div>
       }
       content={
@@ -54,7 +53,7 @@ const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
             <img src={userProfile.picture} className='h-[200px] w-[200px] rounded-full'/>
             <div className='flex justify-center flex-col items-start'>
             <Typography className='font-bold'>{userProfile.first_name} {userProfile.last_name}</Typography>
-            <Typography>354 Bought 25 Sold</Typography>
+            <Typography>{t('BOUGHT_25_SOLD')}</Typography>
             </div>
             </div>
 
@@ -62,10 +61,10 @@ const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
 
             <Grid className='flex flex-col gap-16'>
                 <Grid>
-                    <Typography className='text-lg font-bold'>Transactions</Typography>
+                    <Typography className='text-lg font-bold'>{t('TRANSACTIONS')}</Typography>
                     <Grid className='pl-40'>
-                        <div className='flex gap-8 py-4'><AttachMoneyIcon /><Typography>Purchases & Sales</Typography><KeyboardArrowRightIcon/></div>
-                        <div className='flex gap-8 py-4'><PaymentIcon /><Typography>Payment & Deposit</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8 py-4'><AttachMoneyIcon /><Typography>{t('PURCHASES_AND_SALES')}</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8 py-4'><PaymentIcon /><Typography>{t('PAYMENT_AND_DEPOSIT')}</Typography><KeyboardArrowRightIcon/></div>
                         <Typography></Typography>
                     </Grid>
                 </Grid>
@@ -73,10 +72,10 @@ const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
                 <Divider variant="middle"  />
 
                 <Grid>
-                    <Typography className='text-lg font-bold'>Saves</Typography>
+                    <Typography className='text-lg font-bold'>{t('SAVES')}</Typography>
                     <Grid className='pl-40'>
-                        <div className='flex gap-8 py-4'><StarBorderIcon /><Typography>Save Items</Typography><KeyboardArrowRightIcon/></div>
-                        <div className='flex gap-8 py-4'><NotificationsActiveIcon /><Typography>Search Alerts</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8 py-4'><StarBorderIcon /><Typography>{t('SAVE_ITEMS')}</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8 py-4'><NotificationsActiveIcon /><Typography>{t('SEARCH_ALERTS')}</Typography><KeyboardArrowRightIcon/></div>
                         <Typography></Typography>
                     </Grid>
                 </Grid>
@@ -84,12 +83,12 @@ const {userProfile} = useSelector((state) => state.userSlices.userProfileSlice)
                 <Divider variant="middle"  />
 
                 <Grid>
-                    <Typography className='text-lg font-bold'>Account</Typography>
+                    <Typography className='text-lg font-bold'>{t('ACCOUNT')}</Typography>
                     <Grid className='pl-40'>
                         <Link to='/profile/account-settings'  style={{ textDecoration: 'none', display: 'inline-block' }}>
-                        <div className='flex gap-8  py-4 text-black ' sx={{ textDecoration: 'none !important' }}><SettingsIcon /><Typography>Account Settings</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8  py-4 text-black ' sx={{ textDecoration: 'none !important' }}><SettingsIcon /><Typography>{t('ACCOUNT_SETTINGS')}</Typography><KeyboardArrowRightIcon/></div>
                         </Link>
-                        <div className='flex gap-8  py-4'><AttachMoneyIcon /><Typography>Boost Plus</Typography><KeyboardArrowRightIcon/></div>
+                        <div className='flex gap-8  py-4'><AttachMoneyIcon /><Typography>{t('BOOST_PLUS')}</Typography><KeyboardArrowRightIcon/></div>
                         <Typography></Typography>
                     </Grid>
                 </Grid>

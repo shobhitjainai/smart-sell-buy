@@ -10,8 +10,10 @@ import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import FuseSvgIcon from '@fuse/core/FuseSvgIcon';
 import { selectUser } from 'app/store/userSlice';
+import { useTranslation } from 'react-i18next';
 
 function UserMenu(props) {
+  const {t} = useTranslation('profilePage')
   const user = useSelector(selectUser);
 
   const [userMenu, setUserMenu] = useState(null);
@@ -85,14 +87,14 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-circle</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="My Profile" style={{ color: 'black' }}/>
+              <ListItemText primary={t('MY_PROFILE')} style={{ color: 'black' }} />
             </MenuItem>
-            <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
+            {/* <MenuItem component={Link} to="/apps/mailbox" onClick={userMenuClose} role="button">
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:mail-open</FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary="Inbox" style={{ color: 'black' }}/>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
               component={NavLink}
               to="/sign-out"
@@ -103,7 +105,7 @@ function UserMenu(props) {
               <ListItemIcon className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:logout</FuseSvgIcon>
               </ListItemIcon>
-              <ListItemText primary="Sign out" style={{ color: 'black' }}/>
+              <ListItemText primary={t('SIGN_OUT')} style={{ color: 'black' }} />
             </MenuItem>
           </>
         )}
