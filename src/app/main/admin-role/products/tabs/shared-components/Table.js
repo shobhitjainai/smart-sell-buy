@@ -20,7 +20,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { visuallyHidden } from '@mui/utils';
-import { Avatar, Grid, InputAdornment } from '@mui/material';
+import { Avatar, Grid, InputAdornment, MenuItem } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,6 +43,8 @@ import useDialogState from 'src/app/utils/hooks/useDialogState';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { updateProduct } from 'app/store/admin/productSlice';
 import { useTranslation } from 'react-i18next';
+import { sortMenuItems } from 'src/app/constant/table';
+import { getCategory } from 'app/store/admin/CategorySlice';
 
 
 function createData(id, name, calories, fat, carbs, protein) {
@@ -234,6 +236,7 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [editData, setEditData] = React.useState(null);
   const { product, loading, editDialog, filterState } = useSelector((state) => state.admin.productSlice);
+  const { category } = useSelector((state) => state.admin.CategorySlice)
   const { dialogState: deleteProductDialog, handleOpen: handleDeleteProductDialogOpen, handleClose: handleDeleteProductDialogClose } = useDialogState()
   const { dialogState: filterProductsDialog, handleOpen: handleFilterProductsDialogOpen, handleClose: handleFilterProductsDialogClose } = useDialogState()
   const dispatch = useDispatch();
@@ -250,6 +253,7 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     dispatch(getProduct());
+    dispatch(getCategory());
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -547,24 +551,114 @@ export default function EnhancedTable() {
       </Dialog>
 
       {/*PRODUCT Filter Dialog*/}
-      <Dialog open={filterProductsDialog?.isOpen} onClose={handleFilterProductsDialogClose}>
+      <Dialog maxWidth={'lg'} open={filterProductsDialog?.isOpen} onClose={handleFilterProductsDialogClose}>
         <DialogTitle>{t('PRODUCTS_FILTER')}</DialogTitle>
         <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-              <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('SORT_BY')}</Typography></Grid>
-              <Grid item xs={6}>
-                <TextField
-                  name='sort'
-                  varient='contained'
-                  type='text'
-                  value={filterState?.sort}
-                  fullWidth
-                  required
-                />
-              </Grid>
-            </Grid>
-          </Grid>
+          <Formik
+            initialValues={{
+              sort: 'newest-on-top',
+              category_id: null,
+              subcategory_id: null,
+              price_max: '',
+              price_min: ''
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              const data = {
+                sort: values.sort,
+                category_id: values.category_id,
+                subcategory_id: values.subcategory_id,
+                price_max: values.price_max,
+                price_min: values.price_min
+              };
+            }}
+          >
+            {(formik) => (
+              <Form>
+                <Grid container spacing={2} width={700}>
+                  <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                    <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('SORT_BY')}</Typography></Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        name='sort'
+                        varient='filled'
+                        select
+                        type='text'
+                        value={formik.values.sort}
+                        onChange={formik.handleChange}
+                        fullWidth
+                      >
+                        {sortMenuItems?.map((opt) => <MenuItem value={opt.value}>{opt?.label}</MenuItem>)}
+                      </TextField>
+                    </Grid>
+                  </Grid>
+                  <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                    <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{`${t('FILTER_BY')} ${t('CATEGORY')}`}</Typography></Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        name='category_id'
+                        varient='filled'
+                        select
+                        type='text'
+                        value={formik.values.category_id ?? 1}
+                        onChange={formik.handleChange}
+                        fullWidth
+                      >
+                        <MenuItem value={1} disabled>{t("SELECT_CATEGORY")}</MenuItem>
+                        {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
+                      </TextField>
+                    </Grid>
+                  </Grid>
+                  <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                    <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{`${t('FILTER_BY')} ${t('SUBCATEGORY')}`}</Typography></Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        name='subcategory_id'
+                        varient='filled'
+                        select
+                        type='text'
+                        value={formik.values.subcategory_id}
+                        onChange={formik.handleChange}
+                        fullWidth
+                      >
+                        {sortMenuItems?.map((opt) => <MenuItem value={opt.value}>{opt?.label}</MenuItem>)}
+                      </TextField>
+                    </Grid>
+                  </Grid>
+                  <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                    <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('MAXIMUM_PRICE')}</Typography></Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        name='price_max'
+                        varient='filled'
+                        type='number'
+                        value={formik.values.price_max}
+                        onChange={formik.handleChange}
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                        }}
+                        fullWidth
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                    <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('MINIMUM_PRICE')}</Typography></Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        name='price_min'
+                        varient='filled'
+                        type='number'
+                        value={formik.values.price_min}
+                        onChange={formik.handleChange}
+                        InputProps={{
+                          startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                        }}
+                        fullWidth
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Form>
+            )}</Formik>
         </DialogContent>
         <DialogActions className='p-10'>
           <Button onClick={handleFilterProductsDialogClose} variant="contained" sx={{
@@ -576,7 +670,7 @@ export default function EnhancedTable() {
             border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
               backgroundColor: '#fff', color: '#818CF8'
             },
-          }} onClick={() => onDelete()}>{t('APPLY')}</Button>
+          }} onClick={() => handleFilterProduct()}>{t('APPLY')}</Button>
         </DialogActions>
       </Dialog>
     </Box>

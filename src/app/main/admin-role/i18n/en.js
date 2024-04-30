@@ -94,7 +94,12 @@ const locale = {
   //filter
   PRODUCTS_FILTER: 'Product Filters',
   APPLY: 'Apply',
-  SORT_BY: 'SORT BY'
+  SORT_BY: 'Sort by',
+  FILTER_BY: 'Filter by',
+  CATEGORY: 'Category',
+  SUBCATEGORY: 'Sub-category',
+  MAXIMUM_PRICE: 'Maximum price',
+  MINIMUM_PRICE: 'Minimum price',
 };
 
 export default locale;
