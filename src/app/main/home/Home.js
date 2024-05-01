@@ -55,39 +55,37 @@ function HomePage(props) {
                     <div className="">
                         <Link to="/"></Link>
                         <HomeCaraousel />
-                        <h2>Categories</h2>
                         <Categories />
 
                         {/* FRESH RECOMMENDATION */}
                         <Grid className="flex flex-col">
-                            <Typography className="text-lg font-bold">
-                                Fresh Recommendation
-                            </Typography>
-
-                            <Grid className="text-gray-600 body-font">
-                            <Grid className="container px-5 py-24 mx-auto ">
-                                <Grid className="flex flex-wrap -m-4 ">
-                                {productsToDisplay.map((item, index) => (
-                                    
-                                        <Link key={index} to={`/product-details/${item.id}`} style={{ textDecoration: "none" }} className="lg:w-1/5 md:w-1/5 p-4 w-full ">
-                                            <ProductCard
-                                                // sx={{ width: "100%", cursor: "pointer" }}
-                                                image={item.images[0]}
-                                                title={item.name}
-                                                address={item.address}
-                                                price={item.price}
-                                            />
-                                        </Link>
-                                   
-                                ))}
+                            <Grid container spacing={2} className="mt-8">
+                                <Grid item>
+                                    <Typography sx={{ fontWeight: 'bold', fontSize: '2.4rem' }} className="my-8">Fresh Recommendation</Typography>
                                 </Grid>
                             </Grid>
+                            <Grid className="text-gray-600 body-font">
+                                <Grid className="container px-5 pb-24 mx-auto ">
+                                    <Grid className="flex flex-wrap -m-4 ">
+                                        {productsToDisplay.map((item, index) => (
+                                            <Link key={index} to={`/product-details/${item.id}`} style={{ textDecoration: "none" }} className="lg:w-1/5 md:w-1/5 p-4 w-full ">
+                                                <ProductCard
+                                                    image={item.images[0]}
+                                                    title={item.name}
+                                                    address={item.address}
+                                                    price={item.price}
+                                                />
+                                            </Link>
+
+                                        ))}
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </div>
                 </div>
             }
-            
+
         />
     );
 }

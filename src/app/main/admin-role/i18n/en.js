@@ -53,7 +53,6 @@ const locale = {
   Condition: "Condition",
   Description: "Description",
   Price: "Price",
-  No_Products_are_there: "No products are there!!",
 
   // ADMIN PRODUCT LIST
   ALL_PRODUCTS: 'All Products',
@@ -66,7 +65,7 @@ const locale = {
   PRODUCT_LIST: 'Product List',
   PRODUCTS: 'Products',
   ACTIONS: 'Actions',
-  NO_PRODUCT_ARE_THERE: " कोई उत्पाद नहीं हैं!!",
+  NO_PRODUCT_ARE_THERE: "No products are there!!",
 
   // EDIT AND DELETE PRODUCT
   EDIT_PRODUCT: 'Edit Product',
@@ -131,6 +130,7 @@ const locale = {
 
   // ADD PRODUCT
   SELECT_CATEGORY: 'Select Category',
+  SELECT_SUBCATEGORY: 'Select Sub-category',
   SUB_CATEGORY: 'Sub Category',
   SELECTED_CATEGORY: 'Selected Category',
   UPLOAD_UPTO_6_IMAGES: 'Upload Up to 6 images',

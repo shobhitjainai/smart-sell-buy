@@ -31,7 +31,7 @@ export default function ResponsiveGrid() {
         series: [
             {
                 name: 'series-1',
-                data: [20, 50, 7, 100, 30, 80, 100],
+                data: [20, 50, 7, 100, 30, 80, 100, 100, 100],
                 stroke: {
                     width: 4
                 }
@@ -158,7 +158,7 @@ export default function ResponsiveGrid() {
                                         </Grid>
                                     </Grid>
                                 </CardContent>
-                                <CardActions sx={{ padding: 0 }}>
+                                <CardActions sx={{ padding: 0, display: 'block' }}>
                                     <ReactApexChart
                                         options={{ ...state.options, colors: [item?.lineColor] }}
                                         series={state.series}

@@ -7,7 +7,7 @@ const locale = {
   Condition: "शर्त",
   Description: "विवरण",
   Price: "मूल्य",
-  No_Products_are_there: "कोई उत्पाद नहीं है!!",
+  NO_PRODUCT_ARE_THERE: "कोई उत्पाद नहीं है!!",
   See_All: "सभी देखें",
   Top_Products: "शीर्ष उत्पाद",
 

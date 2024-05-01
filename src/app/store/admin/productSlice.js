@@ -82,7 +82,6 @@ export const deleteProduct = createAsyncThunk('product/deleteProduct', async (id
     try {
         const response = await APIRequest.remove(`${API_ROUTES.deleteProduct}/${id}`)
     } catch (error) {
-        console.log("🚀 ~ deleteSubCategory ~ error:", error)
         return { error: true }
     }
 })
@@ -108,8 +107,7 @@ const categorySlice = createSlice({
             state.editDialog = action.payload;
         },
         handleFilterChange: (state, action) => {
-            const { name, value } = action.payload
-            state.filterState[name] = value
+            state.filterState = action.payload
         }
     },
 
@@ -125,7 +123,6 @@ const categorySlice = createSlice({
         [createProduct.rejected]: (state) => {
             state.loading = false;
         },
-
         [getProduct.pending]: (state) => {
             state.loading = true;
         },
@@ -136,10 +133,16 @@ const categorySlice = createSlice({
         [getProduct.rejected]: (state) => {
             state.loading = false;
         },
-
+        [filterProducts.pending]: (state) => {
+            state.loading = true;
+        },
+        [filterProducts.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.product = payload
+        }
     },
 });
 
 
-export const { handleEditProductDialog } = categorySlice.actions
+export const { handleFilterChange, handleEditProductDialog } = categorySlice.actions
 export default categorySlice.reducer;

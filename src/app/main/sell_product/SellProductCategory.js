@@ -9,7 +9,7 @@ import { handleCategory } from "app/store/userSlices/userSellingSlice";
 import { useTranslation } from "react-i18next";
 
 const Categories = () => {
-    const {t} = useTranslation('addProduct')
+    const { t } = useTranslation('addProduct')
     const { Categories, loading } = useSelector((state) => state.userSlices.userHomeSlice);
     const dispatch = useDispatch();
     useEffect(() => {
@@ -22,12 +22,12 @@ const Categories = () => {
                 <Grid item xs={8} marginTop={1}>
                     <Typography variant="h6" className="text-2xl font-bold">{t('SELECT_CATEGORY')}</Typography>
                 </Grid>
-              
+
             </Grid>
 
-            <Grid container flexWrap="wrap" sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={1}>
+            <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={1}>
                 {(loading.categoriesLoading ? Array.from(new Array(7)) : Categories)?.map((item, index) => (
-                    <Grid sx={{ width: "15%" }} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 '>
+                    <Grid xs={6} sm={4} md={3.6} lg={2.6} xl={1.8} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 '>
                         {!loading.categoriesLoading ? (<Link
                             to={`/sellproductsubcategory/${item.id}`}
                             style={{ textDecoration: "none" }}
