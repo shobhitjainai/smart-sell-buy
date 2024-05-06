@@ -126,12 +126,6 @@ function EnhancedTableHead(props) {
       label: t('PRODUCT'),
     },
     {
-      id: 'description',
-      numeric: true,
-      disablePadding: false,
-      label: t('DESCRIPTION'),
-    },
-    {
       id: 'price',
       numeric: true,
       disablePadding: false,
@@ -395,7 +389,6 @@ export default function EnhancedTable() {
                         <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
                       </Grid>
                     </TableCell>
-                    <TableCell sx={{ fontSize: 16 }} align="left">{row.description}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>

@@ -44,8 +44,6 @@ export const createProduct = createAsyncThunk(
                 formData.append(key, categoryData[key]);
             }
         });
-
-
         const response = await fetch("https://reileadsapi.exerboost.in/api/product", {
             method: 'POST',
             headers: {
@@ -111,7 +109,6 @@ const categorySlice = createSlice({
         }
     },
 
-
     extraReducers: {
         [createProduct.pending]: (state) => {
             state.loading = true;
@@ -142,7 +139,6 @@ const categorySlice = createSlice({
         }
     },
 });
-
 
 export const { handleFilterChange, handleEditProductDialog } = categorySlice.actions
 export default categorySlice.reducer;

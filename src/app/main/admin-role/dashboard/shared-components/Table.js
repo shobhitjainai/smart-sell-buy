@@ -85,7 +85,6 @@ export default function CustomizedTables() {
                             <TableRow>
                                 <StyledTableCell>{t('Name')}</StyledTableCell>
                                 <StyledTableCell align="right">{t('Condition')}</StyledTableCell>
-                                <StyledTableCell align="right">{t('Description')}</StyledTableCell>
                                 <StyledTableCell align="right">{t("Price")}</StyledTableCell>
                             </TableRow>
                         </TableHead>
@@ -108,7 +107,6 @@ export default function CustomizedTables() {
                                     <StyledTableCell align='right' component="th" scope="row" >
                                         {row.condition}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{row.description}</StyledTableCell>
                                     <StyledTableCell align="right">Rs.{row.price}</StyledTableCell>
                                 </StyledTableRow>
                             ))}

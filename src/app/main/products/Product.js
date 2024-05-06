@@ -3,10 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from 'react-i18next';
 import { styled } from '@mui/material/styles';
 import FusePageSimple from '@fuse/core/FusePageSimple';
-import { Button, Grid, TextField } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails, Box, Button, Grid, TextField, Typography, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
-import { getUserProducts, getSearchProducts } from "app/store/userSlices/userHomeSlice";
+import { getUserProducts, getSearchProducts, handleFilters, filterProducts } from "app/store/userSlices/userHomeSlice";
+import TuneIcon from '@mui/icons-material/Tune';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { getCategory } from "app/store/admin/CategorySlice";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -22,9 +25,10 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 const Categories = () => {
-  const { t } = useTranslation(); // Use t from useTranslation hook
-  const { userProducts, searchInput } = useSelector((state) => state.userSlices.userHomeSlice);
+  const { t } = useTranslation('adminProductPage'); // Use t from useTranslation hook
+  const { userProducts, searchInput, filterState } = useSelector((state) => state.userSlices.userHomeSlice);
   const [search, setSearch] = useState('');
+  const { category } = useSelector((state) => state.admin.CategorySlice)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,55 +39,184 @@ const Categories = () => {
     if (search.trim() !== '') {
       dispatch(getSearchProducts(search));
     }
+    dispatch(getCategory());
   }, [dispatch, search]);
 
-  let productsToDisplay = search.trim() !== '' ? searchInput || [] : userProducts || [];
-
+  useEffect(() => {
+    dispatch(filterProducts(filterState))
+  }, [filterState.category_id, filterState.sort])
+  // let productsToDisplay = search.trim() !== '' ? searchInput || [] : userProducts || [];
+  const handleFilter = (e) => {
+    dispatch(handleFilters(e.target))
+  }
   return (
     <Root
-      header={
-        <div className="p-24 flex justify-center items-center">
-          <TextField
-              id="search"
-              label="Search"
-              variant="outlined"
-              onChange={(e) => setSearch(e.target.value)}
-            />
-        </div>
-      }
+      // header={
+      //   <div className="p-24 flex justify-center items-center">
+      //     <TextField
+      //         id="search"
+      //         label="Search"
+      //         variant="outlined"
+      //         onChange={(e) => setSearch(e.target.value)}
+      //       />
+      //   </div>
+      // }
       content={
-        <>
-        <Grid container spacing={3}>
-          <Grid item xs>
-            <h2>Products</h2>
+        <Grid container spacing={2} sx={{ height: '100%' }} className="p-20">
+          <Grid item xs={4}>
+            <Box sx={{ width: '100%', background: '#fff', }}>
+              <Grid container className="p-20">
+                <Grid item className="mb-10">
+                  <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', fontSize: '2rem', color: 'grey' }}><TuneIcon sx={{ width: '1.2em', height: '0.8em' }} />Filters</Typography>
+                </Grid>
+                <Grid item>
+                  <Accordion expanded={true}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel1-content"
+                      id="panel1-header"
+                    >
+                      Category
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <TextField
+                        name='category_id'
+                        variant='filled'
+                        select
+                        type='text'
+                        value={filterState.category_id == '' ? 1 : filterState?.category_id}
+                        onChange={(e) => {
+                          handleFilter(e)
+                        }}
+                        fullWidth
+                        SelectProps={{
+                          sx: {
+                            '& .MuiSelect-select': {
+                              paddingTop: '14px'
+                            }
+                          }
+                        }}
+                      >
+                        <MenuItem value={1} disabled>{t("SELECT_CATEGORY")}</MenuItem>
+                        {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
+                      </TextField>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion expanded={true}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel2-content"
+                      id="panel2-header"
+                    >
+                      Budget
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Typography className="pb-10" color="grey">Choose a range below</Typography>
+                      <Grid container justifyContent={'space-between'} alignItems={'center'}>
+                        <Grid item>
+                          <TextField
+                            name='price_min'
+                            sx={{ width: '80px' }}
+                            value={filterState?.price_min}
+                            onChange={(e) => { handleFilter(e) }}
+                            variant='filled'
+                            placeholder="min"
+                            InputProps={{
+                              sx: {
+                                '& input': {
+                                  paddingTop: '7px' // Adjust as needed
+                                }
+                              }
+                            }} />
+                        </Grid>
+                        <Grid item>
+                          <Typography color="grey">to</Typography>
+                        </Grid>
+                        <Grid item>
+                          <TextField
+                            name='price_max'
+                            sx={{ width: '80px' }}
+                            value={filterState?.price_max}
+                            onChange={(e) => { handleFilter(e) }}
+                            variant='filled'
+                            placeholder="max"
+                            InputProps={{
+                              sx: {
+                                '& input': {
+                                  paddingTop: '7px' // Adjust as needed
+                                }
+                              }
+                            }} />
+                        </Grid>
+                        <Grid item>
+                          <Button sx={{
+                            border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                              backgroundColor: '#fff', color: '#818CF8'
+                            },
+                          }} onClick={() => dispatch(filterProducts(filterState))}>Apply</Button>
+                        </Grid>
+                      </Grid>
+                    </AccordionDetails>
+                  </Accordion>
+                  <Accordion expanded={true}>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      aria-controls="panel3-content"
+                      id="panel3-header"
+                    >
+                      Sort By
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      {/* <TextField
+                        name='sort'
+                        variant='filled'
+                        select
+                        type='text'
+                        value={filterState.sort == '' ? 1 : filterState?.sort}
+                        onChange={(e) => {
+                          handleFilter(e)
+                        }}
+                        fullWidth
+                        SelectProps={{
+                          sx: {
+                            '& .MuiSelect-select': {
+                              paddingTop: '14px'
+                            }
+                          }
+                        }}
+                      >
+                        {sortMenuItems?.map((opt) => <MenuItem value={opt.value}>{opt?.label}</MenuItem>)}
+                      </TextField> */}drrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+                      sdfffffffffffffffffffffffffffffffffffffffffffffffffffff
+                      sdfffffffffffffffffffffffffffffffffffffffffffffffffffff
+                    </AccordionDetails>
+                  </Accordion>
+                </Grid>
+              </Grid>
+            </Box>
           </Grid>
-          
-          <Grid item xs sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button sx={{ color: "blue" }}>See All</Button>
-          </Grid>
-        </Grid>
-
-        <Grid
-          container
-          justifyContent="center"
-          spacing={2}
-          sx={{ gap: "20px", alignItems: "center" }}
-        >
-          {productsToDisplay.map((item, index) => (
-            <Grid item key={index} xs={6} md={4} lg={3} xl={2}>
-              <Link to={`/product-details/${item.id}`} style={{ textDecoration: "none" }}>
-                <ProductCard
-                  sx={{ width: "100%", cursor: "pointer" }}
-                  image={item.images[0]}
-                  title={item.name}
-                  address={item.address}
-                  price={item.price}
-                />
-              </Link>
+          <Grid item xs={8}>
+            <Grid
+              container
+              spacing={2}
+              sx={{ alignItems: "center" }}
+            >
+              {userProducts.map((item, index) => (
+                <Grid item key={index} xs={6} md={4} lg={3} xl={3}>
+                  <Link to={`/product-details/${item.id}`} style={{ textDecoration: "none" }}>
+                    <ProductCard
+                      sx={{ width: "100%", cursor: "pointer" }}
+                      image={item.images[0]}
+                      title={item.name}
+                      address={item.address}
+                      price={item.price}
+                    />
+                  </Link>
+                </Grid>
+              ))}
             </Grid>
-          ))}
+          </Grid>
         </Grid>
-        </>
       }
       scroll="content"
     />

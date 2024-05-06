@@ -27,7 +27,7 @@ const Categories = () => {
 
             <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={1}>
                 {(loading.categoriesLoading ? Array.from(new Array(7)) : Categories)?.map((item, index) => (
-                    <Grid xs={6} sm={4} md={3.6} lg={2.6} xl={1.8} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 '>
+                    <Grid item xs={6} sm={4} md={3.6} lg={2.6} xl={1.8} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300 '>
                         {!loading.categoriesLoading ? (<Link
                             to={`/sellproductsubcategory/${item.id}`}
                             style={{ textDecoration: "none" }}
