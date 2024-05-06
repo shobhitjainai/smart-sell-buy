@@ -9,7 +9,7 @@ const ArchiveTab = () => {
     const { archiveProducts, loading } = useSelector((state) => state.userSlices.userSellingSlice);
     const { archiveProductsLoading } = loading;
     const dispatch = useDispatch();
-    const { t } = useTranslation('')
+    const { t } = useTranslation('sellingPage')
 
     useEffect(() => {
         dispatch(getArchiveProducts());
@@ -41,7 +41,7 @@ const ArchiveTab = () => {
                             <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
                         </Grid>
                         <Grid item>
-                            <Typography fontSize={18} fontWeight={600}>{t('No archive products found.')}</Typography>
+                            <Typography fontSize={18} fontWeight={600}>{t('NO_ARCHIVE_PRODUCTS_FOUND')}</Typography>
                         </Grid>
                     </Grid>
                 </Box>

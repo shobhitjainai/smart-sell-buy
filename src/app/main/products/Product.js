@@ -25,7 +25,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 const Categories = () => {
-  const { t } = useTranslation('adminProductPage'); // Use t from useTranslation hook
+  const { t } = useTranslation('productsPage'); // Use t from useTranslation hook
   const { userProducts, searchInput, filterState } = useSelector((state) => state.userSlices.userHomeSlice);
   const [search, setSearch] = useState('');
   const { category } = useSelector((state) => state.admin.CategorySlice)
@@ -51,23 +51,13 @@ const Categories = () => {
   }
   return (
     <Root
-      // header={
-      //   <div className="p-24 flex justify-center items-center">
-      //     <TextField
-      //         id="search"
-      //         label="Search"
-      //         variant="outlined"
-      //         onChange={(e) => setSearch(e.target.value)}
-      //       />
-      //   </div>
-      // }
       content={
         <Grid container spacing={2} sx={{ height: '100%' }} className="p-20">
           <Grid item xs={4}>
             <Box sx={{ width: '100%', background: '#fff', }}>
               <Grid container className="p-20">
                 <Grid item className="mb-10">
-                  <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', fontSize: '2rem', color: 'grey' }}><TuneIcon sx={{ width: '1.2em', height: '0.8em' }} />Filters</Typography>
+                  <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', fontSize: '2rem', color: 'grey' }}><TuneIcon sx={{ width: '1.2em', height: '0.8em' }} />{t('FILTERS')}</Typography>
                 </Grid>
                 <Grid item>
                   <Accordion expanded={true}>
@@ -76,7 +66,7 @@ const Categories = () => {
                       aria-controls="panel1-content"
                       id="panel1-header"
                     >
-                      Category
+                      {t('CATEGORY')}
                     </AccordionSummary>
                     <AccordionDetails>
                       <TextField
@@ -108,10 +98,10 @@ const Categories = () => {
                       aria-controls="panel2-content"
                       id="panel2-header"
                     >
-                      Budget
+                      {t('BUDGET')}
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography className="pb-10" color="grey">Choose a range below</Typography>
+                      <Typography className="pb-10" color="grey">{t('CHOOSE_A_RANGE_BELOW')}</Typography>
                       <Grid container justifyContent={'space-between'} alignItems={'center'}>
                         <Grid item>
                           <TextField
@@ -120,7 +110,7 @@ const Categories = () => {
                             value={filterState?.price_min}
                             onChange={(e) => { handleFilter(e) }}
                             variant='filled'
-                            placeholder="min"
+                            placeholder={t('MIN')}
                             InputProps={{
                               sx: {
                                 '& input': {
@@ -139,7 +129,7 @@ const Categories = () => {
                             value={filterState?.price_max}
                             onChange={(e) => { handleFilter(e) }}
                             variant='filled'
-                            placeholder="max"
+                            placeholder={t('MAX')}
                             InputProps={{
                               sx: {
                                 '& input': {
@@ -153,7 +143,7 @@ const Categories = () => {
                             border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
                               backgroundColor: '#fff', color: '#818CF8'
                             },
-                          }} onClick={() => dispatch(filterProducts(filterState))}>Apply</Button>
+                          }} onClick={() => dispatch(filterProducts(filterState))}>{t('APPLY')}</Button>
                         </Grid>
                       </Grid>
                     </AccordionDetails>
@@ -164,7 +154,7 @@ const Categories = () => {
                       aria-controls="panel3-content"
                       id="panel3-header"
                     >
-                      Sort By
+                      {t('SORT_BY')}
                     </AccordionSummary>
                     <AccordionDetails>
                       {/* <TextField

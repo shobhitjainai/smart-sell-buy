@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import SellIcon from '@mui/icons-material/Sell';
 const ArchiveProductCard = ({ image, name, price, id }) => {
-    const { t } = useTranslation()
+    const { t } = useTranslation('sellingPage')
     return (
         <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
             <Card sx={{ maxWidth: 345 }}>
@@ -29,14 +29,14 @@ const ArchiveProductCard = ({ image, name, price, id }) => {
                             backgroundColor: '#818CF8', color: '#fff'
                         },
                     }}>
-                        <SellIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Sold")}
+                        <SellIcon sx={{ width: '0.8em' }} /> &nbsp;{t("SOLD")}
                     </Button>
                     <Button variant="contained" size="small" sx={{
                         border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
                             backgroundColor: '#818CF8', color: '#fff'
                         },
                     }}>
-                        <UnarchiveIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Unarchive")}
+                        <UnarchiveIcon sx={{ width: '0.8em' }} /> &nbsp;{t("UNARCHIVE")}
                     </Button>
                 </CardActions>
             </Card>

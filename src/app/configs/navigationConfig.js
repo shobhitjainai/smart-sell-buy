@@ -28,7 +28,7 @@ const navigationConfig = [
   {
     id: 'selling',
     title: 'Selling',
-    translate: 'Selling',
+    translate: 'SELLING',
     type: 'item',
     icon: 'heroicons-outline:star',
     url: '/user/selling',
@@ -37,7 +37,7 @@ const navigationConfig = [
   {
     id: 'sellproduct',
     title: 'Sell Product',
-    translate: 'Sellproduct',
+    translate: 'SELL_PRODUCT',
     type: 'item',
     icon: 'heroicons-outline:star',
     url: '/user/sell-product',

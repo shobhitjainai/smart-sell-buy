@@ -14,8 +14,9 @@ const locale = {
   NewProduct:"New Product",
   Customer:"Customer",
   Customers:"Customers",
-  Order:"Order"
-
+  Order:"Order",
+  SELLING: 'Selling',
+  SELL_PRODUCT: 'Sell Product',
 };
 
 export default locale;

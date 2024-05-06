@@ -1,14 +1,12 @@
-// import i18next from 'i18next';
+import i18next from 'i18next';
 
-// import en from './i18n/en';
-// import tr from './i18n/tr';
-// import ar from './i18n/ar';
+import en from '../selling/i18n/en';
+import hin from '../selling/i18n/hin';
 import { authRoles } from 'src/app/auth';
 import Product from './Product';
 
-// i18next.addResourceBundle('en', 'HomePage', en);
-// i18next.addResourceBundle('tr', 'HomePage', tr);
-// i18next.addResourceBundle('ar', 'HomePage', ar);
+i18next.addResourceBundle('en', 'productsPage', en);
+i18next.addResourceBundle('hin', 'productsPage', hin);
 
 const ProductConfig = {
   settings: {

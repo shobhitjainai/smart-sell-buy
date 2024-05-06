@@ -9,7 +9,7 @@ import SellingProductCard from './SellingProductCard';
 const SellingTab = () => {
     const { productSelling, loading } = useSelector((state) => state.userSlices.userSellingSlice)
     const { productSellingLoading } = loading
-    const { t } = useTranslation()
+    const { t } = useTranslation('sellingPage')
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProductSelling())
@@ -38,7 +38,7 @@ const SellingTab = () => {
                             <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
                         </Grid>
                         <Grid item>
-                            <Typography fontSize={18} fontWeight={600}>{t('No Selling products found.')}</Typography>
+                            <Typography fontSize={18} fontWeight={600}>{t('NO_SELLING_PRODUCTS_FOUND')}</Typography>
                         </Grid>
                     </Grid>
                 </Box>)

@@ -15,6 +15,10 @@ const locale = {
   Customer: "ग्राहक",
   Customers: "ग्राहकों",
   Order: "ऑर्डर",
+  SELLING: 'विक्रय',
+  SELL_PRODUCT: 'उत्पाद बेचें',
+
+
 };
 
 export default locale;
