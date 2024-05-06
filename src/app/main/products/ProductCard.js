@@ -18,19 +18,19 @@ export default function ProductCard({ title, image, price, address,id, archive }
     dispatch(createArchieve(data));
   };
   return (
-    <Card className='lg:w-full md:w-full p-10 h-[350px] rounded-sm'>
+    <Card className='lg:w-full md:w-full p-10 h-[350px] rounded-sm relative'>
        <CardMedia
         component="img"
         alt="ecommerce"
-        className="object-cover object-center w-full h-4/6 block"
+        className="object-cover object-center w-full h-4/6 block "
         image={image.image}
       />
-      <div className="flex items-center mb-4">
-        <h3 className="text-gray-700 text-2xl tracking-widest title-font mb-1 pt-8 font-bold">{title}</h3>
+      <div className="flex items-center mb-4 ">
+        <h3 className="text-gray-700 text-2xl tracking-widest title-font mb-1 pt-8 font-bold ">{title}</h3>
         
         <FavoriteIcon
           fontSize="large"
-          className={`ml-2 cursor-pointer ${ !isFavorite ? ( archive ? 'text-red-500' :  'text-gray-400'):( archive ? 'text-gray-400' :  'text-red-500')}`}
+          className={`ml-2 cursor-pointer absolute top-[40] right-5 ${ !isFavorite ? ( archive ? 'text-red-500' :  'text-gray-400'):( archive ? 'text-gray-400' :  'text-red-500')}`}
           onClick={() => toggleFavorite(id)}
         />
     

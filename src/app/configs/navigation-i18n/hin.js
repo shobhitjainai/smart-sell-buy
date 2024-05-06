@@ -17,8 +17,6 @@ const locale = {
   Order: "ऑर्डर",
   SELLING: 'विक्रय',
   SELL_PRODUCT: 'उत्पाद बेचें',
-
-
 };
 
 export default locale;

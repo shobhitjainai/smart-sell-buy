@@ -11,7 +11,7 @@ const locale = {
 
   // PRODUCTS
   UNARCHIVE: 'अनआर्काइव',
-  SOLD: 'बेच दिया',
+  SOLD: 'बेचना',
   FILTERS: 'फ़िल्टर',
   CATEGORY: 'श्रेणी',
   BUDGET: 'बजट',
@@ -22,7 +22,6 @@ const locale = {
   SORT_BY: 'इसके अनुसार क्रमबद्ध करें',
   TO: 'से',
   SELECT_CATEGORY: 'श्रेणी चुनें',
-
 
 };
 

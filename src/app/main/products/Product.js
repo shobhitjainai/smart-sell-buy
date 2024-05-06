@@ -195,15 +195,15 @@ const Categories = () => {
                 <Grid item key={index} xs={6} md={4} lg={3} xl={3}>
                   {console.log(item)}
                   {/* <Link to={`/product-details/${item.id}`} style={{ textDecoration: "none" }}> */}
-                    <ProductCard
-                      sx={{ width: "100%", cursor: "pointer" }}
-                      image={item.images[0]}
-                      title={item.name}
-                      address={item.address}
-                      price={item.price}
-                      id={item.id}
-                      archive={item.archive}
-                    />
+                  <ProductCard
+                    sx={{ width: "100%", cursor: "pointer" }}
+                    image={item.images[0]}
+                    title={item.name}
+                    address={item.address}
+                    price={item.price}
+                    id={item.id}
+                    archive={item.archive}
+                  />
                   {/* </Link> */}
                 </Grid>
               ))}

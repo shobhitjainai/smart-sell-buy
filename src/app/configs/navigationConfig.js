@@ -63,7 +63,7 @@ const navigationConfig = [
       {
         id: 'category.categorylist',
         title: 'CategoryList',
-        translate:'CategoryList',
+        translate: 'CategoryList',
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: '/admin/category/categorylist',
@@ -71,7 +71,7 @@ const navigationConfig = [
       {
         id: 'category.newcategory',
         title: 'NewCategory',
-        translate:"NewCategory",
+        translate: "NewCategory",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: '/admin/category/newcategory',
@@ -89,7 +89,7 @@ const navigationConfig = [
       {
         id: 'subcategory.subcategorylist',
         title: 'SubCategoryList',
-        translate:"SubCategoryList",
+        translate: "SubCategoryList",
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: '/admin/sub-category/sub-category-list',
@@ -97,7 +97,7 @@ const navigationConfig = [
       {
         id: 'subcategory.newsubcategory',
         title: 'NewSubCategory',
-        translate:"NewSubCategory",
+        translate: "NewSubCategory",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: '/admin/sub-category/new-sub-category',
@@ -116,7 +116,7 @@ const navigationConfig = [
       {
         id: 'products.productslist',
         title: 'ProductList',
-        translate:"ProductList",
+        translate: "ProductList",
         type: 'item',
         icon: 'heroicons-outline:clipboard-check',
         url: 'admin/products/productslist',
@@ -125,7 +125,7 @@ const navigationConfig = [
       {
         id: 'products.newproducts',
         title: 'NewProduct',
-        translate:"NewProduct",
+        translate: "NewProduct",
         type: 'item',
         icon: 'heroicons-outline:plus-circle',
         url: 'user/sell-product',
@@ -143,7 +143,7 @@ const navigationConfig = [
       {
         id: 'products.alluser',
         title: 'Customers',
-        translate:"Customers",
+        translate: "Customers",
         type: 'item',
         icon: 'heroicons-outline:user-group',
         url: 'admin/user/userlist',

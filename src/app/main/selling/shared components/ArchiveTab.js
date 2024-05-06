@@ -29,7 +29,7 @@ const ArchiveTab = () => {
                         </Card>
                     </Grid>
                 ))
-                        ) : (archiveProducts?.length > 0 ?
+            ) : (archiveProducts?.length > 0 ?
                 archiveProducts?.map((product, index) => (
                     <Grid item xs={6} sm={4} md={3.6} lg={2.6} xl={1.8} key={product.id}>
                         <ArchiveProductCard id={product.id} image={product.images[0]?.image} name={product.name} price={product.price} />
