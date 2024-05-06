@@ -70,6 +70,26 @@ export const deleteItem = createAsyncThunk(
     }
 );
 
+export const createArchieve = createAsyncThunk(
+    "archieve/createArchieve",
+    async (productData) => {
+        const formData = new FormData();
+        // Append form data fields to the FormData object
+        Object.keys(productData).forEach((key) => {
+          formData.append(key, productData[key]);
+        });
+        const response = await fetch("https://reileadsapi.exerboost.in/api/product-archive", {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            },
+            body: formData
+        });
+        const data = await response.json();
+        return data.data;
+    }
+  );
+
 // UPDATE PRODUCT
 
 export const updateProduct = createAsyncThunk(
@@ -144,6 +164,13 @@ const userSellingSlice = createSlice({
         [deleteItem.fulfilled]: (state, action) => {
             // state.loading = false;
             // Remove the deleted property from the state
+        },
+        [createArchieve.pending]: (state) => {
+            state.loading.archiveProductsLoading = true;
+        },
+        [createArchieve.fulfilled]: (state, action) => {
+            state.loading.archiveProductsLoading = false;
+            state.archiveProducts = action.payload;
         },
     },
 });
