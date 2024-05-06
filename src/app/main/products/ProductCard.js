@@ -30,7 +30,7 @@ export default function ProductCard({ title, image, price, address,id, archive }
         
         <FavoriteIcon
           fontSize="large"
-          className={`ml-2 cursor-pointer ${ isFavorite || archive ? 'text-red-500' : 'text-gray-400'}`}
+          className={`ml-2 cursor-pointer ${ !isFavorite ? ( archive ? 'text-red-500' :  'text-gray-400'):( archive ? 'text-gray-400' :  'text-red-500')}`}
           onClick={() => toggleFavorite(id)}
         />
     
