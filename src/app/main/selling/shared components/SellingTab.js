@@ -29,7 +29,7 @@ const SellingTab = () => {
                     </Grid>
                 ))
             ) : (productSelling.length > 0 ? productSelling?.map((product, index) =>
-                <Grid item xs={6} sm={4} md={8} lg={2.6} xl={1.8}>
+                <Grid item xs={12} sm={6} md={8} lg={2.6} xl={2.2}>
                     <SellingProductCard id={product?.id} image={product?.images[0]?.image} name={product?.name} price={product?.price} />
                 </Grid>)
                 : <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>

@@ -15,8 +15,8 @@ export default function ProductCard({ title, image, price, address, id, archive 
     const data = {
       product_id: id,
     }
-    dispatch(createArchieve(data)).then((res)=>{
-      isFavorite ? dispatch(showMessage({ message: 'Successful', variant: 'success' })) : dispatch(showMessage({ message: 'Successful', variant: 'success' })) 
+    dispatch(createArchieve(data)).then((res) => {
+      isFavorite ? dispatch(showMessage({ message: 'Successful', variant: 'success' })) : dispatch(showMessage({ message: 'Successful', variant: 'success' }))
     })
   };
   return (
@@ -28,16 +28,16 @@ export default function ProductCard({ title, image, price, address, id, archive 
         image={image.image}
       />
       <div className='flex flex-end relative'>
-          <StarIcon
-            fontSize="large"
-            className={`ml-2 cursor-pointer absolute -top-20 right-2 ${!isFavorite ? (archive ? 'text-[#FFD700]' : 'text-gray-400') : (archive ? 'text-gray-400' : 'text-[#FFD700]')}`}
-            onClick={() => toggleFavorite(id)}
-          />
-        </div>
+        <StarIcon
+          fontSize="large"
+          className={`ml-2 cursor-pointer absolute -top-20 right-2 ${!isFavorite ? (archive ? 'text-[#FFD700]' : 'text-gray-400') : (archive ? 'text-gray-400' : 'text-[#FFD700]')}`}
+          onClick={() => toggleFavorite(id)}
+        />
+      </div>
       <div className="flex items-center mb-4 ">
         <h3 className="text-gray-700 text-2xl tracking-widest title-font mb-1 pt-8 font-bold ">{title}</h3>
 
-        
+
 
 
       </div>

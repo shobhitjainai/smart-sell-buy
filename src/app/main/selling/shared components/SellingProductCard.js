@@ -9,38 +9,38 @@ const SellingProductCard = ({ image, name, price, id }) => {
     const { t } = useTranslation()
     return (
         // <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
-            <Card sx={{ width: "250px" }}>
-                <CardMedia
-                    sx={{ height: "200px", width: "100%", objectFit: "cover" }}
-                    component="img"
-                    image={image}
-                    alt={name}
-                />
-                <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                        {name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                        ₹ {price}
-                    </Typography>
-                </CardContent>
-                <CardActions sx={{justifyContent:"center"}}>
-                    <Button variant="contained" size="small" sx={{
-                        border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
-                            backgroundColor: '#818CF8', color: '#fff'
-                        },
-                    }}>
-                        <EditIcon sx={{ width: '0.8em' }}/> &nbsp;{t("Edit")}
-                    </Button>
-                    <Button variant="contained" size="small" sx={{
-                        border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
-                            backgroundColor: '#818CF8', color: '#fff'
-                        },
-                    }}>
-                        <DeleteIcon sx={{ width: '0.8em' }}/> &nbsp;{t("Delete")}
-                    </Button>
-                </CardActions>
-            </Card>
+        <Card sx={{ width: "100%", borderRadius: 2 }}>
+            <CardMedia
+                sx={{ height: "200px", width: "100%", objectFit: "cover", padding: 1, borderRadius: 3 }}
+                component="img"
+                image={image}
+                alt={name}
+            />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div" className='font-semibold'>
+                    {name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" >
+                    ₹ {price}
+                </Typography>
+            </CardContent>
+            <CardActions sx={{ justifyContent: "center" }}>
+                <Button variant="contained" size="small" sx={{
+                    border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                        backgroundColor: '#fff', color: '#818CF8',
+                    },
+                }}>
+                    <EditIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Edit")}
+                </Button>
+                <Button variant="contained" size="small" sx={{
+                    border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
+                        backgroundColor: '#818CF8', color: '#fff'
+                    },
+                }}>
+                    <DeleteIcon sx={{ width: '0.8em' }} /> &nbsp;{t("Delete")}
+                </Button>
+            </CardActions>
+        </Card>
         // </Link>
     );
 };
