@@ -9,7 +9,7 @@ const SellingProductCard = ({ image, name, price, id }) => {
     const { t } = useTranslation()
     return (
         // <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
-            <Card sx={{ maxWidth: 345 }}>
+            <Card sx={{ width: "250px" }}>
                 <CardMedia
                     sx={{ height: "200px", width: "100%", objectFit: "cover" }}
                     component="img"
@@ -24,7 +24,7 @@ const SellingProductCard = ({ image, name, price, id }) => {
                         ₹ {price}
                     </Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{justifyContent:"center"}}>
                     <Button variant="contained" size="small" sx={{
                         border: '1px solid #818CF8', borderRadius: 2, color: '#818CF8', backgroundColor: '#fff', '&:hover': {
                             backgroundColor: '#818CF8', color: '#fff'
