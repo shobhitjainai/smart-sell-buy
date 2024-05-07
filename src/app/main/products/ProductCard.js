@@ -16,7 +16,7 @@ export default function ProductCard({ title, image, price, address, id, archive 
       product_id: id,
     }
     dispatch(createArchieve(data)).then((res)=>{
-      isFavorite ? dispatch(showMessage({ message: 'Product Archived', variant: 'success' })) : dispatch(showMessage({ message: 'Product Unarchived', variant: 'success' })) 
+      isFavorite ? dispatch(showMessage({ message: 'Successful', variant: 'success' })) : dispatch(showMessage({ message: 'Successful', variant: 'success' })) 
     })
   };
   return (

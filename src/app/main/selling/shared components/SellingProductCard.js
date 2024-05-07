@@ -8,7 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const SellingProductCard = ({ image, name, price, id }) => {
     const { t } = useTranslation()
     return (
-        <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
+        // <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
             <Card sx={{ maxWidth: 345 }}>
                 <CardMedia
                     sx={{ height: "200px", width: "100%", objectFit: "cover" }}
@@ -41,7 +41,7 @@ const SellingProductCard = ({ image, name, price, id }) => {
                     </Button>
                 </CardActions>
             </Card>
-        </Link>
+        // </Link>
     );
 };
 
