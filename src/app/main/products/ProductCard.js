@@ -4,6 +4,7 @@ import CardMedia from '@mui/material/CardMedia';
 import StarIcon from '@mui/icons-material/Star';
 import { useDispatch } from 'react-redux';
 import { createArchieve } from 'app/store/userSlices/userSellingSlice';
+import { showMessage } from 'app/store/fuse/messageSlice';
 
 export default function ProductCard({ title, image, price, address, id, archive }) {
   const [isFavorite, setIsFavorite] = React.useState(false);
@@ -14,9 +15,9 @@ export default function ProductCard({ title, image, price, address, id, archive 
     const data = {
       product_id: id,
     }
-    dispatch(createArchieve(data).then((res)=>{
-      console.log(res)
-    }));
+    dispatch(createArchieve(data)).then((res)=>{
+      isFavorite ? dispatch(showMessage({ message: 'Product Archived', variant: 'success' })) : dispatch(showMessage({ message: 'Product Unarchived', variant: 'success' })) 
+    })
   };
   return (
     <Card className='lg:w-full md:w-full p-10 h-[350px] rounded-sm relative'>
