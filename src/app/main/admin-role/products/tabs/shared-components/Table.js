@@ -229,7 +229,7 @@ function EnhancedTableToolbar(props) {
         <IconButton className='ml-5 ' sx={{ borderRadius: '14px', color: '#818CF8' }} onClick={props.filterDialogOpen}>
           <FilterAltIcon sx={{ width: '1.3em', height: '1.3em' }} />
         </IconButton>
-        <Button style={{ color: '#818CF8', cursor: 'pointer' }} onClick={() => handleClearFilters()}>Clear Filters</Button>
+        <Button style={{ color: '#818CF8', cursor: 'pointer' }} onClick={() => handleClearFilters()}>{t('CLEAR_FILTERS')}</Button>
       </Grid>
     </Toolbar>
   );

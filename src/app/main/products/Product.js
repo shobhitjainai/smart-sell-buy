@@ -176,9 +176,7 @@ const Categories = () => {
                         }}
                       >
                         {sortMenuItems?.map((opt) => <MenuItem value={opt.value}>{opt?.label}</MenuItem>)}
-                      </TextField> */}drrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
-                      sdfffffffffffffffffffffffffffffffffffffffffffffffffffff
-                      sdfffffffffffffffffffffffffffffffffffffffffffffffffffff
+                      </TextField> */}Working on Sorting...
                     </AccordionDetails>
                   </Accordion>
                 </Grid>
