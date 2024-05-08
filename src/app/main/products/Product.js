@@ -59,7 +59,7 @@ const Categories = () => {
                 <Grid item className="mb-10">
                   <Typography variant="h4" sx={{ display: 'flex', alignItems: 'center', fontSize: '2rem', color: 'grey' }}><TuneIcon sx={{ width: '1.2em', height: '0.8em' }} />{t('FILTERS')}</Typography>
                 </Grid>
-                <Grid item>
+                <Grid item className="w-full">
                   <Accordion expanded={true}>
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
