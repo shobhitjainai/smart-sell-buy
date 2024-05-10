@@ -58,48 +58,51 @@ function stableSort(expiredProducts, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: 'product',
-    numeric: false,
-    disablePadding: true,
-    label: 'Product',
-  },
-  {
-    id: 'price',
-    numeric: false,
-    disablePadding: false,
-    label: 'Price',
-  },
-  {
-    id: 'Date',
-    numeric: true,
-    disablePadding: false,
-    label: 'Date',
-  },
-  {
-    id: 'Time',
-    numeric: true,
-    disablePadding: false,
-    label: 'Time',
-  },
-  {
-    id: 'seller_name',
-    numeric: true,
-    disablePadding: false,
-    label: 'Seller Name',
-  },
-  {
-    id: 'seller_contact',
-    numeric: true,
-    disablePadding: false,
-    label: 'Seller Mobile No',
-  },
-
-];
 
 
 function EnhancedTableHead(props) {
+  const { t } = useTranslation("productStatus");
+
+  const headCells = [
+    {
+      id: 'product',
+      numeric: false,
+      disablePadding: true,
+      label: t('PRODUCT'),
+    },
+    {
+      id: 'price',
+      numeric: false,
+      disablePadding: false,
+      label: t('PRICE'),
+    },
+    {
+      id: 'Date',
+      numeric: true,
+      disablePadding: false,
+      label: t('DATE'),
+    },
+    {
+      id: 'Time',
+      numeric: true,
+      disablePadding: false,
+      label: t('TIME'),
+    },
+    {
+      id: 'seller_name',
+      numeric: true,
+      disablePadding: false,
+      label: 'Seller Name',
+    },
+    {
+      id: 'seller_contact',
+      numeric: true,
+      disablePadding: false,
+      label: 'Seller Mobile No',
+    },
+  
+  ];
+  
   return (
     <TableHead className='bg-[#F8F9FC]'>
       <TableRow>
@@ -172,7 +175,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable() {
-  const { t } = useTranslation("");
+  const { t } = useTranslation("productStatus");
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);

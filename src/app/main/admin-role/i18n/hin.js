@@ -146,6 +146,13 @@ const locale = {
   PLEASE_SELECT_SUBCATEGORY: 'कृपया उप-श्रेणी चुनें',
   DETAILS: 'विवरण',
   PHOTOS_ARE_REQUIRED: 'फोटोज़ आवश्यक हैं',
+
+
+  SELLER_NAME: 'विक्रेता का नाम',
+  SELLER_MOBILE_NO: 'विक्रेता का मोबाइल नंबर',
+  EXPIRED_PRODUCTS: 'समाप्त उत्पाद',
+  ACTIVE_PRODUCTS: 'सक्रिय उत्पाद',
+
 };
 
 export default locale;
