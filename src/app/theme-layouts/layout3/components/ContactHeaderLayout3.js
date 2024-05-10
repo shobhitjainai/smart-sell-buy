@@ -10,7 +10,7 @@ import NavbarLayout3 from './NavbarLayout3';
 import NavbarMobileLayout3 from './NavbarMobileLayout3';
 import NavbarToggleFab from '../../shared-components/NavbarToggleFab';
 import { Typography } from '@mui/material';
-import ContactHeaderLayout3 from './ContactHeaderLayout3';
+import ContactListItemsLayout3 from './ContactListItemsLayout3';
 
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   '& > .MuiDrawer-paper': {
@@ -35,11 +35,8 @@ function NavbarWrapperLayout3(props) {
   return (
     <>
       <ThemeProvider theme={navbarTheme}>
-      <Hidden lgDown>
-          <ContactHeaderLayout3 className={clsx(props.className)} />
-        </Hidden>
         <Hidden lgDown>
-          <NavbarLayout3 className={clsx(props.className)} />
+          <ContactListItemsLayout3 className={clsx(props.className)} />
         </Hidden>
 
         <Hidden lgUp>
@@ -54,7 +51,7 @@ function NavbarWrapperLayout3(props) {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            <NavbarMobileLayout3 />
+            {/* <NavbarMobileLayout3 /> */}
             
           </StyledSwipeableDrawer>
         </Hidden>
