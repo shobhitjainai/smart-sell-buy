@@ -109,7 +109,8 @@ function FuseLayout(props) {
        */
 
       const routeSettings = matched.route.settings;
-
+      
+      const layout = localStorage.getItem('auth_role') == 'user' ?  "layout3" : "layout1";
       _newSettings = generateSettings(defaultSettings, routeSettings);
     } else if (!_.isEqual(newSettings.current, defaultSettings)) {
       /**

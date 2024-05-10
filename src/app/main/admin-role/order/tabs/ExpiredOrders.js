@@ -21,342 +21,296 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCategory } from 'app/store/admin/CategorySlice';
 import FuseLoading from '@fuse/core/FuseLoading';
 import { Link } from 'react-router-dom';
+import { getExpiredProducts } from 'app/store/admin/productStatusSlice';
+import InfoIcon from '@mui/icons-material/Info';
+import { useTranslation } from 'react-i18next';
+
 
 function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
 }
 
 function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
 // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
 // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
 // with exampleArray.slice().sort(exampleComparator)
-function stableSort(category, comparator) {
-    const stabilizedThis = category.map((el, index) => [el, index]);
-    stabilizedThis.sort((a, b) => {
-        const order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map((el) => el[0]);
+function stableSort(expiredProducts, comparator) {
+  const stabilizedThis = expiredProducts.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        label: 'Order ID',
-    },
-    {
-        id: 'gender',
-        numeric: false,
-        disablePadding: false,
-        label: 'Item',
-    },
-    {
-        id: 'phoneNumber',
-        numeric: true,
-        disablePadding: false,
-        label: 'Date & Time',
-    },
-    {
-        id: 'email',
-        numeric: true,
-        disablePadding: false,
-        label: 'Customer Name',
-    },
-    {
-        id: 'Actions',
-        numeric: true,
-        disablePadding: false,
-        label: 'Actions',
-    },
+  {
+    id: 'product',
+    numeric: false,
+    disablePadding: true,
+    label: 'Product',
+  },
+  {
+    id: 'price',
+    numeric: false,
+    disablePadding: false,
+    label: 'Price',
+  },
+  {
+    id: 'Date',
+    numeric: true,
+    disablePadding: false,
+    label: 'Date',
+  },
+  {
+    id: 'Time',
+    numeric: true,
+    disablePadding: false,
+    label: 'Time',
+  },
+  {
+    id: 'seller_name',
+    numeric: true,
+    disablePadding: false,
+    label: 'Seller Name',
+  },
+  {
+    id: 'seller_contact',
+    numeric: true,
+    disablePadding: false,
+    label: 'Seller Mobile No',
+  },
 
 ];
 
 
-const dummyData = [
-    {
-        "email": "user1@gmail.com",
-        "first_name": "Nauman",
-        "last_name": "Doe",
-        "gender": "male",
-        "phone_number": "1234567890"
-    },
-    {
-        "email": "user2@gmail.com",
-        "first_name": "Ishu",
-        "last_name": "Smith",
-        "gender": "female",
-        "phone_number": "2345678901"
-    },
-    {
-        "email": "user3@gmail.com",
-        "first_name": "Michael",
-        "last_name": "Johnson",
-        "gender": "male",
-        "phone_number": "3456789012"
-    },
-    {
-        "email": "user4@gmail.com",
-        "first_name": "Emily",
-        "last_name": "Brown",
-        "gender": "female",
-        "phone_number": "4567890123"
-    },
-    {
-        "email": "user5@gmail.com",
-        "first_name": "David",
-        "last_name": "Martinez",
-        "gender": "male",
-        "phone_number": "5678901234"
-    },
-    {
-        "email": "user6@gmail.com",
-        "first_name": "Sarah",
-        "last_name": "Garcia",
-        "gender": "female",
-        "phone_number": "6789012345"
-    },
-    {
-        "email": "user7@gmail.com",
-        "first_name": "Christopher",
-        "last_name": "Lopez",
-        "gender": "male",
-        "phone_number": "7890123456"
-    }
-]
-
 function EnhancedTableHead(props) {
-    return (
-        <TableHead className='bg-[#F8F9FC]'>
-            <TableRow>
-                {headCells.map((headCell, index) => (
-                    <TableCell
-                        key={headCell.id}
-                        align='left'
-                        className={`${index === 0 ? 'pl-52' : ''} font-bold`}
-                    >
-                        {headCell.label}
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
+  return (
+    <TableHead className='bg-[#F8F9FC]'>
+      <TableRow>
+        {headCells.map((headCell, index) => (
+          <TableCell
+            key={headCell.id}
+            align='left'
+            className={`${index === 0 ? 'pl-52' : ''} font-bold`}
+          >
+            {headCell.label}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
 }
 
 
 EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
-    const { numSelected } = props;
-    return (
-        <Toolbar
-            sx={{
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-                ...(numSelected > 0 && {
-                    bgcolor: (theme) =>
-                        alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-                }),
-                marginInline: 2,
-                paddingTop: 4
-            }}
+  const { numSelected } = props;
+  return (
+    <Toolbar
+      sx={{
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
+        ...(numSelected > 0 && {
+          bgcolor: (theme) =>
+            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+        }),
+        marginInline: 2,
+        paddingTop: 4
+      }}
+    >
+      {numSelected > 0 ? (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
         >
-            {numSelected > 0 ? (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    color="inherit"
-                    variant="subtitle1"
-                    component="div"
-                >
-                    {numSelected} selected
-                </Typography>
-            ) : (
-                <Typography
-                    sx={{ flex: '1 1 100%' }}
-                    variant="h6"
-                    id="tableTitle"
-                    component="div"
-                >
-                    Expired Orders
-                </Typography>
+          {numSelected} selected
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ flex: '1 1 100%' }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          Expired Orders
+        </Typography>
 
-            )}
-            <Link to="/admin/category/newCategory">
-                <Button variant='outlined' color='primary' sx={{
-                    width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
-                        backgroundColor: '#fff', // Change this to the desired hover background color
-                        color: '#818CF8', borderColor: "#818CF8" // Change this to the desired hover text color
-                    },
-                }}>Add New</Button>
-            </Link>
-        </Toolbar>
-    );
+      )}
+      
+    </Toolbar>
+  );
 }
 
 EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired,
 };
 
 export default function EnhancedTable() {
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const { t } = useTranslation("");
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-    const { category, loading } = useSelector((state) => state.admin.CategorySlice)
+  const { expiredProducts, loading } = useSelector((state) => state.admin.productStatusSlice)
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getCategory())
-    }, [])
+  useEffect(() => {
+    dispatch(getExpiredProducts())
+  }, [])
 
 
-    const handleRequestSort = (event, property) => {
-        const isAsc = orderBy === property && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
-        setOrderBy(property);
-    };
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
 
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelected = rows.map((n) => n.id);
-            setSelected(newSelected);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - category.length) : 0;
-
-    const visibleRows = React.useMemo(
-        () =>
-            stableSort(category, getComparator(order, orderBy)).slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage,
-            ),
-        [order, orderBy, page, rowsPerPage, category],
-    );
-
-    function formatDate(dateString) {
-        const options = { day: '2-digit', month: 'long', year: 'numeric' };
-        return new Date(dateString).toLocaleDateString('en-US', options);
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = rows.map((n) => n.id);
+      setSelected(newSelected);
+      return;
     }
+    setSelected([]);
+  };
 
-    function formatTime(dateString) {
-        const options = { hour: '2-digit', minute: '2-digit' };
-        return new Date(dateString).toLocaleTimeString('en-US', options);
-    }
-    return (
-        <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
-            <EnhancedTableToolbar numSelected={selected.length} />
-            <Grid container className='p-24'>
-                <TableContainer className='justify-between'>
-                    {loading ? <FuseLoading /> : <Table
-                        sx={{ width: "100%" }}
-                        aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - expiredProducts.length) : 0;
+
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(expiredProducts, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage, expiredProducts],
+  );
+
+  function formatDate(dateString) {
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  }
+
+  function formatTime(dateString) {
+    const options = { hour: '2-digit', minute: '2-digit' };
+    return new Date(dateString).toLocaleTimeString('en-US', options);
+  }
+  return (
+    <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
+      <EnhancedTableToolbar numSelected={selected.length} />
+      <Grid container className='p-24'>
+        <TableContainer className='justify-between'>
+          <Table
+            sx={{ width: "100%" }}
+            aria-labelledby="tableTitle"
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={expiredProducts.length}
+            />
+            {(expiredProducts?.length > 0 && !loading.expiredProductsLoading) && <TableBody >
+              {expiredProducts?.map((row, index) => {
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow
+                    // hover
+                    className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.id}
+                    sx={{ marginInline: 4 }}
+                  >
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      sx={{ padding: '16px 24px' }}
+                      align='left'
                     >
-                        <EnhancedTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={category.length}
+                      <Grid container alignItems="center">
+                        <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                          <Avatar variant="rounded" alt={row?.name} src={row?.images[0].image} />
+                        </Avatar>
+                        <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
+                      </Grid>
+                    </TableCell>
+                    <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
+                    <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
+                    <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
+                    <TableCell sx={{ fontSize: 16 }} align="left">{`${row?.seller?.first_name} ${row?.seller?.last_name}`}</TableCell>
+                    <TableCell sx={{ fontSize: 16 }} align="left">{`${row?.seller?.phone_number}`}</TableCell>
 
-                        />
-
-                        <TableBody className='p-52'>
-                            {dummyData.map((row, index) => {
-                                // const isItemSelected = isSelected(row.id);
-                                const labelId = `enhanced-table-checkbox-${index}`;
-                                return (
-                                    <TableRow
-                                        className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        key={row.id}
-                                        sx={{ marginInline: 4 }}
-                                    >
-                                        <TableCell
-                                            component="th"
-                                            id={labelId}
-                                            scope="row"
-                                            className='pl-52'
-                                            align='left'
-                                            sx={{ paddingBlock: 3 }}
-                                        >
-                                            <Grid container alignItems="center">
-                                                <img src={row.picture} width="70px" height='50px' alt={row.first_name} className='pr-24' />
-                                                <Typography className='text-xl' >{`${row.first_name} ${row.last_name}`}</Typography>
-                                            </Grid>
-                                        </TableCell>
-                                        <TableCell id={labelId} align="left">{row.gender}</TableCell>
-                                        <TableCell align="left">{row.phone_number}</TableCell>
-                                        <TableCell align="left">{row.email}</TableCell>
-                                        <TableCell align="left" >
-                                            <IconButton onClick={() => console.log(row)}>
-                                                <EditIcon fontSize='small' sx={{ color: "gray" }} />
-                                            </IconButton>
-                                            <IconButton onClick={() => console.log(row?.id)}>
-                                                <DeleteIcon fontSize='small' sx={{ color: "red" }} />
-                                            </IconButton>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                            {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: (dense ? 33 : 53) * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>}
-
-                </TableContainer>
+                  </TableRow>
+                );
+              })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>}
+          </Table>
+          {loading.expiredProductsLoading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+            <Grid item><FuseLoading /></Grid>
+          </Grid>}
+          {(expiredProducts?.length <= 0 && !loading.expiredProductsLoading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+            <Grid item>
+              <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
             </Grid>
-        </Box>
-    );
+            <Grid item>
+              <Typography fontSize={18} fontWeight={600}>{t('NO_EXPIRED_PRODUCTS_FOUND')}</Typography>
+            </Grid>
+          </Grid>}
+        </TableContainer>
+      </Grid>
+    </Box>
+  );
 }

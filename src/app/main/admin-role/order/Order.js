@@ -52,9 +52,9 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%',marginTop:3 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-          <Tab label="All Order" {...a11yProps(0)} />
-          <Tab label="Order Expired" {...a11yProps(1)} />
-          <Tab label="Order Left" {...a11yProps(2)} />
+          <Tab label="Active Products" {...a11yProps(0)} />
+          <Tab label="Expired Products" {...a11yProps(1)} />
+          {/* <Tab label="Order Left" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -62,9 +62,6 @@ export default function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
        <ExpiredOrders/>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-       <OrdersLeft/>
       </CustomTabPanel>
     </Box>
   );
