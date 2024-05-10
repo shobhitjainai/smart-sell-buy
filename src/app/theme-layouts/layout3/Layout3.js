@@ -44,6 +44,7 @@ function Layout3(props) {
           {config.navbar.display && (
             <NavbarWrapperLayout3
               className={clsx(config.navbar.style === 'fixed' && 'sticky top-0 z-50')}
+              
             />
           )}
 

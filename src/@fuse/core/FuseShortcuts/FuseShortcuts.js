@@ -140,22 +140,7 @@ function FuseShortcuts(props) {
                 )
             )}
 
-            <Tooltip
-              title="Click to add/remove shortcut"
-              placement={props.variant === 'horizontal' ? 'bottom' : 'left'}
-            >
-              <IconButton
-                component={motion.div}
-                variants={item}
-                className="w-40 h-40 p-0"
-                aria-owns={addMenu ? 'add-menu' : null}
-                aria-haspopup="true"
-                onClick={addMenuClick}
-                size="large"
-              >
-                <FuseSvgIcon sx={{ color: amber[600] }}>heroicons-solid:star</FuseSvgIcon>
-              </IconButton>
-            </Tooltip>
+           
           </motion.div>
         );
       }, [addMenu, props.variant, shortcutItems])}
