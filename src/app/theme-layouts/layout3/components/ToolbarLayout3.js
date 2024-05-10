@@ -112,7 +112,7 @@ function ToolbarLayout3(props) {
 
             {/* <NotificationPanelToggleButton /> */}
 
-            <UserMenu />
+           
           </div>
         </Toolbar>
       </AppBar>

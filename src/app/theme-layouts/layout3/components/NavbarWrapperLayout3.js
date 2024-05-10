@@ -35,9 +35,7 @@ function NavbarWrapperLayout3(props) {
   return (
     <>
       <ThemeProvider theme={navbarTheme}>
-      <Hidden lgDown>
-          <ContactHeaderLayout3 className={clsx(props.className)} />
-        </Hidden>
+      
         <Hidden lgDown>
           <NavbarLayout3 className={clsx(props.className)} />
         </Hidden>

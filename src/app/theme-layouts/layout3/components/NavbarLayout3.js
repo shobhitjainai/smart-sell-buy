@@ -20,19 +20,12 @@ function NavbarLayout3(props) {
 
           <Navigation layout="horizontal" dense />
           <div className='flex justify-between gap-14 items-center'>
-            <div >
-              <LanguageSwitcher />
-            </div>
+
             <div >
               <Typography sx={{ color: "blue", marginLeft: "auto", fontWeight: "700" }}>$0.00</Typography>
             </div>
-            <div >
-              <FacebookIcon />
-            </div >
-            <div>
-              <TwitterIcon />
-            </div >
-              </div>
+
+          </div>
         </FuseScrollbars>
       </div>
     </Root>
