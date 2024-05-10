@@ -92,13 +92,13 @@ function EnhancedTableHead(props) {
       id: 'seller_name',
       numeric: true,
       disablePadding: false,
-      label: 'Seller Name',
+      label: t('SELLER_NAME'),
     },
     {
       id: 'seller_contact',
       numeric: true,
       disablePadding: false,
-      label: 'Seller Mobile No',
+      label: t('SELLER_MOBILE_NO'),
     },
   
   ];
@@ -131,6 +131,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
+  const {t} = useTranslation('productStatus')
   const { numSelected } = props;
   return (
     <Toolbar
@@ -161,7 +162,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Expired Orders
+          {t("EXPIRED_PRODUCTS")}
         </Typography>
 
       )}

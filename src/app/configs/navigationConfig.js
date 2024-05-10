@@ -161,8 +161,8 @@ const navigationConfig = [
     children: [
       {
         id: 'order.order',
-        title: 'order',
-        translate: 'Order',
+        title: 'Active & Expired Products',
+        translate: 'ACTIVE_EXPIRED_PRODUCTS',
         type: 'item',
         icon: 'material-solid:list_alt',
         url: '/order',

@@ -17,6 +17,7 @@ const locale = {
   Order: "Order",
   SELLING: 'Selling',
   SELL_PRODUCT: 'Sell Product',
+  ACTIVE_EXPIRED_PRODUCTS: 'Active & Expired Products',
 };
 
 export default locale;

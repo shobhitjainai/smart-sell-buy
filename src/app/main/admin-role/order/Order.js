@@ -7,10 +7,10 @@ import Box from '@mui/material/Box';
 import AllOrders from './tabs/AllOrders';
 import ExpiredOrders from './tabs/ExpiredOrders'
 import OrdersLeft from './tabs/OrdersLeft'
-
+import { useTranslation } from 'react-i18next';
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  
   return (
     <div
       role="tabpanel"
@@ -47,13 +47,14 @@ export default function BasicTabs() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const { t } = useTranslation("productStatus");
 
   return (
     <Box sx={{ width: '100%',marginTop:3 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
-          <Tab label="Active Products" {...a11yProps(0)} />
-          <Tab label="Expired Products" {...a11yProps(1)} />
+          <Tab label={t('ACTIVE_PRODUCTS')} {...a11yProps(0)} />
+          <Tab label={t("EXPIRED_PRODUCTS")} {...a11yProps(1)} />
           {/* <Tab label="Order Left" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>

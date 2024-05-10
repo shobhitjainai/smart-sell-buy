@@ -169,6 +169,12 @@ const locale = {
   DETAILS: 'Details',
   PHOTOS_ARE_REQUIRED: 'Photos are required',
 
+
+  NO_EXPIRED_PRODUCTS_FOUND: 'No expired products found',
+  SELLER_NAME: 'Seller Name',
+  SELLER_MOBILE_NO: 'Seller Mobile No',
+  EXPIRED_PRODUCTS: 'Expired Products',
+  ACTIVE_PRODUCTS: 'Active Products',
 };
 
 export default locale;

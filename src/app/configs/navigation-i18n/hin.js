@@ -17,6 +17,7 @@ const locale = {
   Order: "ऑर्डर",
   SELLING: 'विक्रय',
   SELL_PRODUCT: 'उत्पाद बेचें',
+  ACTIVE_EXPIRED_PRODUCTS: 'सक्रिय और समाप्त उत्पाद',
 };
 
 export default locale;

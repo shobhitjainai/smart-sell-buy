@@ -56,7 +56,7 @@ function ToolbarLayout3(props) {
                     >
                       CATEGORY
                     </AccordionSummary> */}
-                    <AccordionDetails>
+                    <AccordionDetails sx={{width: 200, paddingTop: '20px'}}>
                       <TextField
                         name='category_id'
                         variant='filled'
@@ -87,7 +87,7 @@ function ToolbarLayout3(props) {
             </Hidden>
           </div>
 
-          <div className="flex items-center px-8 md:px-0 h-full overflow-x-auto justify-end">
+          <div className="flex items-center px-8 md:px-0 h-full overflow-x-auto justify-end gap-20">
             <Hidden smUp>
               <NavigationSearch />
             </Hidden>
@@ -96,11 +96,11 @@ function ToolbarLayout3(props) {
               <ChatPanelToggleButton />
             </Hidden>
               <Grid item justifyContent="center" alignItems="center">
-                <CallIcon />
+                <CallIcon sx={{color: 'green', backgroundColor: '#BDBDBD', borderRadius: '100%', padding: "5px" }}/>
               </Grid>
               <Grid item>
-                <Typography sx={{fontWeight:"700"}}>+91 9852368952</Typography>
-                <Typography sx={{color:"grey"}}>Support 24/7 times</Typography>
+                <Typography sx={{fontWeight:"700"}} className='text-lg'>+91 9852368952</Typography>
+                <Typography sx={{color:"grey"}} className='text-md'>Support 24/7 times</Typography>
               </Grid>
             {/* <LanguageSwitcher /> */}
 
