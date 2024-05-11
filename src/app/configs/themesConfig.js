@@ -8,7 +8,7 @@ export const lightPaletteText = {
 };
 
 export const darkPaletteText = {
-  primary: 'rgb(0,0,0)',
+  primary: '#fff',
   secondary: 'rgb(148, 163, 184)',
   disabled: 'rgb(156, 163, 175)',
 };
