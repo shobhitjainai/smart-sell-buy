@@ -1,19 +1,10 @@
 import themesConfig from 'app/configs/themesConfig';
 import i18n from '../../i18n';
 
-// const loginRedirectUrl = role === 'admin' ? '/dashboard' : role === 'user' ? '/home' : '/';
-const userRole = localStorage.getItem('auth_role');
-let layoutToShow;
-
-if (userRole === 'admin') {
-    layoutToShow = 'layout1';
-} else {
-    layoutToShow = 'layout3';
-}
 
 const settingsConfig = {
   layout: {
-    style: 'layout3', // layout1 layout2 layout3
+    style: 'layout1', // layout1 layout2 layout3
     config: {}, // checkout default layout configs at app/theme-layouts for example  app/theme-layouts/layout1/Layout1Config.js
   },
   customScrollbars: true,
