@@ -33,6 +33,8 @@ function NavbarWrapperLayout2(props) {
     <>
       <ThemeProvider theme={navbarTheme}>
         <Hidden lgDown>
+        </Hidden>
+        <Hidden lgDown>
           <NavbarLayout2 />
         </Hidden>
 

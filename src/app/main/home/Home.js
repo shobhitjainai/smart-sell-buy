@@ -11,85 +11,73 @@ import { useEffect, useState } from "react";
 import { getSearchProducts, getUserProducts } from "app/store/userSlices/userHomeSlice";
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
-    "& .FusePageSimple-header": {
-        backgroundColor: theme.palette.background.paper,
-        borderBottomWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.palette.divider,
-    },
-    "& .FusePageSimple-toolbar": {},
-    "& .FusePageSimple-content": { display: "block" },
-    "& .FusePageSimple-sidebarHeader": {},
-    "& .FusePageSimple-sidebarContent": {},
+  "& .FusePageSimple-header": {
+    backgroundColor: theme.palette.background.paper,
+    borderBottomWidth: 1,
+    borderStyle: "solid",
+    borderColor: theme.palette.divider,
+  },
+  "& .FusePageSimple-toolbar": {},
+  "& .FusePageSimple-content": { display: "block" },
+  "& .FusePageSimple-sidebarHeader": {},
+  "& .FusePageSimple-sidebarContent": {},
 }));
 
 function HomePage(props) {
-    const { t } = useTranslation("HomePage");
-    const { userProducts, searchInput } = useSelector((state) => state.userSlices.userHomeSlice);
-    const [search, setSearch] = useState('');
-    const dispatch = useDispatch();
+  const { t } = useTranslation("HomePage");
+  const { userProducts, searchInput } = useSelector((state) => state.userSlices.userHomeSlice);
+  const [search, setSearch] = useState('');
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(getUserProducts());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(getUserProducts());
+  }, [dispatch]);
 
-    useEffect(() => {
-        if (search.trim() !== '') {
-            dispatch(getSearchProducts(search));
-        }
-    }, [dispatch, search]);
+  useEffect(() => {
+    if (search.trim() !== '') {
+      dispatch(getSearchProducts(search));
+    }
+  }, [dispatch, search]);
 
-    let productsToDisplay = search.trim() !== '' ? searchInput || [] : userProducts || [];
+  let productsToDisplay = search.trim() !== '' ? searchInput || [] : userProducts || [];
+  return (
+    <Root
+      content={
+        <div className="p-24 h-320">
+          <div className="">
+            <Link to="/"></Link>
+            <HomeCaraousel />
+            <Categories />
 
-
-
-    return (
-        <Root
-            // header={
-            //     <div className="p-24">
-            //         <h4>{t("TITLE")}</h4>
-            //     </div>
-            // }
-            content={
-                <div className="p-24 h-320">
-                    <div className="">
-                        <Link to="/"></Link>
-                        <HomeCaraousel />
-                        <h2>Categories</h2>
-                        <Categories />
-
-                        {/* FRESH RECOMMENDATION */}
-                        <Grid className="flex flex-col">
-                            <Typography className="text-lg font-bold">
-                                Fresh Recommendation
-                            </Typography>
-
-                            <Grid className="text-gray-600 body-font">
-                            <Grid className="container px-5 py-24 mx-auto ">
-                                <Grid className="flex flex-wrap -m-4 ">
-                                {productsToDisplay.map((item, index) => (
-                                    
-                                        <Link key={index} to={`/product-details/${item.id}`} style={{ textDecoration: "none" }} className="lg:w-1/5 md:w-1/5 p-4 w-full ">
-                                            <ProductCard
-                                                // sx={{ width: "100%", cursor: "pointer" }}
-                                                image={item.images[0]}
-                                                title={item.name}
-                                                address={item.address}
-                                                price={item.price}
-                                            />
-                                        </Link>
-                                   
-                                ))}
-                                </Grid>
-                            </Grid>
-                            </Grid>
-                        </Grid>
-                    </div>
-                </div>
-            }
-            
-        />
-    );
+            {/* FRESH RECOMMENDATION */}
+            <Grid className="flex flex-col">
+              <Grid container spacing={2} className="mt-8">
+                <Grid item>
+                  <Typography sx={{ fontWeight: 'bold', fontSize: '2.4rem' }} className="my-8">Fresh Recommendation</Typography>
+                </Grid>
+              </Grid>
+              <Grid className="text-gray-600 body-font">
+                <Grid className="container px-5 pb-24 mx-auto ">
+                  <Grid className="flex flex-wrap -m-4 ">
+                    {productsToDisplay.map((item, index) => (
+                      <Link key={index} to={`/product-details/${item.id}`} style={{ textDecoration: "none" }} className="lg:w-1/5 md:w-1/5 p-4 w-full ">
+                        <ProductCard
+                          image={item.images[0]}
+                          title={item.name}
+                          address={item.address}
+                          price={item.price}
+                        />
+                      </Link>
+                    ))}
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </div>
+        </div>
+      }
+    />
+  );
 }
 
 export default HomePage;

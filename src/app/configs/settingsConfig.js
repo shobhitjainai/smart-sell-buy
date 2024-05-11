@@ -1,8 +1,6 @@
 import themesConfig from 'app/configs/themesConfig';
 import i18n from '../../i18n';
 
-// const loginRedirectUrl = role === 'admin' ? '/dashboard' : role === 'user' ? '/home' : '/';
-
 
 const settingsConfig = {
   layout: {

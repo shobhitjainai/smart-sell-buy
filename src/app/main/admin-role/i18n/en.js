@@ -53,7 +53,6 @@ const locale = {
   Condition: "Condition",
   Description: "Description",
   Price: "Price",
-  No_Products_are_there: "No products are there!!",
 
   // ADMIN PRODUCT LIST
   ALL_PRODUCTS: 'All Products',
@@ -66,7 +65,22 @@ const locale = {
   PRODUCT_LIST: 'Product List',
   PRODUCTS: 'Products',
   ACTIONS: 'Actions',
-  NO_PRODUCT_ARE_THERE: " कोई उत्पाद नहीं हैं!!",
+  NO_PRODUCT_ARE_THERE: "No products are there!!",
+  PRODUCTS_FILTER: 'Products Filter',
+  SORT_BY: 'Sort By',
+  FILTER_BY: "Filter By",
+  CATEGORY: 'Category',
+  SUBCATEGORY: 'Subcategory',
+  CLEAR_FILTER: 'Clear Filter',
+  MAXIMUM_PRICE: 'Maximum Price',
+  MINIMUM_PRICE: 'Minimum Price',
+  SELECT_SUBCATEGORY: 'Select Subcategory',
+  CLEAR_FILTERS: 'Clear Filters',
+  APPLY: 'Apply',
+  NEWEST_ON_TOP: 'Newest on Top',
+  OLDEST_ON_TOP: 'Oldest on Top',
+  PRICE_HIGH_TO_LOW: 'Price High to Low',
+  PRICE_LOW_TO_HIGH: 'Price Low to High',
 
   // EDIT AND DELETE PRODUCT
   EDIT_PRODUCT: 'Edit Product',
@@ -95,7 +109,12 @@ const locale = {
   //filter
   PRODUCTS_FILTER: 'Product Filters',
   APPLY: 'Apply',
-  SORT_BY: 'SORT BY',
+  SORT_BY: 'Sort by',
+  FILTER_BY: 'Filter by',
+  CATEGORY: 'Category',
+  SUBCATEGORY: 'Sub-category',
+  MAXIMUM_PRICE: 'Maximum price',
+  MINIMUM_PRICE: 'Minimum price',
 
   // PROFILE
   BOUGHT_25_SOLD: '354 Bought 25 Sold',
@@ -126,6 +145,7 @@ const locale = {
 
   // ADD PRODUCT
   SELECT_CATEGORY: 'Select Category',
+  SELECT_SUBCATEGORY: 'Select Sub-category',
   SUB_CATEGORY: 'Sub Category',
   SELECTED_CATEGORY: 'Selected Category',
   UPLOAD_UPTO_6_IMAGES: 'Upload Up to 6 images',
@@ -149,6 +169,12 @@ const locale = {
   DETAILS: 'Details',
   PHOTOS_ARE_REQUIRED: 'Photos are required',
 
+
+  NO_EXPIRED_PRODUCTS_FOUND: 'No expired products found',
+  SELLER_NAME: 'Seller Name',
+  SELLER_MOBILE_NO: 'Seller Mobile No',
+  EXPIRED_PRODUCTS: 'Expired Products',
+  ACTIVE_PRODUCTS: 'Active Products',
 };
 
 export default locale;

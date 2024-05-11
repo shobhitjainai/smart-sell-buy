@@ -9,6 +9,8 @@ import { selectFuseCurrentLayoutConfig, selectNavbarTheme } from 'app/store/fuse
 import NavbarLayout3 from './NavbarLayout3';
 import NavbarMobileLayout3 from './NavbarMobileLayout3';
 import NavbarToggleFab from '../../shared-components/NavbarToggleFab';
+import { Typography } from '@mui/material';
+import ContactHeaderLayout3 from './ContactHeaderLayout3';
 
 const StyledSwipeableDrawer = styled(SwipeableDrawer)(({ theme }) => ({
   '& > .MuiDrawer-paper': {
@@ -33,6 +35,7 @@ function NavbarWrapperLayout3(props) {
   return (
     <>
       <ThemeProvider theme={navbarTheme}>
+      
         <Hidden lgDown>
           <NavbarLayout3 className={clsx(props.className)} />
         </Hidden>
@@ -50,14 +53,19 @@ function NavbarWrapperLayout3(props) {
             }}
           >
             <NavbarMobileLayout3 />
+            
           </StyledSwipeableDrawer>
         </Hidden>
       </ThemeProvider>
       {config.navbar.display && !config.toolbar.display && (
         <Hidden lgUp>
           <NavbarToggleFab />
+         
         </Hidden>
       )}
+
+    
+     
     </>
   );
 }

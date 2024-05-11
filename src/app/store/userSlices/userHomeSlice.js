@@ -26,6 +26,7 @@ export const getCategories = createAsyncThunk(
     return data.data;
   }
 );
+
 export const getSubCategories = createAsyncThunk(
   "subcategories/getSubCategories",
   async () => {
@@ -88,12 +89,37 @@ export const getSearchProducts = createAsyncThunk(
   }
 );
 
+export const filterProducts = createAsyncThunk('product/filterProducts', async (productData) => {
+  const formData = new FormData();
+  // Append form data fields to the FormData object
+  Object.keys(productData).forEach((key) => {
+    formData.append(key, productData[key]);
+  });
+  const response = await fetch(`https://reileadsapi.exerboost.in/api/filter-product`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${getAccessToken()}`
+    },
+    body: formData
+  });
+  const data = await response.json();
+  return data.data;
+})
+
 const userHomeSlice = createSlice({
   name: "userHome",
   initialState: {
     loading: {
       categoriesLoading: false,
-      currentSubCategoriesLoading: false
+      currentSubCategoriesLoading: false,
+      userProductsLoading: false,
+    },
+    filterState: {
+      sort: 'newest-on-top',
+      category_id: '',
+      subcategory_id: '',
+      price_max: '',
+      price_min: ''
     },
     currentSubCategories: [],
     bannerImages: [],
@@ -103,17 +129,15 @@ const userHomeSlice = createSlice({
     singleProductDetail: [],
     searchInput: '',
   },
-
+  reducers: {
+    handleFilters: (state, action) => {
+      const { name, value } = action.payload
+      state.filterState[name] = value
+    }
+  },
   extraReducers: {
-    // [getBannerImages.pending]: (state) => {
-    //   state.loading = true;
-    // },
     [getBannerImages.fulfilled]: (state, action) => {
-      // state.loading = false;
       state.bannerImages = action.payload;
-    },
-    [getBannerImages.rejected]: (state) => {
-      // state.loading = false;
     },
     [getCategories.pending]: (state) => {
       state.loading.categoriesLoading = true;
@@ -129,9 +153,6 @@ const userHomeSlice = createSlice({
       state.loading.currentSubCategoriesLoading = false;
       state.currentSubCategories = action.payload;
     },
-    [getCategories.rejected]: (state) => {
-      // state.loading = false;
-    },
     [getSubCategories.pending]: (state) => {
       // state.loading = true;
     },
@@ -139,18 +160,12 @@ const userHomeSlice = createSlice({
       // state.loading = false;
       state.subcategories = action.payload;
     },
-    [getSubCategories.rejected]: (state) => {
-      // state.loading = false;
-    },
     [getUserProducts.pending]: (state) => {
-      // state.loading = true;
+      state.loading.userProductsLoading = true;
     },
     [getUserProducts.fulfilled]: (state, action) => {
-      // state.loading = false;
+      state.loading.userProductsLoading = false;
       state.userProducts = action.payload;
-    },
-    [getUserProducts.rejected]: (state) => {
-      // state.loading = false;
     },
 
     [getSingleProductDetail.pending]: (state) => {
@@ -160,22 +175,22 @@ const userHomeSlice = createSlice({
       // state.loading = false;
       state.singleProductDetail = action.payload;
     },
-    [getSingleProductDetail.rejected]: (state) => {
-      // state.loading = false;
-    },
-
     [getSearchProducts.pending]: (state) => {
       // state.loading = true;
     },
     [getSearchProducts.fulfilled]: (state, action) => {
-      // state.loading = false;
+      // state.loading.userProductsLoading = false;
       state.searchInput = action.payload;
     },
-    [getSearchProducts.rejected]: (state) => {
-      // state.loading = false;
+    [filterProducts.pending]: (state) => {
+      state.loading.userProductsLoading = true;
     },
+    [filterProducts.fulfilled]: (state, { payload }) => {
+      state.loading.userProductsLoading = false;
+      state.userProducts = payload
+    }
   },
 });
 
-
+export const { handleFilters } = userHomeSlice.actions
 export default userHomeSlice.reducer;

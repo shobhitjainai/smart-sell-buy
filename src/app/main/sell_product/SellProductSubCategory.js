@@ -24,7 +24,7 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function HomePage(props) {
-    const {t} = useTranslation('addProduct')
+    const { t } = useTranslation('addProduct')
     const { currentSubCategories, loading } = useSelector((state) => state.userSlices.userHomeSlice);
     const { id } = useParams()
     const dispatch = useDispatch();
@@ -38,17 +38,18 @@ function HomePage(props) {
             <Grid margin={3}>
                 <Typography variant="h6" className="text-2xl font-bold">{t('SUB_CATEGORY')}</Typography>
 
-                <Grid sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={3}>
+                <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap", gap: 3 }} marginTop={3}>
                     {(loading.currentSubCategoriesLoading ? Array.from(new Array(3)) : currentSubCategories)?.map((item, index) => (
-                        <Grid sx={{ width: "15%" }} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300'>
+                        <Grid item xs={6} sm={4} md={3.6} lg={2.6} xl={1.8} key={index} className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300'>
                             {!loading.currentSubCategoriesLoading ? (
                                 <Link
                                     to='/post-product'
                                     style={{ textDecoration: "none" }}
+                                    className="w-full"
                                     onClick={() => dispatch(handleSubcategory(item))}
                                 >
                                     <Cards
-                                        sx={{ width: "50px", cursor: "pointer" }}
+                                        sx={{ cursor: "pointer" }}
                                         title={item.name}
                                         image={item.image}
                                     />

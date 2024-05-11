@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 const SubCategoryListTable = () => {
-  const {t} = useTranslation('adminSubCategoryPage');
+  const { t } = useTranslation('adminSubCategoryPage');
   const dispatch = useDispatch()
   const { loading, subCategories } = useSelector(state => state.admin.SubCategory)
   const { category } = useSelector((state) => state.admin.CategorySlice)

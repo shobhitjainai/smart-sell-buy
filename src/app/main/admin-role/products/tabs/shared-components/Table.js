@@ -20,11 +20,11 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { visuallyHidden } from '@mui/utils';
-import { Avatar, Grid, InputAdornment } from '@mui/material';
+import { Avatar, Grid, InputAdornment, MenuItem, Link as muiLink } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, getProduct, handleEditProductDialog } from 'app/store/admin/productSlice';
+import { deleteProduct, filterProducts, getProduct, handleEditProductDialog, handleFilterChange } from 'app/store/admin/productSlice';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import InfoIcon from '@mui/icons-material/Info';
 import * as Yup from "yup";
@@ -43,6 +43,10 @@ import useDialogState from 'src/app/utils/hooks/useDialogState';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import { updateProduct } from 'app/store/admin/productSlice';
 import { useTranslation } from 'react-i18next';
+import { sortMenuItems } from 'src/app/constant/table';
+import { getCategory } from 'app/store/admin/CategorySlice';
+import { getSubCategoriesById } from 'app/store/userSlices/userHomeSlice';
+import { getProducts } from 'app/store/admin/DashboardSlice';
 
 
 function createData(id, name, calories, fat, carbs, protein) {
@@ -122,12 +126,6 @@ function EnhancedTableHead(props) {
       label: t('PRODUCT'),
     },
     {
-      id: 'description',
-      numeric: true,
-      disablePadding: false,
-      label: t('DESCRIPTION'),
-    },
-    {
       id: 'price',
       numeric: true,
       disablePadding: false,
@@ -183,6 +181,17 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const { t } = useTranslation('adminProductPage')
   const { numSelected } = props;
+  const dispatch = useDispatch()
+  const handleClearFilters = () => {
+    dispatch(handleFilterChange({
+      sort: 'newest-on-top',
+      category_id: '',
+      subcategory_id: '',
+      price_max: '',
+      price_min: ''
+    }))
+    dispatch(getProduct())
+  }
   return (
     <Toolbar
       sx={{
@@ -193,29 +202,35 @@ function EnhancedTableToolbar(props) {
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
         }),
         marginInline: 2,
-        paddingTop: 4
+        paddingTop: 4,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
       }}
     >
-
-      <Typography
-        sx={{ flex: '1 1 100%' }}
-        variant="h6"
-        id="tableTitle"
-        component="div"
-      >
-        {t('PRODUCTS')}
-      </Typography>
-      <Link to="/user/sell-product">
-        <Button variant='outlined' color='primary' sx={{
-          width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#818CF8', backgroundColor: '#fff', '&:hover': {
-            backgroundColor: '#818CF8', // Change this to the desired hover background color
-            color: '#fff', borderColor: "#818CF8" // Change this to the desired hover text color
-          },
-        }}>{t('ADD_NEW')}</Button>
-      </Link>
-      <IconButton className='ml-5 ' sx={{ borderRadius: '14px', color: '#818CF8' }} onClick={props.filterDialogOpen}>
-        <FilterAltIcon sx={{ width: '1.3em', height: '1.3em' }} />
-      </IconButton>
+      <Grid>
+        <Typography
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
+          {t('PRODUCTS')}
+        </Typography>
+      </Grid>
+      <Grid>
+        <Link to="/user/sell-product">
+          <Button variant='outlined' color='primary' sx={{
+            width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#818CF8', backgroundColor: '#fff', '&:hover': {
+              backgroundColor: '#818CF8', // Change this to the desired hover background color
+              color: '#fff', borderColor: "#818CF8" // Change this to the desired hover text color
+            },
+          }}>{t('ADD_NEW')}</Button>
+        </Link>
+        <IconButton className='ml-5 ' sx={{ borderRadius: '14px', color: '#818CF8' }} onClick={props.filterDialogOpen}>
+          <FilterAltIcon sx={{ width: '1.3em', height: '1.3em' }} />
+        </IconButton>
+        <Button style={{ color: '#818CF8', cursor: 'pointer' }} onClick={() => handleClearFilters()}>{t('CLEAR_FILTERS')}</Button>
+      </Grid>
     </Toolbar>
   );
 }
@@ -234,13 +249,11 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [editData, setEditData] = React.useState(null);
   const { product, loading, editDialog, filterState } = useSelector((state) => state.admin.productSlice);
+  const { category } = useSelector((state) => state.admin.CategorySlice)
   const { dialogState: deleteProductDialog, handleOpen: handleDeleteProductDialogOpen, handleClose: handleDeleteProductDialogClose } = useDialogState()
   const { dialogState: filterProductsDialog, handleOpen: handleFilterProductsDialogOpen, handleClose: handleFilterProductsDialogClose } = useDialogState()
+  const userHomeState = useSelector((state) => state.userSlices.userHomeSlice);
   const dispatch = useDispatch();
-
-  const handleFilterProduct = () => {
-    handleFilterProductsDialogClose()
-  }
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(t('REQUIRED')),
@@ -250,6 +263,7 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     dispatch(getProduct());
+    dispatch(getCategory());
   }, []);
 
   const handleRequestSort = (event, property) => {
@@ -275,7 +289,7 @@ export default function EnhancedTable() {
       else {
         handleDeleteProductDialogClose()
         dispatch(showMessage({ message: "Product Deleted Successfully", variant: 'success' }));
-        dispatch(getProduct());
+        dispatch(filterProducts(filterState));
       }
     })
   }
@@ -293,19 +307,6 @@ export default function EnhancedTable() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - product.length) : 0;
-
-
-
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(product, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage, product],
-  );
-
-
 
   function formatDate(dateString) {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -339,7 +340,7 @@ export default function EnhancedTable() {
   const handleUpdate = (data) => {
     dispatch(updateProduct({ productData: data, id: editData?.id })).then((res) => {
       handleClose()
-      dispatch(getProduct())
+      dispatch(filterProducts(filterState));
       dispatch(showMessage({ message: "Product Update Successfully", variant: 'success' }));
     })
   };
@@ -362,8 +363,8 @@ export default function EnhancedTable() {
               onRequestSort={handleRequestSort}
               rowCount={product.length}
             />
-            {(visibleRows.length > 0 && !loading) && <TableBody >
-              {visibleRows.map((row, index) => {
+            {(product?.length > 0 && !loading) && <TableBody >
+              {product?.map((row, index) => {
                 const labelId = `enhanced-table-checkbox-${index}`;
                 return (
                   <TableRow
@@ -388,7 +389,6 @@ export default function EnhancedTable() {
                         <Typography sx={{ fontWeight: 600, fontSize: 16 }}>{row?.name}</Typography>
                       </Grid>
                     </TableCell>
-                    <TableCell sx={{ fontSize: 16 }} align="left">{row.description}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">₹ {row.price}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">{formatDate(row.created_at)}</TableCell>
                     <TableCell sx={{ fontSize: 16 }} align="left">{formatTime(row.created_at)}</TableCell>
@@ -417,7 +417,7 @@ export default function EnhancedTable() {
           {loading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
             <Grid item><FuseLoading /></Grid>
           </Grid>}
-          {(visibleRows.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+          {(product?.length <= 0 && !loading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
             <Grid item>
               <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
             </Grid>
@@ -428,7 +428,7 @@ export default function EnhancedTable() {
         </TableContainer>
       </Grid>
 
-      {visibleRows.length > 0 && <TablePagination
+      {product?.length > 0 && <TablePagination
         rowsPerPageOptions={[5]}
         component="div"
         count={product.length}
@@ -547,37 +547,139 @@ export default function EnhancedTable() {
       </Dialog>
 
       {/*PRODUCT Filter Dialog*/}
-      <Dialog open={filterProductsDialog?.isOpen} onClose={handleFilterProductsDialogClose}>
-        <DialogTitle>{t('PRODUCTS_FILTER')}</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-              <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('SORT_BY')}</Typography></Grid>
-              <Grid item xs={6}>
-                <TextField
-                  name='sort'
-                  varient='contained'
-                  type='text'
-                  value={filterState?.sort}
-                  fullWidth
-                  required
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions className='p-10'>
-          <Button onClick={handleFilterProductsDialogClose} variant="contained" sx={{
-            backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
-              backgroundColor: "gray", color: '#fff'
-            }
-          }} >{t('CANCEL')}</Button>
-          <Button type="submit" variant="contained" sx={{
-            border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
-              backgroundColor: '#fff', color: '#818CF8'
-            },
-          }} onClick={() => onDelete()}>{t('APPLY')}</Button>
-        </DialogActions>
+      <Dialog maxWidth={'lg'} open={filterProductsDialog?.isOpen} onClose={handleFilterProductsDialogClose}>
+        <DialogTitle sx={{ borderBottom: '1px solid lightgray' }}>{t('PRODUCTS_FILTER')}</DialogTitle>
+        <Formik
+          initialValues={{
+            sort: filterState.sort,
+            category_id: filterState.category_id,
+            subcategory_id: filterState.subcategory_id,
+            price_max: filterState.price_max,
+            price_min: filterState.price_min
+          }}
+          onSubmit={async (values, { setSubmitting }) => {
+            const data = {
+              sort: values.sort,
+              category_id: values.category_id,
+              subcategory_id: values.subcategory_id,
+              price_max: values.price_max,
+              price_min: values.price_min
+            };
+            !values.category_id && delete data.category_id
+            !values.subcategory_id && delete data.subcategory_id
+            dispatch(handleFilterChange(values))
+            dispatch(filterProducts(data)).then(() => {
+              handleFilterProductsDialogClose()
+            })
+          }}
+        >
+          {(formik) => {
+            return (
+              <Form>
+                <DialogContent>
+                  <Grid container spacing={2} width={700}>
+                    <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                      <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('SORT_BY')}</Typography></Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          name='sort'
+                          varient='filled'
+                          select
+                          type='text'
+                          value={formik.values.sort}
+                          onChange={formik.handleChange}
+                          fullWidth
+                        >
+                          {sortMenuItems?.map((opt) => <MenuItem value={opt.value}>{opt?.label}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                      <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{`${t('FILTER_BY')} ${t('CATEGORY')}`}</Typography></Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          name='category_id'
+                          varient='filled'
+                          select
+                          type='text'
+                          value={formik.values.category_id == '' ? 1 : formik.values.category_id}
+                          onChange={(e) => {
+                            formik.handleChange(e)
+                            dispatch(getSubCategoriesById(e.target.value))
+                          }}
+                          fullWidth
+                        >
+                          <MenuItem value={1} disabled>{t("SELECT_CATEGORY")}</MenuItem>
+                          {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                      <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{`${t('FILTER_BY')} ${t('SUBCATEGORY')}`}</Typography></Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          name='subcategory_id'
+                          varient='filled'
+                          select
+                          type='text'
+                          value={formik.values.subcategory_id == '' ? 1 : formik.values.subcategory_id}
+                          onChange={formik.handleChange}
+                          fullWidth
+                        >
+                          <MenuItem value={1} disabled>{t("SELECT_SUBCATEGORY")}</MenuItem>
+                          {userHomeState?.currentSubCategories?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
+                        </TextField>
+                      </Grid>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                      <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('MAXIMUM_PRICE')}</Typography></Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          name='price_max'
+                          varient='filled'
+                          type='number'
+                          value={formik.values.price_max}
+                          onChange={formik.handleChange}
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                          }}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
+                    <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
+                      <Grid item xs={4}><Typography fontSize={{ md: 18, sm: 16, xs: 14 }} fontWeight={500}>{t('MINIMUM_PRICE')}</Typography></Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          name='price_min'
+                          varient='filled'
+                          type='number'
+                          value={formik.values.price_min}
+                          onChange={formik.handleChange}
+                          InputProps={{
+                            startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+                          }}
+                          fullWidth
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </DialogContent>
+                <DialogActions className='p-10'>
+                  <Button onClick={handleFilterProductsDialogClose} variant="contained" sx={{
+                    backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                      backgroundColor: "gray", color: '#fff'
+                    }
+                  }} >{t('CANCEL')}</Button>
+                  <Button type="submit" variant="contained" sx={{
+                    border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                      backgroundColor: '#fff', color: '#818CF8'
+                    },
+                  }}>{t('APPLY')}</Button>
+                </DialogActions>
+              </Form>
+            )
+          }}</Formik>
       </Dialog>
     </Box>
   );

@@ -7,7 +7,7 @@ const locale = {
   Condition: "शर्त",
   Description: "विवरण",
   Price: "मूल्य",
-  No_Products_are_there: "कोई उत्पाद नहीं है!!",
+  NO_PRODUCT_ARE_THERE: "कोई उत्पाद नहीं है!!",
   See_All: "सभी देखें",
   Top_Products: "शीर्ष उत्पाद",
 
@@ -56,7 +56,21 @@ const locale = {
   PRODUCT_LIST: 'उत्पाद सूची',
   PRODUCTS: 'उत्पाद',
   ACTIONS: 'कार्रवाईयाँ',
-
+  PRODUCTS_FILTER: 'उत्पादों का फ़िल्टर',
+  SORT_BY: 'क्रमबद्ध करें द्वारा',
+  FILTER_BY: "फ़िल्टर",
+  CATEGORY: "श्रेणी",
+  SUBCATEGORY: "उप-श्रेणी",
+  MAXIMUM_PRICE: 'अधिकतम मूल्य',
+  MINIMUM_PRICE: 'न्यूनतम मूल्य',
+  SELECT_SUBCATEGORY: 'उप-श्रेणी चुनें',
+  CLEAR_FILTERS: 'फ़िल्टर हटाएँ',
+  APPLY: 'लागू करें',
+  NEWEST_ON_TOP: 'नवीनतम पहले',
+  OLDEST_ON_TOP: 'सबसे पुराना पहले',
+  PRICE_HIGH_TO_LOW: 'मूल्य उच्च से कम',
+  PRICE_LOW_TO_HIGH: 'मूल्य कम से उच्च',
+  CLEAR_FILTER: 'फ़िल्टर हटाएँ',
   //EDIT AND DELETE PRODUCT
   EDIT_PRODUCT: 'उत्पाद संपादित करें',
   NAME: 'नाम',
@@ -132,6 +146,11 @@ const locale = {
   PLEASE_SELECT_SUBCATEGORY: 'कृपया उप-श्रेणी चुनें',
   DETAILS: 'विवरण',
   PHOTOS_ARE_REQUIRED: 'फोटोज़ आवश्यक हैं',
+  NO_EXPIRED_PRODUCTS_FOUND: 'कोई एक्सपायर्ड उत्पाद नहीं मिला',
+  SELLER_NAME: 'विक्रेता का नाम',
+  SELLER_MOBILE_NO: 'विक्रेता का मोबाइल नंबर',
+  EXPIRED_PRODUCTS: 'समाप्त उत्पाद',
+  ACTIVE_PRODUCTS: 'सक्रिय उत्पाद',
 };
 
 export default locale;

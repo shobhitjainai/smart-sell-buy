@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import { alpha } from '@mui/material/styles';
+import themeLayoutConfigs from 'app/theme-layouts/themeLayoutConfigs';
+import { selectUser } from 'app/store/userSlice';
 
 const inputGlobalStyles = (
   <GlobalStyles
@@ -67,14 +69,12 @@ const inputGlobalStyles = (
       },
 
       '::-webkit-scrollbar-thumb': {
-        boxShadow: `inset 0 0 0 20px ${
-          theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.24)' : 'rgba(255, 255, 255, 0.24)'
-        }`,
+        boxShadow: `inset 0 0 0 20px ${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.24)' : 'rgba(255, 255, 255, 0.24)'
+          }`,
       },
       '::-webkit-scrollbar-thumb:active': {
-        boxShadow: `inset 0 0 0 20px ${
-          theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.37)' : 'rgba(255, 255, 255, 0.37)'
-        }`,
+        boxShadow: `inset 0 0 0 20px ${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.37)' : 'rgba(255, 255, 255, 0.37)'
+          }`,
       },
     })}
   />
@@ -86,6 +86,7 @@ function FuseLayout(props) {
   const settings = useSelector(selectFuseCurrentSettings);
   const defaultSettings = useSelector(selectFuseDefaultSettings);
 
+  const user = useSelector(selectUser);
   const appContext = useContext(AppContext);
   const { routes } = appContext;
 
@@ -110,6 +111,7 @@ function FuseLayout(props) {
 
       const routeSettings = matched.route.settings;
 
+      const layout = localStorage.getItem('auth_role') == 'user' ? "layout3" : "layout1";
       _newSettings = generateSettings(defaultSettings, routeSettings);
     } else if (!_.isEqual(newSettings.current, defaultSettings)) {
       /**
@@ -120,8 +122,21 @@ function FuseLayout(props) {
       _newSettings = newSettings.current;
     }
 
+    const defaultLayoutStyle = localStorage.getItem('auth_role') === "user" ? 'layout3' : 'layout1';
     if (!_.isEqual(newSettings.current, _newSettings)) {
-      newSettings.current = _newSettings;
+      if (localStorage.getItem('auth_role')) {
+        newSettings.current = _.merge({}, _newSettings,
+          {
+            layout: {
+              style: defaultLayoutStyle,
+              config: themeLayoutConfigs[defaultLayoutStyle].defaults,
+            }
+          },
+          {
+            defaultAuth: user.role,
+          }
+        )
+      } else newSettings.current = _newSettings;
     }
   }, [defaultSettings, matched]);
 

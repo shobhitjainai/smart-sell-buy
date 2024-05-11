@@ -105,7 +105,6 @@ const PostProduct = () => {
                         validationSchema={validationSchema}
                         onSubmit={async (values, { setSubmitting }) => {
                             // Handle form submission here
-
                             const productData = {
                                 name: values.name,
                                 description: values.description,
@@ -129,7 +128,6 @@ const PostProduct = () => {
                         }}
                     >
                         {(formik) => {
-                            console.log("🚀 ~ onSubmit={ ~ formik:", formik)
                             return (<Form>
                                 <Grid container>
                                     <Grid container item xs={12} spacing={2} sx={{ margin: "15px 28px 15px 28px" }}>
@@ -137,13 +135,15 @@ const PostProduct = () => {
                                             <Typography fontSize={24} fontWeight={500}>{t('UPLOAD_UPTO_6_IMAGES')}</Typography>
                                         </Grid>
                                         <Grid item sx={{ border: '1px solid', width: '100px', height: '100px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', cursor: 'pointer', padding: '0 !important' }} onClick={() => imageRef.current.click()} className='mr-8'>
-                                            {formik.values.photos?.length > 6 ?
+                                            {formik.values.photos?.length > 6
+                                                ?
                                                 <Typography>Done</Typography>
                                                 :
                                                 <>
                                                     <AddAPhotoIcon />
                                                     <Typography>{t('ADD_PHOTO')}</Typography>
-                                                </>}
+                                                </>
+                                            }
                                         </Grid>
                                         <Grid display={'flex'} spacing={2} item sx={{ padding: '0 !important', gap: '8px' }}>
                                             {photos.map((photo, index) => (

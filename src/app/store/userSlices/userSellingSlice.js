@@ -14,6 +14,19 @@ export const getProductSelling = createAsyncThunk(
     }
 );
 
+export const getArchiveProducts = createAsyncThunk(
+    "productSelling/getArchiveProducts",
+    async () => {
+        const response = await fetch(`https://reileadsapi.exerboost.in/api/product-archive`, {
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}` // Include the token in the Authorization header
+            }
+        });
+        const data = await response.json();
+        return data.data;
+    }
+);
+
 export const createProduct = createAsyncThunk(
     "newProduct/createProduct",
     async ({ productData }) => {
@@ -57,6 +70,26 @@ export const deleteItem = createAsyncThunk(
     }
 );
 
+export const createArchieve = createAsyncThunk(
+    "archieve/createArchieve",
+    async (productData) => {
+        const formData = new FormData();
+        // Append form data fields to the FormData object
+        Object.keys(productData).forEach((key) => {
+          formData.append(key, productData[key]);
+        });
+        const response = await fetch("https://reileadsapi.exerboost.in/api/product-archive", {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${getAccessToken()}`
+            },
+            body: formData
+        });
+        const data = await response.json();
+        return data.data;
+    }
+  );
+
 // UPDATE PRODUCT
 
 export const updateProduct = createAsyncThunk(
@@ -82,7 +115,11 @@ const userSellingSlice = createSlice({
     name: "userHome",
     initialState: {
         productSelling: [],
-        loading: false,
+        archiveProducts: [],
+        loading: {
+            productSellingLoading: false,
+            archiveProductsLoading: false,
+        },
         latlong: "",
         newProduct: [],
         subcategory: '',
@@ -101,36 +138,39 @@ const userSellingSlice = createSlice({
     },
     extraReducers: {
         [getProductSelling.pending]: (state) => {
-            state.loading = true;
+            state.loading.productSellingLoading = true;
         },
         [getProductSelling.fulfilled]: (state, action) => {
-            state.loading = false;
+            state.loading.productSellingLoading = false;
             state.productSelling = action.payload;
         },
-        [getProductSelling.rejected]: (state) => {
-            state.loading = false;
+        [getArchiveProducts.pending]: (state) => {
+            state.loading.archiveProductsLoading = true;
         },
-
-
+        [getArchiveProducts.fulfilled]: (state, action) => {
+            state.loading.archiveProductsLoading = false;
+            state.archiveProducts = action.payload;
+        },
         [createProduct.pending]: (state) => {
-            state.loading = true;
+            // state.loading = true;
         },
         [createProduct.fulfilled]: (state, action) => {
-            state.loading = false;
+            // state.loading = false;
             state.newProduct = action.payload;
         },
-        [createProduct.rejected]: (state) => {
-            state.loading = false;
-        },
         [deleteItem.pending]: (state) => {
-            state.loading = true;
+            // state.loading = true;
         },
         [deleteItem.fulfilled]: (state, action) => {
-            state.loading = false;
+            // state.loading = false;
             // Remove the deleted property from the state
         },
-        [deleteItem.rejected]: (state) => {
-            state.loading = false;
+        [createArchieve.pending]: (state) => {
+            state.loading.archiveProductsLoading = true;
+        },
+        [createArchieve.fulfilled]: (state, action) => {
+            state.loading.archiveProductsLoading = false;
+            state.archiveProducts = action.payload;
         },
     },
 });

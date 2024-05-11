@@ -21,15 +21,9 @@ function Logo() {
     <Root className="flex items-center gap-10">
       <img className="logo-icon w-32 h-32" src="assets/images/logo/Smart_buy_sells_logo.png" alt="logo" />
 
-      {/* <div
-        className="badge flex items-center py-4 px-8 mx-8 rounded"
-        style={{ backgroundColor: '#121012', color: '#61DAFB' }}
-      > */}
        <Typography variant='h6' className='font-bold'>
-          Smart Buy Sell
+          Smart Sell Buy
         </Typography>
-        
-      {/* </div> */}
     </Root>
   );
 }

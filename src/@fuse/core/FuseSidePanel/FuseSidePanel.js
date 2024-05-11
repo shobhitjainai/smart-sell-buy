@@ -191,7 +191,7 @@ function FuseSidePanel(props) {
           className={clsx(
             'FuseSidePanel-paper',
             props.className,
-            opened ? 'opened' : 'closed',
+            opened ? 'closed' : 'closed',
             props.position,
             'shadow-lg'
           )}
@@ -201,23 +201,7 @@ function FuseSidePanel(props) {
             {props.children}
           </FuseScrollbars>
 
-          <div className="FuseSidePanel-buttonWrapper">
-            <Tooltip
-              title="Toggle side panel"
-              placement={props.position === 'left' ? 'right' : 'right'}
-            >
-              <IconButton
-                className="FuseSidePanel-button"
-                onClick={toggleOpened}
-                disableRipple
-                size="large"
-              >
-                <FuseSvgIcon className="FuseSidePanel-buttonIcon">
-                  heroicons-outline:chevron-left
-                </FuseSvgIcon>
-              </IconButton>
-            </Tooltip>
-          </div>
+         
         </Paper>
       </Hidden>
       <Hidden lgUp>
