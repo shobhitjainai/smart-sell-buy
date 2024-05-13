@@ -38,6 +38,7 @@ const themesConfig = {
       background: {
         paper: '#FFFFFF',
         default: '#f1f5f9',
+        navlinkBar: '#333333'
       },
       error: {
         light: '#ffcdd2',
@@ -73,6 +74,7 @@ const themesConfig = {
       background: {
         paper: '#FFFFFF',
         default: '#FFFFFF',
+        navlinkBar: '#333333' 
       },
       error: {
         light: '#ffcdd2',
