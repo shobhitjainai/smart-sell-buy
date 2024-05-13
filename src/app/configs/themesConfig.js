@@ -71,7 +71,7 @@ const themesConfig = {
         contrastText: darkPaletteText.primary,
       },
       background: {
-        paper: '#1e293b',
+        paper: '#FFFFFF',
         default: '#FFFFFF',
       },
       error: {

@@ -76,7 +76,7 @@ function UserMenu(props) {
             </MenuItem>
             <MenuItem component={Link} to="/sign-up" role="button">
               <ListItemIcon className="min-w-40">
-                <FuseSvgIcon>heroicons-outline:user-add </FuseSvgIcon>
+                <FuseSvgIcon >heroicons-outline:user-add </FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary="Sign up" />
             </MenuItem>
@@ -84,7 +84,7 @@ function UserMenu(props) {
         ) : (
           <>
             <MenuItem component={Link} to="/apps/profile" onClick={userMenuClose} role="button">
-              <ListItemIcon className="min-w-40">
+              <ListItemIcon sx={{color:"#818CF8"}} className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:user-circle</FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary={t('MY_PROFILE')} style={{ color: 'black' }} />
@@ -102,7 +102,7 @@ function UserMenu(props) {
                 userMenuClose();
               }}
             >
-              <ListItemIcon className="min-w-40">
+              <ListItemIcon sx={{color:"#818CF8"}} className="min-w-40">
                 <FuseSvgIcon>heroicons-outline:logout</FuseSvgIcon>
               </ListItemIcon>
               <ListItemText primary={t('SIGN_OUT')} style={{ color: 'black' }} />
