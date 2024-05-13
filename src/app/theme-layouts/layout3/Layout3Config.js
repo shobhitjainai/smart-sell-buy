@@ -2,7 +2,7 @@ const config = {
   title: 'Layout 3 - Horizontal',
   defaults: {
     mode: 'container',
-    containerWidth: 1180,
+    containerWidth: 1400,
     scroll: 'content',
     navbar: {
       display: true,

@@ -25,7 +25,7 @@ function NavbarLayout3(props) {
                     <Grid container className='w-1/2 gap-20'>
                             <div className='flex gap-10'>
                             <HeadsetMicIcon className='text-[#818CF8]'/>
-                            <Typography>7845125456</Typography>
+                            <Typography>+91 7845125456</Typography>
                             </div>
                             
                             <div className='flex gap-10'>

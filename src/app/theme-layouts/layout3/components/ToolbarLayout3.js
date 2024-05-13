@@ -75,7 +75,7 @@ function ToolbarLayout3(props) {
                           }
                         }}
                       >
-                        {/* {console.log(categories)} */}
+
                         <MenuItem value={1} disabled>ALL CATEGORIES</MenuItem>
                         {Categories?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
                       </TextField>
