@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Divider, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import Cards from "./Cards";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,13 +32,14 @@ const Categories = () => {
 
   return (
     <>
-      <Grid container spacing={2} className="mt-8">
+      <Grid container justifyContent="center" alignItems="center" spacing={2} className="mt-8" marginTop={3}>
         <Grid item>
-          <Typography sx={{ fontWeight: 'bold', fontSize: '2.4rem' }} className="my-8">Categories</Typography>
+          <Typography sx={{ fontWeight: 'bold',  }} className="my-8 text-3xl">Categories</Typography>
+          <Divider variant="middle" sx={{color: '#818cf8', border: '2px solid', borderRadius: 2}}/>
         </Grid>
       </Grid>
 
-      <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }} spacing={3}>
+      <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }} spacing={3} marginTop={3}>
         {Categories?.map((item, index) => (
           <Grid item xs={3} key={index}>
             <Link
