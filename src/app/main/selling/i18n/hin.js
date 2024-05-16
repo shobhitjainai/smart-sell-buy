@@ -2,7 +2,11 @@ const locale = {
   // SELLING
   SELLING: 'बेच रहा है',
   NO_SELLING_PRODUCTS_FOUND: 'कोई बिक्री के उत्पाद नहीं मिले।',
-
+  Remove_Product: "उत्पाद हटाएं",
+  Do_you_want_to_remove_product: "क्या आप उत्पाद हटाना चाहते हैं",
+  Remove: "हटाएं",
+  Edit:"अपडेट",
+  Cancel:"रद्द",
   // ARCHIVE
   ARCHIVE: 'संग्रह',
   NO_ARCHIVE_PRODUCTS_FOUND: 'कोई संग्रहित उत्पाद नहीं मिला।',

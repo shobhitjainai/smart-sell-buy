@@ -61,7 +61,8 @@ function NavbarLayout3(props) {
               SelectProps={{
                 sx: {
                   '& .MuiSelect-select': {
-                    paddingTop: '14px'
+                    paddingTop: '14px',
+                    color:"#fff"
                   }
                 }
               }}

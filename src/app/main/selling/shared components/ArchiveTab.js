@@ -16,7 +16,7 @@ const ArchiveTab = () => {
     }, []);
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{marginLeft:"9%"}}>
             {archiveProductsLoading ? (
                 Array.from({ length: 6 }).map((_, index) => (
                     <Grid item xs={6} sm={4} md={4} lg={3} xl={2}>

@@ -14,8 +14,6 @@ const Root = styled(FusePageSimple)(({ theme }) => ({
 }));
 
 function UserPage(props) {
-
-
   return (
     <Root
       header={<Header />}
