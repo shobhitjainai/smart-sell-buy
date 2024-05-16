@@ -43,7 +43,7 @@ function HomePage(props) {
   return (
     <Root
       content={
-        <div className="p-24 h-320">
+        <div className="p-24" style={{height:'1420px'}}>
           <div className="">
             <Link to="/"></Link>
             <HomeCaraousel />

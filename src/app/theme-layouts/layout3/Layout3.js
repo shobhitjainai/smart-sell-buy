@@ -73,7 +73,7 @@ function Layout3(props) {
             <SettingsPanel />
           </div>
 
-          <div className="flex flex-col flex-auto min-h-0 relative z-10">
+          <div className="flex flex-col flex-auto min-h-0 relative z-10 p-36">
             <FuseDialog />
 
             <FuseSuspense>{useRoutes(routes)}</FuseSuspense>
