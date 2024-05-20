@@ -52,7 +52,7 @@ const Categories = () => {
   return (
     <Root
       content={
-        <Grid container spacing={2} sx={{ height: '100%' }} className="p-20">
+        <Grid container spacing={2} sx={{ height: '100%' }} className="pb-20">
           <Grid item xs={4}>
             <Box sx={{ width: '100%', background: '#fff', }}>
               <Grid container className="p-20">
@@ -190,7 +190,7 @@ const Categories = () => {
               sx={{ alignItems: "center" }}
             >
               {userProducts.map((item, index) => (
-                <Grid item key={index} xs={6} md={4} lg={3} xl={3}>
+                <Grid item key={index} xs={6} md={4} lg={4} xl={3}>
                   {console.log(item)}
                   {/* <Link to={`/product-details/${item.id}`} style={{ textDecoration: "none" }}> */}
                   <ProductCard

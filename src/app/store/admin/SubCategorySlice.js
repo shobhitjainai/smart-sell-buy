@@ -1,5 +1,5 @@
 import { API_ROUTES } from "src/app/constant/apiRoutes";
-import { APIRequest } from "src/app/utils/APIRequest";
+import { APIRequest, getAccessToken } from "src/app/utils/APIRequest";
 
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 
@@ -46,17 +46,34 @@ export const updateSubCategory = createAsyncThunk('SubCategory/deleteSubCategory
     }
 })
 
+export const GetSubcategoryByCategoryId = createAsyncThunk('filterSubcategories/GetSubcategoryByCategoryId', async (id) => {
+    const response = await fetch(`https://reileadsapi.exerboost.in/api/subcategory/${id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${getAccessToken()}`
+      },
+    });
+    const data = await response.json();
+    return data.data;
+  })
+
 const initialState = {
     subCategories: [],
+    filterSubcategories: [],
     loading: {
-        subCategoriesLoading: false
-    }
+        subCategoriesLoading: false,
+        filterSubcategoriesLoading: false,
+    },
+    searchCategory: '',
 }
 const SubCategorySlice = createSlice({
     name: 'SubCategory',
     initialState,
     reducers: {
-
+        getSearchSubcategory: (state, { payload } ) => {
+            console.log(payload, "slice serach")
+            state.searchCategory = payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -65,10 +82,23 @@ const SubCategorySlice = createSlice({
             })
             .addCase(getSubCategories.fulfilled, (state, { payload }) => {
                 state.subCategories = payload.data
+                state.subCategories = payload.data.filter(item =>
+                    item.name.toLowerCase().includes(state.searchCategory.toLowerCase()) ||
+                    // item.category.toLowerCase().includes(state.searchCategory.toLowerCase()) ||
+                    item.description.toLowerCase().includes(state.searchCategory.toLowerCase())
+                  )
                 state.loading.subCategoriesLoading = false
+            })
+
+            .addCase(GetSubcategoryByCategoryId.pending, (state, { payload }) => {
+                state.loading.filterSubcategoriesLoading = true
+            })
+            .addCase(GetSubcategoryByCategoryId.fulfilled, (state, { payload }) => {
+                state.filterSubcategories = payload
+                state.loading.filterSubcategoriesLoading = false
             })
     }
 })
 
-export const { } = SubCategorySlice.actions
+export const {getSearchSubcategory } = SubCategorySlice.actions
 export default SubCategorySlice.reducer

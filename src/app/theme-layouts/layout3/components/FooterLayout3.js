@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { selectFooterTheme } from 'app/store/fuse/settingsSlice';
+import Footer from 'src/app/main/admin-role/user/shared-components/Footer';
 
 function FooterLayout3(props) {
   const footerTheme = useSelector(selectFooterTheme);
@@ -15,10 +16,10 @@ function FooterLayout3(props) {
         id="fuse-footer"
         className={clsx('relative z-20 shadow-md', props.className)}
         color="default"
-        style={{ backgroundColor: footerTheme.palette.background.paper }}
+        style={{ backgroundColor: footerTheme.palette.background.footerColor }}
       >
         <Toolbar className="container min-h-48 md:min-h-64 px-8 sm:px-12 lg:px-20 py-0 flex items-center overflow-x-auto">
-          Footer
+          <Footer />
         </Toolbar>
       </AppBar>
     </ThemeProvider>

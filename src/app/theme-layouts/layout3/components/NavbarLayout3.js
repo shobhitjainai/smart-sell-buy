@@ -51,6 +51,7 @@ function NavbarLayout3(props) {
             <TextField
               name='category_id'
               variant='filled'
+
               select
               type='text'
               value={filterState.category_id == '' ? 1 : filterState?.category_id}
@@ -62,7 +63,7 @@ function NavbarLayout3(props) {
                 sx: {
                   '& .MuiSelect-select': {
                     paddingTop: '14px',
-                    color:"#fff"
+                    color: '#fff'
                   }
                 }
               }}

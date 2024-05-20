@@ -34,8 +34,19 @@ const Categories = () => {
     <>
       <Grid container justifyContent="center" alignItems="center" spacing={2} className="mt-8" marginTop={3}>
         <Grid item>
-          <Typography sx={{ fontWeight: 'bold',  }} className="my-8 text-3xl">Categories</Typography>
-          <Divider variant="middle" sx={{color: '#818cf8', border: '2px solid', borderRadius: 2}}/>
+          <Typography sx={{ fontWeight: 'bold', }} className="my-8 text-3xl">Categories</Typography>
+          <Divider variant="middle" sx={{ color: '#818cf8', border: '2px solid', borderRadius: 2 }} />
+        </Grid>
+      </Grid>
+      <Grid>
+        <Grid className="flex gap-24" sx={{ marginTop: 3 }} >
+          {Categories.map((category, index) => (
+            <Grid key={index} sx={{
+              backgroundColor: '#818CF8', padding: 1, color: '#fff', borderRadius: 1, cursor: "pointer", "&:hover": {
+                backgroundColor: "#6b73d1", // Change this to the desired hover background color
+              }
+            }}>{category.name}</Grid>
+          ))}
         </Grid>
       </Grid>
 
