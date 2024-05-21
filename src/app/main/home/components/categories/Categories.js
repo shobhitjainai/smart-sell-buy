@@ -32,14 +32,14 @@ const Categories = () => {
 
   return (
     <>
-      <Grid container justifyContent="center" alignItems="center" spacing={2} className="mt-8" marginTop={3}>
-        <Grid item>
+      <Grid container justifyContent="center" alignItems="center" spacing={2} className="mt-8"  >
+        <Grid item marginTop={5}>
           <Typography sx={{ fontWeight: 'bold', }} className="my-8 text-3xl">Categories</Typography>
           <Divider variant="middle" sx={{ color: '#818cf8', border: '2px solid', borderRadius: 2 }} />
         </Grid>
       </Grid>
       <Grid>
-        <Grid className="flex gap-24" sx={{ marginTop: 3 }} >
+        <Grid className="flex gap-24 flex-wrap justify-center items-center" sx={{ marginTop: 3 }} >
           {Categories.map((category, index) => (
             <Grid key={index} sx={{
               backgroundColor: '#818CF8', padding: 1, color: '#fff', borderRadius: 1, cursor: "pointer", "&:hover": {
@@ -52,7 +52,7 @@ const Categories = () => {
 
       <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }} spacing={3} marginTop={3}>
         {Categories?.map((item, index) => (
-          <Grid item xs={3} key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <Link
               to={`/subcategory/${item.id}`}
               style={{ textDecoration: "none" }}

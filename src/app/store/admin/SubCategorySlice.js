@@ -81,7 +81,6 @@ const SubCategorySlice = createSlice({
                 state.loading.subCategoriesLoading = true
             })
             .addCase(getSubCategories.fulfilled, (state, { payload }) => {
-                state.subCategories = payload.data
                 state.subCategories = payload.data.filter(item =>
                     item.name.toLowerCase().includes(state.searchCategory.toLowerCase()) ||
                     // item.category.toLowerCase().includes(state.searchCategory.toLowerCase()) ||

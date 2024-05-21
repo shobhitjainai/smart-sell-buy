@@ -15,7 +15,7 @@ const SellingTab = () => {
         dispatch(getProductSelling())
     }, [])
     return (
-        <Grid container spacing={2} sx={{marginLeft:"9%"}}>
+        <Grid container spacing={2} >
             {productSellingLoading ? (
                 Array.from({ length: 6 }).map((_, index) => (
                     <Grid item xs={6} sm={4} md={4} lg={3} xl={2}>
@@ -29,7 +29,7 @@ const SellingTab = () => {
                     </Grid>
                 ))
             ) : (productSelling.length > 0 ? productSelling?.map((product, index) =>
-                <Grid item xs={12} sm={6} md={8} lg={2.6} xl={2.2}>
+                <Grid item xs={12} sm={6} md={4} lg={3.5} xl={2.8}>
                     <SellingProductCard product={product} id={product?.id} image={product?.images[0]?.image} name={product?.name} price={product?.price} />
                 </Grid>)
                 : <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>

@@ -140,6 +140,8 @@ const handleSearchCategory = (e) => {
               }}
             >
               <MenuItem value={1} disabled>{t("Filter By Category")}</MenuItem>
+              <MenuItem value={1} >{t("All Categories")}</MenuItem>
+
               {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
             </TextField>
             <Link to="/admin/sub-category/new-sub-category">

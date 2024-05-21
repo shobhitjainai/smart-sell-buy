@@ -4,6 +4,22 @@ import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import SellingTab from './shared components/SellingTab';
 import ArchiveTab from './shared components/ArchiveTab';
 import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import FusePageSimple from '@fuse/core/FusePageSimple';
+
+
+const Root = styled(FusePageSimple)(({ theme }) => ({
+  '& .FusePageSimple-header': {
+    backgroundColor: theme.palette.background.paper,
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: theme.palette.divider,
+  },
+  '& .FusePageSimple-toolbar': {},
+  '& .FusePageSimple-content': { display: 'block' },
+  '& .FusePageSimple-sidebarHeader': {},
+  '& .FusePageSimple-sidebarContent': {},
+}));
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,6 +62,8 @@ const Selling = () => {
     setValue(newValue);
   };
   return (
+    <Root
+      content={
     <Box sx={{ width: '100%', marginTop: 3 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
@@ -60,6 +78,10 @@ const Selling = () => {
         <ArchiveTab />
       </CustomTabPanel>
     </Box>
+    
+    }
+    scroll="content"
+    />
   )
 }
 

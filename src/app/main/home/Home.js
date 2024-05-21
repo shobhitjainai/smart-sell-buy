@@ -43,24 +43,24 @@ function HomePage(props) {
   return (
     <Root
       content={
-        <div className="p-24" style={{height:'1420px'}}>
+        <div className="p-24" style={{ height: '1420px' }}>
           <div className="">
             <Link to="/"></Link>
             <HomeCaraousel />
             <Grid container justifyContent="center" alignItems="center">
-            <Categories />
+              <Categories />
 
             </Grid>
 
             {/* FRESH RECOMMENDATION */}
-            <Grid className="flex flex-col ">
+            <Grid className="flex flex-col " marginTop={9}>
               <Grid container spacing={2} className="mt-8" justifyContent="center" alignItems="center" >
                 <Grid item>
                   <Typography sx={{ fontWeight: 'bold', fontSize: '2.4rem' }} className="my-8  text-3xl">Fresh Recommendation</Typography>
-                  <Divider variant="middle" sx={{color: '#818cf8', border: '2px solid', borderRadius: 2}}/>
+                  <Divider variant="middle" sx={{ color: '#818cf8', border: '2px solid', borderRadius: 2 }} />
                 </Grid>
               </Grid>
-              <Grid className="text-gray-600 body-font"  marginTop={3}>
+              <Grid className="text-gray-600 body-font" marginTop={5}>
                 <Grid className="container px-5 pb-24 mx-auto ">
                   <Grid className="flex flex-wrap -m-4 ">
                     {productsToDisplay.map((item, index) => (

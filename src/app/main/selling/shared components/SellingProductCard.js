@@ -23,7 +23,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { showMessage } from 'app/store/fuse/messageSlice';
-const SellingProductCard = ({ image, name, price, id ,product}) => {
+const SellingProductCard = ({ image, name, price, id, product }) => {
     const { t } = useTranslation("sellingPage");
     const [open, setOpen] = useState(false);
     const [editData, setEditData] = useState(null);
@@ -73,7 +73,6 @@ const SellingProductCard = ({ image, name, price, id ,product}) => {
         setAddDialog(false);
     };
     return (
-        // <Link to={`/product-details/${id}`} style={{ textDecoration: "none" }}>
         <>
             <Card sx={{ width: "100%", borderRadius: 2 }}>
                 <CardMedia
@@ -103,8 +102,8 @@ const SellingProductCard = ({ image, name, price, id ,product}) => {
                             backgroundColor: '#818CF8', color: '#fff'
                         },
                     }} onClick={() => handleClickOpen()} >
-                        <DeleteIcon sx={{ width: '0.8em' }} /> &nbsp;                  
-                          {t('Remove')}
+                        <DeleteIcon sx={{ width: '0.8em' }} /> &nbsp;
+                        {t('Remove')}
 
                     </Button>
                 </CardActions>
@@ -114,13 +113,21 @@ const SellingProductCard = ({ image, name, price, id ,product}) => {
                 <DialogTitle>{t('Remove_Product')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                      {  t('Do_you_want_to_remove_product')}??
+                        {t('Do_you_want_to_remove_product')}??
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>{t('Cancel')}</Button>
-                    <Button onClick={() => handleDelete(id)} autoFocus>
-                    {t('Remove')}
+                    <Button onClick={() => setOpen(false)} sx={{
+                        backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                            backgroundColor: "gray", color: '#fff'
+                        }
+                    }}>{t('Cancel')}</Button>
+                    <Button onClick={() => handleDelete(id)} sx={{
+                        border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                            backgroundColor: '#fff', color: '#818CF8',
+                        },
+                    }} autoFocus>
+                        {t('Remove')}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -182,8 +189,16 @@ const SellingProductCard = ({ image, name, price, id ,product}) => {
                                 <ErrorMessage name="price" />
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleClose} variant="contained">{t("Cancel")}</Button>
-                                <Button type="submit" variant="contained" disabled={isSubmitting}>Update Product</Button>
+                                <Button onClick={handleClose} variant="contained" sx={{
+                                    backgroundColor: "lightgrey", borderRadius: 2, color: "black", "&:hover": {
+                                        backgroundColor: "gray", color: '#fff'
+                                    }
+                                }}>{t("Cancel")}</Button>
+                                <Button type="submit" variant="contained" disabled={isSubmitting} sx={{
+                                    border: '1px solid #818CF8', borderRadius: 2, color: '#fff', backgroundColor: '#818CF8', '&:hover': {
+                                        backgroundColor: '#fff', color: '#818CF8',
+                                    },
+                                }}>Update Product</Button>
                             </DialogActions>
                         </Form>
                     )}

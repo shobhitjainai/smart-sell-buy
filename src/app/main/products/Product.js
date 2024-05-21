@@ -190,7 +190,7 @@ const Categories = () => {
               sx={{ alignItems: "center" }}
             >
               {userProducts.map((item, index) => (
-                <Grid item key={index} xs={6} md={4} lg={4} xl={3}>
+                <Grid item key={index} xs={12} md={6} lg={4} xl={4}>
                   {console.log(item)}
                   {/* <Link to={`/product-details/${item.id}`} style={{ textDecoration: "none" }}> */}
                   <ProductCard

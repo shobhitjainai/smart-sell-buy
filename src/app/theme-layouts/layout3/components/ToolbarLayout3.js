@@ -16,7 +16,7 @@ import QuickPanelToggleButton from '../../shared-components/quickPanel/QuickPane
 import ChatPanelToggleButton from '../../shared-components/chatPanel/ChatPanelToggleButton';
 import Logo from '../../shared-components/Logo';
 import NavbarToggleButton from '../../shared-components/NavbarToggleButton';
-import CallIcon from '@mui/icons-material/Call';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { getUserProducts, getSearchProducts, handleFilters, filterProducts } from "app/store/userSlices/userHomeSlice";
 import { Accordion, AccordionSummary, AccordionDetails,Grid, MenuItem, TextField, Typography } from '@mui/material';
 function ToolbarLayout3(props) {
@@ -95,13 +95,10 @@ function ToolbarLayout3(props) {
             <Hidden lgUp>
               <ChatPanelToggleButton />
             </Hidden>
-              <Grid item justifyContent="center" alignItems="center">
-                <CallIcon sx={{color: 'green', backgroundColor: '#BDBDBD', borderRadius: '100%', padding: "5px" }}/>
+              <Grid item justifyContent="center" alignItems="center" className='p'>
+                        <FavoriteBorderIcon />
               </Grid>
-              <Grid item>
-                <Typography sx={{fontWeight:"700"}} className='text-lg'>+91 9852368952</Typography>
-                <Typography sx={{color:"grey"}} className='text-md'>Support 24/7 times</Typography>
-              </Grid>
+              
             {/* <LanguageSwitcher /> */}
 
             {/* <AdjustFontSize /> */}
