@@ -1,4 +1,4 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Divider, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import Cards from "./Cards";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,15 +32,27 @@ const Categories = () => {
 
   return (
     <>
-      <Grid container spacing={2} className="mt-8">
-        <Grid item>
-          <Typography sx={{ fontWeight: 'bold', fontSize: '2.4rem' }} className="my-8">Categories</Typography>
+      <Grid container justifyContent="center" alignItems="center" spacing={2} className="mt-8"  >
+        <Grid item marginTop={5}>
+          <Typography sx={{ fontWeight: 'bold', }} className="my-8 text-3xl">Categories</Typography>
+          <Divider variant="middle" sx={{ color: '#818cf8', border: '2px solid', borderRadius: 2 }} />
+        </Grid>
+      </Grid>
+      <Grid>
+        <Grid className="flex gap-24 flex-wrap justify-center items-center" sx={{ marginTop: 3 }} >
+          {Categories.map((category, index) => (
+            <Grid key={index} sx={{
+              backgroundColor: '#818CF8', padding: 1, color: '#fff', borderRadius: 1, cursor: "pointer", "&:hover": {
+                backgroundColor: "#6b73d1", // Change this to the desired hover background color
+              }
+            }}>{category.name}</Grid>
+          ))}
         </Grid>
       </Grid>
 
-      <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }} spacing={3}>
+      <Grid container sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap" }} spacing={3} marginTop={3}>
         {Categories?.map((item, index) => (
-          <Grid item xs={3} key={index}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <Link
               to={`/subcategory/${item.id}`}
               style={{ textDecoration: "none" }}

@@ -66,7 +66,7 @@ function NewSubCategoryPage(props) {
                             <Form>
                                 <Grid className='p-36' spacing={3} rowSpacing={4} container item>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("NAME_OF_SUB_CATEGORY")}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={20} fontWeight={500}>{t("NAME_OF_SUB_CATEGORY")}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <TextField
                                                 name='name'
@@ -84,7 +84,7 @@ function NewSubCategoryPage(props) {
                                         </Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("SELECT_CATEGORY")}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={20} fontWeight={500}>{t("SELECT_CATEGORY")}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='category'
                                             varient='contained'
@@ -103,7 +103,7 @@ function NewSubCategoryPage(props) {
                                         </TextField></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("ADD_DESCRIPTION")}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={20} fontWeight={500}>{t("ADD_DESCRIPTION")}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='description'
                                             varient='contained'
@@ -119,7 +119,7 @@ function NewSubCategoryPage(props) {
                                         /></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={24} fontWeight={500}>{t("UPLOAD_IMAGE")}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={20} fontWeight={500}>{t("UPLOAD_IMAGE")}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <Field
                                                 name="image"

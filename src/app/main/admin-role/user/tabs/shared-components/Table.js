@@ -22,7 +22,10 @@ import FuseLoading from '@fuse/core/FuseLoading';
 import { Link } from 'react-router-dom';
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import PersonIcon from '@mui/icons-material/Person';
 import Divider from "@mui/material/Divider";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+
 import {
     Button,
     Grid,
@@ -31,6 +34,7 @@ import {
     DialogContent,
     DialogTitle,
     TextField,
+    Avatar,
 } from "@mui/material";
 import { handleEditProductDialog } from 'app/store/admin/productSlice';
 import { getCustomers } from 'app/store/admin/userSlice';
@@ -130,14 +134,14 @@ function EnhancedTableHead(props) {
             disablePadding: false,
             label: t('Email'),
         },
-    
+
         {
             id: 'gender',
             numeric: true,
             disablePadding: false,
             label: t('Gender'),
         },
-    
+
     ];
     return (
         <TableHead className='bg-[#F8F9FC]'>
@@ -332,7 +336,6 @@ export default function EnhancedTable() {
 
                         <TableBody className='p-52'>
                             {visibleRows.map((row, index) => {
-                                // const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
                                 return (
                                     <TableRow
@@ -350,8 +353,15 @@ export default function EnhancedTable() {
                                             align='left'
                                             sx={{ paddingBlock: 2 }}
                                         >
-                                            <Grid container alignItems="center" sx={{ height: '50px' }}>
-                                                <img src={row?.picture} width="40px" alt={row?.picture ? row.first_name : "NA"} className='pr-12' />
+                                            <Grid container alignItems="center" >
+                                                {row?.picture ?
+                                                    <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                                                        <Avatar variant="rounded" alt={row?.name} src={row?.picture} />
+                                                    </Avatar>
+                                                    : <Avatar className='mr-10' sx={{ bgcolor: '#F2F7FB', height: '60px', width: '60px' }} variant="rounded">
+                                                        <AccountBoxIcon fontSize='large' className='text-[#818CF8]' />
+                                                    </Avatar>
+                                                }
                                                 <Typography className='text-xl' >
                                                     {`${row.first_name.charAt(0).toUpperCase()}${row.first_name.slice(1)} ${row.last_name.charAt(0).toUpperCase()}${row.last_name.slice(1)}`}
                                                 </Typography>
@@ -360,7 +370,7 @@ export default function EnhancedTable() {
                                         <TableCell id={labelId} align="left">{row?.phone_number ? row.phone_number : "Not Available"}</TableCell>
                                         <TableCell align="left">{row?.email}</TableCell>
                                         <TableCell align="left">{row?.gender ? row.gender : "Not Available"}</TableCell>
-                                      
+
                                     </TableRow>
                                 );
                             })}

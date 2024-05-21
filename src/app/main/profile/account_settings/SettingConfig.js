@@ -4,6 +4,7 @@ import i18next from 'i18next';
 // import tr from './i18n/tr';
 // import ar from './i18n/ar';
 import Setting from './Setting'
+import { authRoles } from 'src/app/auth';
 
 // i18next.addResourceBundle('en', 'HomePage', en);
 // i18next.addResourceBundle('tr', 'HomePage', tr);
@@ -15,6 +16,8 @@ const SettingConfig = {
       config: {},
     },
   },
+  auth: authRoles.both,
+  
   routes: [
     {
       path: '/profile/account-settings',

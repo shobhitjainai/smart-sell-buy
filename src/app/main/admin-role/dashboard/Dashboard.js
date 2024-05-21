@@ -4,6 +4,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
 import DemoContent from '@fuse/core/DemoContent';
 import Header from './shared-components/Header';
 import Content from './shared-components/Content'
+// import Footer from './shared-components/Footer';
 
 const Root = styled(FusePageSimple)(({ theme }) => ({
   '& .FusePageSimple-header': {
@@ -25,6 +26,7 @@ function DashboardPage(props) {
     <Root
       // header={<Header />}
       content={<Content />}
+      // footer={<Footer />}
       scroll="page"
     />
   );

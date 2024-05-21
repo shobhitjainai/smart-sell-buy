@@ -57,7 +57,7 @@ function NewCategoryPage(props) {
                             <Form>
                                 <Grid className='p-36' spacing={3} rowSpacing={4} container item>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Name_of_Category')}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Name_of_Category')}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <TextField
                                                 name='name'
@@ -75,7 +75,7 @@ function NewCategoryPage(props) {
                                         </Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Add_Description')}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('Add_Description')}</Typography></Grid>
                                         <Grid item xs={6}><TextField
                                             name='description'
                                             varient='contained'
@@ -91,7 +91,7 @@ function NewCategoryPage(props) {
                                         /></Grid>
                                     </Grid>
                                     <Grid item container xs={12} justifyContent={'space-between'} alignItems={'center'}>
-                                        <Grid item xs={4}><Typography fontSize={{ lg: 24, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('UPLOAD_IMAGE')}</Typography></Grid>
+                                        <Grid item xs={4}><Typography fontSize={{ lg: 20, md: 22, sm: 20, xs: 16 }} fontWeight={500}>{t('UPLOAD_IMAGE')}</Typography></Grid>
                                         <Grid item xs={6}>
                                             <Field
                                                 name="image"

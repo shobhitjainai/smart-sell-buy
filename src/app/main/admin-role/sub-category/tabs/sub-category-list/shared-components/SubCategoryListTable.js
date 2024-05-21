@@ -1,7 +1,7 @@
 import FuseLoading from '@fuse/core/FuseLoading';
-import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from '@mui/material';
-import { deleteSubCategory, getSubCategories, updateSubCategory } from 'app/store/admin/SubCategorySlice'
-import React, { useEffect } from 'react'
+import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, IconButton, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TextField, Typography } from '@mui/material';
+import { GetSubcategoryByCategoryId, deleteSubCategory, getSearchSubcategory, getSubCategories, updateSubCategory } from 'app/store/admin/SubCategorySlice'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
@@ -14,6 +14,7 @@ import { get } from 'lodash';
 import useDialogState from 'src/app/utils/hooks/useDialogState';
 import { showMessage } from 'app/store/fuse/messageSlice';
 import InfoIcon from '@mui/icons-material/Info';
+import SearchIcon from '@mui/icons-material/Search';
 import * as Yup from "yup";
 import { useTranslation } from 'react-i18next';
 
@@ -34,12 +35,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 const SubCategoryListTable = () => {
   const { t } = useTranslation('adminSubCategoryPage');
   const dispatch = useDispatch()
-  const { loading, subCategories } = useSelector(state => state.admin.SubCategory)
+  const { loading, subCategories, filterSubcategories, searchCategory } = useSelector(state => state.admin.SubCategory)
   const { category } = useSelector((state) => state.admin.CategorySlice)
   const { dialogState: deleteSubCategoryDialog, handleOpen: handleDeleteSubCategoryDialogOpen, handleClose: handleDeleteSubCategoryDialogClose } = useDialogState()
   const { dialogState: updateSubCategoryDialog, handleOpen: handleUpdateSubCategoryDialogOpen, handleClose: handleUpdateSubCategoryDialogClose } = useDialogState()
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [selectedCategory, setSelectedCategory] = useState('');
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(t("REQUIRED")),
@@ -85,20 +87,63 @@ const SubCategoryListTable = () => {
     dispatch(getCategory()).then(() => {
       dispatch(getSubCategories())
     })
-  }, [])
+  }, [searchCategory])
+
+const handleFilterCategory = (e) => {
+  dispatch(GetSubcategoryByCategoryId(e.target.value));
+}
+
+const handleSearchCategory = (e) => {
+  console.log(e.target.value)
+  dispatch(getSearchSubcategory(e.target.value));
+}
+
+
   return (
     <>
       <Box sx={{ width: '100%', background: '#fff', borderRadius: 4 }}>
         <Grid className='px-24 pt-32' container xs={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
-          <Grid item>
+          <Grid className='flex items-center gap-10' width="50%">
             <Typography
               variant="h6"
               id="tableTitle"
             >
               {t("SUB_CATEGORIES")}
             </Typography>
+
+            <SearchIcon className='text-[#818CF8]'/>
+            <TextField
+              name='category_search'
+              variant="standard"
+              type='text'
+              label='Search Subcategory'
+              onChange={(e) => handleSearchCategory(e)}
+              sx={{borderRadius: 4}}
+              
+            />
           </Grid>
-          <Grid item>
+          <Grid className='flex justify-center items-center gap-20' direction="row" width="40%">
+            <TextField
+              name='category_id'
+              variant='filled'
+              select
+              type='text'
+              defaultValue={1}
+              onChange={(e) => handleFilterCategory(e)}
+              fullWidth
+              SelectProps={{
+                sx: {
+                  '& .MuiSelect-select': {
+                    paddingTop: '14px'
+                  }
+                }
+              }}
+            >
+              <MenuItem value={1} disabled>{t("Filter By Category")}</MenuItem>
+              <MenuItem value={1} >{t("All Categories")}</MenuItem>
+
+              {category?.map((opt) => <MenuItem value={opt.id}>{opt?.name}</MenuItem>)}
+            </TextField>
             <Link to="/admin/sub-category/new-sub-category">
               <Button variant='outlined' color='primary' sx={{
                 width: '210px', paddingBlock: 3, borderRadius: "14px", borderColor: "#818CF8", color: '#fff', backgroundColor: '#818CF8', '&:hover': {
@@ -125,8 +170,8 @@ const SubCategoryListTable = () => {
                   <StyledTableCell align="center">{t("ACTIONS")}</StyledTableCell>
                 </TableRow>
               </TableHead>
-              {(subCategories.length > 0 && !loading.subCategoriesLoading) && <TableBody>
-                {subCategories?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {(filterSubcategories?.length > 0 || subCategories?.length > 0) && !loading?.subCategoriesLoading && ( <TableBody>
+                {(filterSubcategories?.length > 0 ? filterSubcategories : subCategories)?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                   return (
                     <TableRow
                       className={`${index % 2 !== 0 ? 'bg-white' : 'bg-gray-100'} hover:bg-[#F2F7FB] transition duration-300 ease-in-out`}
@@ -161,12 +206,12 @@ const SubCategoryListTable = () => {
                     </TableRow>
                   );
                 })}
-              </TableBody>}
+              </TableBody>)}
             </Table>
-            {loading.subCategoriesLoading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+            {loading?.subCategoriesLoading && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
               <Grid item><FuseLoading /></Grid>
             </Grid>}
-            {(subCategories.length <= 0 && !loading.subCategoriesLoading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
+            {(subCategories?.length <= 0 && !loading?.subCategoriesLoading) && <Grid item container xs={12} spacing={2} sx={{ height: '500px' }} justifyContent={'center'} alignItems={'center'}>
               <Grid item>
                 <InfoIcon sx={{ color: '#818CF8', fontSize: 40 }} />
               </Grid>
@@ -176,7 +221,7 @@ const SubCategoryListTable = () => {
             </Grid>}
           </TableContainer>
         </Grid>
-        {subCategories.length > 0 && <TablePagination
+        {subCategories?.length > 0 && <TablePagination
           rowsPerPageOptions={[5]}
           component="div"
           count={subCategories.length}

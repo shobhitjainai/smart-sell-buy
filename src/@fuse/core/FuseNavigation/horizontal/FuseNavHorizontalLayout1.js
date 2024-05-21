@@ -7,7 +7,7 @@ const StyledList = styled(List)(({ theme }) => ({
   '& .fuse-list-item': {
     '&:hover': {
       backgroundColor:
-        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0,0,0,.04)',
+        theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : '#F88181',
     },
     '&:focus:not(.active)': {
       backgroundColor:

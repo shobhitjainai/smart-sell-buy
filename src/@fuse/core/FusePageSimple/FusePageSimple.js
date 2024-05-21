@@ -19,7 +19,7 @@ const Root = styled('div')(({ theme, ...props }) => ({
   backgroundColor: theme.palette.background.default,
 
   '&.FusePageSimple-scroll-content': {
-    height: '100%',
+    height: '650px',
   },
 
   '& .FusePageSimple-wrapper': {
@@ -205,7 +205,7 @@ const FusePageSimple = forwardRef((props, ref) => {
               top: 0,
             },
             '#fuse-footer': {
-              position: 'sticky',
+              position: 'static',
               bottom: 0,
             },
           }),

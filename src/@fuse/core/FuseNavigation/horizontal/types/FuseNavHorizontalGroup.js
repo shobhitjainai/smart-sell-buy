@@ -15,10 +15,12 @@ import withRouter from '@fuse/core/withRouter';
 import FuseNavItem from '../../FuseNavItem';
 import FuseSvgIcon from '../../../FuseSvgIcon';
 
+
 const StyledListItem = styled(ListItem)(({ theme }) => ({
   color: theme.palette.text.primary,
   '&.active, &.active:hover, &.active:focus': {
-    backgroundColor: `${theme.palette.secondary.main}!important`,
+    // backgroundColor: `${theme.palette.secondary.main}!important`,
+    backgroundColor: `${navItemActiveColor}!important`,
     color: `${theme.palette.secondary.contrastText}!important`,
     '& .fuse-list-item-text-primary': {
       color: 'inherit',
@@ -27,6 +29,7 @@ const StyledListItem = styled(ListItem)(({ theme }) => ({
       color: 'inherit',
     },
   },
+  
   '& .fuse-list-item-text': {
     padding: '0 0 0 16px',
   },

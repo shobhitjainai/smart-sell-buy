@@ -2,7 +2,8 @@ const locale = {
   // SELLING
   SELLING: 'Selling',
   NO_SELLING_PRODUCTS_FOUND: 'No Selling products found.',
-
+  Edit:"Edit",
+  Cancel:"Cancel",
   // ARCHIVE
   ARCHIVE: 'Archive',
   NO_ARCHIVE_PRODUCTS_FOUND: 'No archive products found.',
@@ -20,6 +21,9 @@ const locale = {
   SORT_BY: 'Sort by',
   TO: 'To',
   SELECT_CATEGORY: 'Select Category',
+  Remove_Product:"Remove Product",
+  Do_you_want_to_remove_product:"Do you want to remove product",
+  Remove:"Remove"
 
 };
 

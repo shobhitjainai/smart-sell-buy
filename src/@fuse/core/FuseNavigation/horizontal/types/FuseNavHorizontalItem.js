@@ -9,13 +9,23 @@ import withRouter from '@fuse/core/withRouter';
 import FuseNavBadge from '../../FuseNavBadge';
 import FuseSvgIcon from '../../../FuseSvgIcon';
 
+let navItemActiveColor = '#ffffff'
+if (localStorage.getItem('auth_role') == 'user'){
+  navItemActiveColor = '#818CF8';
+}else {
+  navItemActiveColor = '#4f46e5'
+}
+
 const StyledListItem = styled(ListItem)(({ theme }) => ({
-  color: theme.palette.text.primary,
+  // color: theme.palette.text.primary,
+  color: theme.palette.background.navbarColor,
   textDecoration: 'none!important',
   minHeight: 48,
   '&.active': {
-    backgroundColor: `${theme.palette.secondary.main}!important`,
-    color: `${theme.palette.secondary.contrastText}!important`,
+    // backgroundColor: `${theme.palette.secondary.main}!important`,
+    backgroundColor: `${navItemActiveColor}!important`,
+
+    color: `${theme.palette.background.navbarColor}!important`,
     pointerEvents: 'none',
     '& .fuse-list-item-text-primary': {
       color: 'inherit',
